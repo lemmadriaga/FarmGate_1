@@ -1,0 +1,7 @@
+{
+  "name": "FarmGate",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
