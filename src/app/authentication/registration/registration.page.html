@@ -1,0 +1,194 @@
+<ion-content class="registration-content">
+  <div class="leaf-animation">
+    <div class="leaf leaf1"></div>
+    <div class="leaf leaf2"></div>
+    <div class="leaf leaf3"></div>
+    <div class="leaf leaf4"></div>
+    <div class="leaf leaf5"></div>
+    <div class="leaf leaf6"></div>
+    <div class="leaf leaf7"></div>
+  </div>
+
+  <div class="container">
+    <div class="logo-container">
+      <img
+        src="assets/logo.png"
+        alt="FarmGate Logo"
+        class="logo animate-fadeIn"
+      />
+    </div>
+
+    <div class="form-card animate-fadeInUp">
+      <h2 class="welcome-text">Create Account</h2>
+      <p class="subtitle">Sign up to access FarmGate services</p>
+
+      <form
+        [formGroup]="registrationForm"
+        (ngSubmit)="onRegister()"
+        class="registration-form"
+      >
+        <!-- First Name -->
+        <div class="form-group">
+          <div class="form-label">First Name</div>
+          <ion-item lines="none" class="custom-input">
+            <ion-icon
+              name="person-outline"
+              slot="start"
+              class="input-icon"
+            ></ion-icon>
+            <ion-input
+              type="text"
+              formControlName="firstName"
+              placeholder="Enter first name"
+            ></ion-input>
+          </ion-item>
+          <div class="error-message" *ngIf="submitted && f['firstName'].errors">
+            <span *ngIf="f['firstName'].errors['required']"
+              >First name is required</span
+            >
+          </div>
+        </div>
+
+        <!-- Last Name -->
+        <div class="form-group">
+          <div class="form-label">Last Name</div>
+          <ion-item lines="none" class="custom-input">
+            <ion-icon
+              name="person-outline"
+              slot="start"
+              class="input-icon"
+            ></ion-icon>
+            <ion-input
+              type="text"
+              formControlName="lastName"
+              placeholder="Enter last name"
+            ></ion-input>
+          </ion-item>
+          <div class="error-message" *ngIf="submitted && f['lastName'].errors">
+            <span *ngIf="f['lastName'].errors['required']"
+              >Last name is required</span
+            >
+          </div>
+        </div>
+
+        <!-- Mobile Phone Number -->
+        <div class="form-group">
+          <div class="form-label">Mobile Phone Number</div>
+          <ion-item lines="none" class="custom-input">
+            <ion-icon
+              name="call-outline"
+              slot="start"
+              class="input-icon"
+            ></ion-icon>
+            <ion-input
+              type="tel"
+              formControlName="phoneNumber"
+              placeholder="9584524573"
+            ></ion-input>
+          </ion-item>
+          <div
+            class="error-message"
+            *ngIf="submitted && f['phoneNumber'].errors"
+          >
+            <span *ngIf="f['phoneNumber'].errors['required']"
+              >Phone number is required</span
+            >
+            <span *ngIf="f['phoneNumber'].errors['pattern']"
+              >Enter a valid 10-digit number</span
+            >
+          </div>
+        </div>
+
+        <!-- MPIN -->
+        <div class="form-group">
+          <div class="form-label">Create MPIN</div>
+          <ion-item lines="none" class="custom-input">
+            <ion-icon
+              name="lock-closed-outline"
+              slot="start"
+              class="input-icon"
+            ></ion-icon>
+            <ion-input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="mpin"
+              placeholder="••••••••"
+            ></ion-input>
+            <ion-icon
+              slot="end"
+              [name]="showPassword ? 'eye-off' : 'eye'"
+              (click)="togglePassword()"
+              class="eye-icon"
+            ></ion-icon>
+          </ion-item>
+          <div class="error-message" *ngIf="submitted && f['mpin'].errors">
+            <span *ngIf="f['mpin'].errors['required']">MPIN is required</span>
+            <span *ngIf="f['mpin'].errors['minlength']"
+              >MPIN must be at least 4 characters</span
+            >
+          </div>
+        </div>
+
+        <!-- Confirm MPIN -->
+        <div class="form-group">
+          <div class="form-label">Confirm MPIN</div>
+          <ion-item lines="none" class="custom-input">
+            <ion-icon
+              name="lock-closed-outline"
+              slot="start"
+              class="input-icon"
+            ></ion-icon>
+            <ion-input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="confirmMpin"
+              placeholder="••••••••"
+            ></ion-input>
+          </ion-item>
+          <div
+            class="error-message"
+            *ngIf="submitted && f['confirmMpin'].errors"
+          >
+            <span *ngIf="f['confirmMpin'].errors['required']"
+              >Confirm MPIN is required</span
+            >
+            <span *ngIf="f['confirmMpin'].errors['mustMatch']"
+              >MPINs must match</span
+            >
+          </div>
+        </div>
+
+        <!-- Full Address -->
+        <div class="form-group">
+          <div class="form-label">Full Address</div>
+          <ion-item lines="none" class="custom-input text-area">
+            <ion-icon
+              name="home-outline"
+              slot="start"
+              class="input-icon"
+            ></ion-icon>
+            <ion-textarea
+              formControlName="address"
+              placeholder="Enter your complete address"
+              rows="3"
+            ></ion-textarea>
+          </ion-item>
+          <div class="error-message" *ngIf="submitted && f['address'].errors">
+            <span *ngIf="f['address'].errors['required']"
+              >Address is required</span
+            >
+          </div>
+        </div>
+
+        <!-- Register Button -->
+        <ion-button expand="block" type="submit" class="register-button">
+          <span>Create Account</span>
+          <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+        </ion-button>
+
+        <div class="login-text">
+          Already have an account?
+          <a (click)="goToLogin()" class="login-link">Log In</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>

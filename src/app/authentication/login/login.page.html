@@ -1,0 +1,83 @@
+<ion-content class="login-content">
+  <div class="leaf-animation">
+    <div class="leaf leaf1"></div>
+    <div class="leaf leaf2"></div>
+    <div class="leaf leaf3"></div>
+    <div class="leaf leaf4"></div>
+    <div class="leaf leaf5"></div>
+    <div class="leaf leaf6"></div>
+    <div class="leaf leaf7"></div>
+  </div>
+
+  <div class="container">
+    <div class="logo-container">
+      <img
+        src="assets/logo.png"
+        alt="FarmGate Logo"
+        class="logo animate-fadeIn"
+      />
+    </div>
+
+    <div class="form-card animate-fadeInUp">
+      <h2 class="welcome-text">Welcome Back</h2>
+      <p class="subtitle">Login to access your farm management portal</p>
+
+      <form (submit)="onLogin()" class="login-form">
+        <div class="form-group">
+          <div class="form-label">Mobile Phone Number</div>
+          <ion-item lines="none" class="custom-input">
+            <ion-icon
+              name="call-outline"
+              slot="start"
+              class="input-icon"
+            ></ion-icon>
+            <ion-input
+              type="tel"
+              [(ngModel)]="phoneNumber"
+              name="phoneNumber"
+              required
+              placeholder="9584524573"
+            ></ion-input>
+          </ion-item>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label-row">
+            <div class="form-label">Enter MPIN</div>
+            <a class="forgot-link" (click)="forgotMpin()">Forgot MPIN?</a>
+          </div>
+          <ion-item lines="none" class="custom-input">
+            <ion-icon
+              name="lock-closed-outline"
+              slot="start"
+              class="input-icon"
+            ></ion-icon>
+            <ion-input
+              [type]="showPassword ? 'text' : 'password'"
+              [(ngModel)]="mpin"
+              name="mpin"
+              required
+              placeholder="••••••••"
+            ></ion-input>
+            <ion-icon
+              slot="end"
+              [name]="showPassword ? 'eye-off' : 'eye'"
+              (click)="togglePassword()"
+              class="eye-icon"
+            ></ion-icon>
+          </ion-item>
+        </div>
+
+        <ion-button expand="block" type="submit" class="login-button">
+          <span>Log In</span>
+          <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+        </ion-button>
+
+        <div class="signup-text">
+          Don't have an account?
+          <a (click)="goToSignUp()" class="signup-link">Sign Up</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>
