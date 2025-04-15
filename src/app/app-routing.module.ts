@@ -40,6 +40,24 @@ const routes: Routes = [
         (m) => m.FarmerDashboardPageModule
       ),
   },
+  {
+    path: 'marketplace',
+    loadChildren: () =>
+      import('./marketplace/marketplace.module').then(
+        (m) => m.MarketplacePageModule
+      ),
+  },
+  {
+    path: 'marketplace/category-products/:categoryLabel',
+    loadChildren: () =>
+      import('./marketplace/category-products/category-products.module').then(
+        (m) => m.CategoryProductsPageModule
+      ),
+  },
+  {
+    path: 'category-products',
+    loadChildren: () => import('./marketplace/category-products/category-products.module').then( m => m.CategoryProductsPageModule)
+  },
 ];
 
 @NgModule({
