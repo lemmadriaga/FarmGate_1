@@ -1,0 +1,302 @@
+.options-container {
+  padding: 7rem 10rem;
+
+  ion-list {
+    background: transparent;
+  }
+
+  .option-item {
+    --padding-start: 5px;
+    --padding-end: 5px;
+    --padding-top: 15px;
+    --padding-bottom: 15px;
+    --border-width: 0;
+    --border-style: none;
+    --inner-border-width: 0;
+    --border-color: transparent;
+    --inner-padding-end: 0;
+    margin: 15px 1rem 1rem 1rem;
+    width: calc(100% - 2rem);
+    height: 200px;
+    border-radius: 40px;
+    --border-radius: 40px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+
+    .item-content {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      border-radius: 40px;
+
+      .vege-image {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        width: 110px;
+        height: 110px;
+        object-fit: fill;
+      }
+
+      .vege-text {
+        padding: 0.5rem 2rem;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+
+        h2 {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #fdfdfd;
+          justify-content: center;
+          margin: 35px 10px 2px 10px;
+        }
+
+        p {
+          font-size: 1rem;
+          color: #ffffff;
+          max-width: 80%;
+          margin: 0px 0px 15px 10px;
+        }
+      }
+    }
+  }
+
+  .fruits-item {
+    --background: #FF6B6B;
+    height: 180px;
+    margin: 15px 1rem 2rem 1rem;
+    width: calc(100% - 2rem);
+    border-radius: 40px;
+    --border-radius: 40px;
+    overflow: hidden;
+
+    .item-content {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      border-radius: 40px;
+
+      .option-image {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        width: 110px;
+        height: 110px;
+        object-fit: fill;
+      }
+
+      .option-text {
+        padding: 0.5rem 2rem;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+
+        h2 {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #fdfdfd;
+          justify-content: center;
+          margin: 25px 10px 2px 10px;
+        }
+
+        p {
+          font-size: 1rem;
+          color: #ffffff;
+          max-width: 80%;
+          margin: 0px 0px 15px 10px;
+        }
+      }
+    }
+
+    &:hover {
+      --background: #ff8383;
+    }
+  }
+
+  .dairy-item {
+    --background: #4ECDC4;
+    height: 180px;
+    margin: 15px 1rem 2rem 1rem;
+    width: calc(100% - 2rem);
+    border-radius: 40px;
+    --border-radius: 40px;
+    overflow: hidden;
+
+    .item-content {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      border-radius: 40px;
+
+      .option-image {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        width: 110px;
+        height: 110px;
+        object-fit: fill;
+      }
+
+      .option-text {
+        padding: 0.5rem 2rem;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+
+        h2 {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #fdfdfd;
+          justify-content: center;
+          margin: 25px 10px 2px 10px;
+        }
+
+        p {
+          font-size: 1rem;
+          color: #ffffff;
+          max-width: 80%;
+          margin: 0px 0px 15px 10px;
+        }
+      }
+    }
+
+    &:hover {
+      --background: #65d7cf;
+    }
+  }
+
+  .livestock-item {
+    --background: #45B7D1;
+    height: 180px;
+    margin: 15px 1rem 2rem 1rem;
+    width: calc(100% - 2rem);
+    border-radius: 40px;
+    --border-radius: 40px;
+    overflow: hidden;
+
+    .item-content {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      border-radius: 40px;
+
+      .option-image {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        width: 110px;
+        height: 110px;
+        object-fit: fill;
+      }
+
+      .option-text {
+        padding: 0.5rem 2rem;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+
+        h2 {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #fdfdfd;
+          justify-content: center;
+          margin: 25px 10px 2px 10px;
+        }
+
+        p {
+          font-size: 1rem;
+          color: #ffffff;
+          max-width: 80%;
+          margin: 0px 0px 15px 10px;
+        }
+      }
+    }
+
+    &:hover {
+      --background: #5cc3d9;
+    }
+  }
+
+  .vegetables-item {
+    --background: #6AC24B;
+    height: 180px;
+    margin: 15px 1rem 2rem 1rem;
+    width: calc(100% - 2rem);
+    border-radius: 40px;
+    --border-radius: 40px;
+    overflow: hidden;
+
+    .item-content {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      border-radius: 40px;
+
+      .vege-image {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        width: 110px;
+        height: 110px;
+        object-fit:fill;
+      }
+
+      .vege-text {
+        padding: 0.5rem 2rem;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;   
+
+        h2 {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #fdfdfd;
+          justify-content: center;
+          margin: 25px 10px 2px 10px;
+        }
+
+        p { 
+          font-size: 1rem;
+          color: #ffffff;
+          max-width: 80%;
+          margin: 0px 0px 15px 10px;
+        }
+      }
+    }
+
+    &:hover {
+      --background: #6AC24B;
+    }
+  }
+}

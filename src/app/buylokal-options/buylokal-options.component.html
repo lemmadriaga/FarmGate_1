@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>BuyLokal Options</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="options-container">
+    <ion-list>
+      <ion-item *ngFor="let option of options" (click)="navigateTo(option.route)" 
+        [class]="'option-item ' + (option.title.toLowerCase() === 'vegetables' ? 'vegetables-item' : option.title.toLowerCase() + '-item')">
+        <div class="item-content" *ngIf="option.title.toLowerCase() === 'vegetables'">
+          <img [src]="'assets/eggplant.png'" alt="Fresh Vegetables" class="vege-image">
+          <div class="vege-text">
+            <h2>Fresh Vegetables</h2>
+            <p>Click to buy!</p>
+          </div>
+        </div>
+        <ng-container *ngIf="option.title.toLowerCase() !== 'vegetables'">
+          <div class="item-content">
+            <img [src]="option.image" [alt]="option.title" class="option-image">
+            <div class="option-text">
+              <h2>Fresh {{ option.title }}</h2>
+              <p>Click to buy!</p>
+            </div>
+          </div>
+        </ng-container>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
