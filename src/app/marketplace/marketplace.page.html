@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" aria-label="Back"></ion-back-button>
+    </ion-buttons>
+    <div class="logo-title">
+      <img src="assets/marketplace/marketplaceHomepage/marketplacelogo.svg" alt="FarmGate Logo" class="farmgate-logo-svg" />
+    </div>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" aria-label="Cart">
+        <ion-icon name="cart-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="market-bg">
+  <div class="searchbar-outer">
+  <div class="searchbar-wrap">
+    <ion-searchbar placeholder="Search deals..." animated></ion-searchbar>
+  </div>
+</div>
+  <div class="categories-section">
+  <div class="section-header-flex">
+    <h2 class="section-title">Categories</h2>
+  </div>
+  <div class="categories-grid-outer">
+    <div class="categories-grid">
+      <div class="category-item" *ngFor="let cat of categories; let i = index" (click)="goToCategory(cat.label)">
+        <div class="category-card" [ngStyle]="{ 'borderColor': categoryColors[i] }">
+          <img [src]="cat.icon" [alt]="cat.label + ' icon'" class="category-img" />
+        </div>
+        <div class="cat-label">{{cat.label}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="newest-machines-section">
+    <div class="section-header-flex">
+      <h2 class="section-title">Newest Machines</h2>
+      <a class="show-more-link">Show more</a>
+    </div>
+    <ion-card class="machine-card">
+      <div class="sale-badge" *ngIf="newestMachine.sale">30% off SALE</div>
+
+      <ion-grid class="machine-content-grid">
+        <ion-row>
+          <ion-col size="6" class="machine-details-col">
+            <div class="machine-info">
+              <h3 class="machine-price">₱ {{newestMachine.price | number:'1.0-0'}} <span class="old-price">₱ {{newestMachine.oldPrice | number:'1.0-0'}}</span></h3>
+              <div class="note">*DISCOUNT is only applicable for FGCredit Users only</div>
+              <img [src]="newestMachine.brandLogo" alt="Brand Logo" class="nakajima-logo" />
+              <div class="machine-name">{{newestMachine.name}}</div>
+            </div>
+          </ion-col>
+          <ion-col size="6" class="machine-image-col">
+            <img [src]="newestMachine.image" alt="Machine" class="machine-img" />
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+  </div>
+  <ion-button expand="block" color="success" class="loan-btn">Apply for a Loan today</ion-button>
+  <div class="popular-stores-section">
+    <div class="section-header-flex">
+      <h2 class="section-title">Most Popular Stores</h2>
+      <a class="show-more-link">Show more</a>
+    </div>
+    <ion-grid class="stores-grid">
+      <ion-row>
+        <ion-col size="3" *ngFor="let store of stores">
+          <ion-card class="store-card">
+            <img [src]="store.logo" [alt]="store.name" />
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-tab-bar slot="bottom" class="custom-tab-bar">
+    <ion-tab-button tab="home" class="tab-selected">
+      <ion-icon name="home"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="market">
+      <ion-icon name="storefront-outline"></ion-icon>
+      <ion-label>Market</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="credits">
+      <ion-icon name="card-outline"></ion-icon>
+      <ion-label>Credits</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="profile">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Profile</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

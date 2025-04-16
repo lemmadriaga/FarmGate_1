@@ -1,0 +1,256 @@
+/* Inherit styles from the main marketplace page if needed */
+@use '../marketplace.page.scss' as marketplace-styles;
+
+.category-products-bg {
+  --background: #f4f4f4;
+  background: #f4f4f4;
+}
+
+/* Base content padding */
+ion-content {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+}
+
+/* Custom Toolbar Styling */
+.custom-toolbar {
+  --background: #fff; // Ensure white background
+  --border-width: 0;
+  ion-back-button {
+    --color: #000; // Black back button
+  }
+  .logo-title {
+    text-align: center;
+    flex-grow: 1;
+    img {
+      height: 28px; // Adjust logo size as needed
+      vertical-align: middle;
+    }
+  }
+  ion-button[aria-label="Cart"] {
+    --color: #000; // Black cart icon
+    ion-icon {
+      font-size: 24px;
+    }
+  }
+}
+
+/* Search Bar Styling - Consistent with Marketplace */
+.searchbar-outer {
+  display: flex;
+  justify-content: center; // Center the wrap
+  margin-top: 0;      // Rely on ion-content padding for top space
+  margin-bottom: 20px; // Increased bottom margin for separation
+  padding: 0 16px;     // Use marketplace padding
+}
+
+.searchbar-wrap {
+  width: 100%;
+  max-width: 370px;      // Add max-width like marketplace
+  background: #fff;      // White background
+  border-radius: 25px; // Marketplace rounding
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); // Marketplace shadow
+  padding: 0;            // No padding on wrap
+  display: flex; // Ensure searchbar fills the wrap
+
+  ion-searchbar {
+    flex-grow: 1;
+    --background: #fff;      // Match wrap background
+    --box-shadow: none;      // No internal shadow
+    --border-radius: 25px; // Match wrap radius
+    --placeholder-color: #aaa;
+    --color: #333;
+    --icon-color: #aaa;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --padding-top: 0;
+    --padding-bottom: 0;
+    font-size: 1.0em;
+    height: 48px;          // Marketplace height
+    padding: 0;
+    margin: 0;
+  }
+}
+
+/* Banner Section Styling */
+.banner-section {
+  position: relative;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  overflow: hidden; // Ensure content respects border radius
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .banner-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+
+    h3 {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin: 0 0 4px 0;
+    }
+
+    p {
+      font-size: 0.9em;
+      margin: 0 0 12px 0;
+    }
+
+    .explore-button {
+        --background: #ff9800; // Orange color from image
+        --background-activated: #e68900;
+        --color: #fff;
+        --padding-start: 20px;
+        --padding-end: 20px;
+        height: 36px;
+        font-weight: bold;
+        text-transform: none;
+        align-self: flex-start; // Align button to the left
+    }
+  }
+}
+
+/* Section Header Styling */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+
+  .section-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+  }
+
+  .view-all-button {
+    --color: var(--ion-color-success, #2dd36f); // Green text
+    --padding-end: 0; // Remove extra padding
+    font-size: 0.9em;
+    text-transform: none;
+    height: auto;
+  }
+}
+
+/* Product Grid Styling */
+.product-grid {
+  padding: 0; // No padding on the grid itself
+  margin-bottom: 12px; // Reduced space below the grid
+
+  ion-row {
+    // Ensure row doesn't add unexpected spacing
+    margin-left: -4px;  // Counteract column padding
+    margin-right: -4px; // Counteract column padding
+  }
+
+  ion-col {
+    padding: 0 4px; // Keep small spacing between columns
+    // Ensure columns size correctly with padding
+    box-sizing: border-box;
+  }
+}
+
+/* Product Card Styling */
+.product-card {
+  margin: 0 0 12px 0; // Reduced vertical spacing between cards
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); // Slightly softer shadow
+  background: #f9f9f9; // Slightly off-white background
+  display: flex;
+  flex-direction: column;
+  height: 100%; // Make cards in a row equal height
+  width: 100%; // Ensure card takes full column width
+  overflow: hidden; // Prevent internal content overflow issues
+
+  .product-image-container {
+    width: 100%;
+    padding-top: 100%; // Creates a square aspect ratio container
+    position: relative;
+    background-color: #fff; // White background for image area
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    overflow: hidden;
+
+    .product-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain; // Keep contain for better image handling
+      padding: 4px; // Even smaller padding around the image itself
+      box-sizing: border-box;
+    }
+  }
+
+
+  ion-card-header.product-info {
+    padding: 6px; // Further reduced padding
+    text-align: center;
+    flex-grow: 1; // Allow header to take available space
+
+    ion-card-title {
+      font-size: 0.9em; // Slightly smaller title
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 2px; // Reduced margin
+      white-space: normal; // Allow wrapping
+      line-height: 1.3; // Adjust line height if needed
+    }
+
+    ion-card-subtitle {
+      font-size: 0.8em; // Slightly smaller subtitle
+      color: #666;
+      font-weight: bold;
+    }
+  }
+
+  ion-card-content.product-actions {
+    padding: 0 6px 6px 6px; // Further reduced padding
+
+    .add-to-cart-button {
+        --background: var(--ion-color-success, #2dd36f); // Green background
+        --background-activated: #28a745;
+        --color: #fff;
+        --border-radius: 20px; // Rounded corners
+        --box-shadow: none;
+        font-size: 0.85em; // Slightly smaller button text
+        font-weight: bold;
+        height: 32px; // Slightly smaller button height
+        text-transform: none;
+        margin: 0;
+    }
+  }
+}
+
+
+/* Footer - Custom Tab Bar Styling */
+.custom-tab-bar {
+  --background: var(--ion-color-success, #2dd36f); // Green background
+  border-top: none; // Remove default top border
+
+  ion-tab-button {
+    --color: rgba(255, 255, 255, 0.7);
+    --color-selected: #ffffff;
+    font-size: 0.8em;
+
+    ion-icon {
+      font-size: 22px; // Adjust icon size
+    }
+  }
+}

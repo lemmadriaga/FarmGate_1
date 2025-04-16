@@ -1,25 +1,155 @@
+:host {
+  ion-header {
+    position: absolute;
+    z-index: 2;
+    
+    ion-toolbar {
+      --background: transparent;
+      --border-color: transparent;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 66px;
+
+      .farmgate-logo {
+        position: absolute;
+        width: 215px;
+        height: 49px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: url('/assets/FarmGate (1) white.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        z-index: 10;
+      }
+    }
+  }
+
+  ion-content {
+    --background: #ffffff;
+    --padding-bottom: 2rem;
+
+    &::part(scroll) {
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+}
+
+.search-box-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 190px;
+
+  @media (min-width: 1024px) {
+    height: 180px;
+  }
+  background: #00B24B;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 0;
+}
+
 .options-container {
-  padding: 7rem 10rem;
+  position: relative;
+  z-index: 1;
+  padding-top: 180px;
+  height: auto;
+  overflow-y: auto;
+
+  @media (min-width: 1024px) {
+    padding: 200px 15rem 2rem;
+  }
+
+  .search-container {
+    position: absolute;
+    top: 4rem;
+    left: 2rem;
+    right: 2rem;
+
+    @media (min-width: 1024px) {
+      left: 15rem;
+      right: 15rem;
+    }
+    padding: 0;
+
+    .search-title {
+      color: #ffffff;
+      text-align: left;
+      font-size: 1.5rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      margin: 0 0 0.5rem 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+
+      @media (min-width: 1024px) {
+        font-size: 1.8rem;
+      }
+    }
+
+    .custom-searchbar {
+      --background: rgba(255, 255, 255, 0.15);
+      --border-radius: 20px;
+      --box-shadow: none;
+      --placeholder-color: rgba(255, 255, 255, 0.8);
+      --icon-color: #ffffff;
+      --clear-button-color: #ffffff;
+      --color: #ffffff;
+      padding: 0;
+      font-size: 14px;
+
+      @media (min-width: 1024px) {
+        font-size: 16px;
+      }
+
+      &::part(icon) {
+        color: #ffffff;
+      }
+
+      &::part(search-icon) {
+        color: #ffffff;
+      }
+    }
+  }
+
+
 
   ion-list {
+    margin-top: 0;
+    padding: 2rem 0;
     background: transparent;
+
+    @media (max-width: 1023px) {
+      padding: 2rem 0.5rem;
+    }
   }
 
   .option-item {
     --padding-start: 5px;
     --padding-end: 5px;
-    --padding-top: 15px;
-    --padding-bottom: 15px;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
     --border-width: 0;
     --border-style: none;
     --inner-border-width: 0;
     --border-color: transparent;
     --inner-padding-end: 0;
-    margin: 15px 1rem 1rem 1rem;
-    width: calc(100% - 2rem);
-    height: 200px;
-    border-radius: 40px;
-    --border-radius: 40px;
+    margin: 0.1rem 0.25rem;
+    width: calc(100% - 0.5rem);
+    height: 130px;
+
+    @media (min-width: 1024px) {
+      height: 160px;
+    }
+    border-radius: 15px;
+    --border-radius: 15px;
     overflow: hidden;
     cursor: pointer;
     transition: filter 0.2s ease;
@@ -35,14 +165,14 @@
       padding: 0;
       overflow: hidden;
       position: relative;
-      border-radius: 40px;
+      border-radius: 15px;
 
       .vege-image {
         position: absolute;
         right: 10px;
         bottom: 10px;
-        width: 110px;
-        height: 110px;
+        width: 90px;
+        height: 90px;
         object-fit: fill;
       }
 
@@ -63,22 +193,31 @@
         }
 
         p {
-          font-size: 1rem;
+          font-size: 0.9rem;
           color: #ffffff;
           max-width: 80%;
-          margin: 0px 0px 15px 10px;
+          margin: 0px 0px 10px 10px;
+
+          @media (min-width: 1024px) {
+            font-size: 1rem;
+            margin: 0px 0px 15px 10px;
+          }
         }
       }
     }
   }
 
   .fruits-item {
-    --background: #FF6B6B;
-    height: 180px;
-    margin: 15px 1rem 2rem 1rem;
-    width: calc(100% - 2rem);
-    border-radius: 40px;
-    --border-radius: 40px;
+    --background: #F5CF48;
+    height: 130px;
+
+    @media (min-width: 1024px) {
+      height: 160px;
+    }
+    margin: 0.1rem 0.25rem;
+    width: calc(100% - 0.5rem);
+    border-radius: 15px;
+    --border-radius: 15px;
     overflow: hidden;
 
     .item-content {
@@ -88,14 +227,14 @@
       padding: 0;
       overflow: hidden;
       position: relative;
-      border-radius: 40px;
+      border-radius: 15px;
 
       .option-image {
         position: absolute;
         right: 10px;
         bottom: 10px;
-        width: 110px;
-        height: 110px;
+        width: 90px;
+        height: 90px;
         object-fit: fill;
       }
 
@@ -108,18 +247,28 @@
         height: 100%;
 
         h2 {
-          font-size: 1.5rem;
+          font-size: 1.2rem;
           font-weight: 700;
           color: #fdfdfd;
           justify-content: center;
-          margin: 25px 10px 2px 10px;
+          margin: 15px 10px 2px 10px;
+
+          @media (min-width: 1024px) {
+            font-size: 1.4rem;
+            margin: 20px 10px 2px 10px;
+          }
         }
 
         p {
-          font-size: 1rem;
+          font-size: 0.9rem;
           color: #ffffff;
           max-width: 80%;
-          margin: 0px 0px 15px 10px;
+          margin: 0px 0px 10px 10px;
+
+          @media (min-width: 1024px) {
+            font-size: 1rem;
+            margin: 0px 0px 15px 10px;
+          }
         }
       }
     }
@@ -130,12 +279,16 @@
   }
 
   .dairy-item {
-    --background: #4ECDC4;
-    height: 180px;
-    margin: 15px 1rem 2rem 1rem;
-    width: calc(100% - 2rem);
-    border-radius: 40px;
-    --border-radius: 40px;
+    --background: #5BA9F1;
+    height: 130px;
+
+    @media (min-width: 1024px) {
+      height: 160px;
+    }
+    margin: 0.1rem 0.25rem;
+    width: calc(100% - 0.5rem);
+    border-radius: 15px;
+    --border-radius: 15px;
     overflow: hidden;
 
     .item-content {
@@ -145,14 +298,14 @@
       padding: 0;
       overflow: hidden;
       position: relative;
-      border-radius: 40px;
+      border-radius: 15px;
 
       .option-image {
         position: absolute;
         right: 10px;
         bottom: 10px;
-        width: 110px;
-        height: 110px;
+        width: 90px;
+        height: 90px;
         object-fit: fill;
       }
 
@@ -165,18 +318,28 @@
         height: 100%;
 
         h2 {
-          font-size: 1.5rem;
+          font-size: 1.2rem;
           font-weight: 700;
           color: #fdfdfd;
           justify-content: center;
-          margin: 25px 10px 2px 10px;
+          margin: 15px 10px 2px 10px;
+
+          @media (min-width: 1024px) {
+            font-size: 1.4rem;
+            margin: 20px 10px 2px 10px;
+          }
         }
 
         p {
-          font-size: 1rem;
+          font-size: 0.9rem;
           color: #ffffff;
           max-width: 80%;
-          margin: 0px 0px 15px 10px;
+          margin: 0px 0px 10px 10px;
+
+          @media (min-width: 1024px) {
+            font-size: 1rem;
+            margin: 0px 0px 15px 10px;
+          }
         }
       }
     }
@@ -187,12 +350,16 @@
   }
 
   .livestock-item {
-    --background: #45B7D1;
-    height: 180px;
-    margin: 15px 1rem 2rem 1rem;
-    width: calc(100% - 2rem);
-    border-radius: 40px;
-    --border-radius: 40px;
+    --background: #FF9C85;
+    height: 130px;
+
+    @media (min-width: 1024px) {
+      height: 160px;
+    }
+    margin: 0.1rem 0.25rem;
+    width: calc(100% - 0.5rem);
+    border-radius: 15px;
+    --border-radius: 15px;
     overflow: hidden;
 
     .item-content {
@@ -202,14 +369,14 @@
       padding: 0;
       overflow: hidden;
       position: relative;
-      border-radius: 40px;
+      border-radius: 15px;
 
       .option-image {
         position: absolute;
         right: 10px;
         bottom: 10px;
-        width: 110px;
-        height: 110px;
+        width: 90px;
+        height: 90px;
         object-fit: fill;
       }
 
@@ -222,18 +389,28 @@
         height: 100%;
 
         h2 {
-          font-size: 1.5rem;
+          font-size: 1.2rem;
           font-weight: 700;
           color: #fdfdfd;
           justify-content: center;
-          margin: 25px 10px 2px 10px;
+          margin: 15px 10px 2px 10px;
+
+          @media (min-width: 1024px) {
+            font-size: 1.4rem;
+            margin: 20px 10px 2px 10px;
+          }
         }
 
         p {
-          font-size: 1rem;
+          font-size: 0.9rem;
           color: #ffffff;
           max-width: 80%;
-          margin: 0px 0px 15px 10px;
+          margin: 0px 0px 10px 10px;
+
+          @media (min-width: 1024px) {
+            font-size: 1rem;
+            margin: 0px 0px 15px 10px;
+          }
         }
       }
     }
@@ -245,11 +422,15 @@
 
   .vegetables-item {
     --background: #6AC24B;
-    height: 180px;
-    margin: 15px 1rem 2rem 1rem;
-    width: calc(100% - 2rem);
-    border-radius: 40px;
-    --border-radius: 40px;
+    height: 130px;
+
+    @media (min-width: 1024px) {
+      height: 160px;
+    }
+    margin: 0.1rem 0.25rem;
+    width: calc(100% - 0.5rem);
+    border-radius: 15px;
+    --border-radius: 15px;
     overflow: hidden;
 
     .item-content {
@@ -259,14 +440,14 @@
       padding: 0;
       overflow: hidden;
       position: relative;
-      border-radius: 40px;
+      border-radius: 15px;
 
       .vege-image {
         position: absolute;
         right: 10px;
         bottom: 10px;
-        width: 110px;
-        height: 110px;
+        width: 90px;
+        height: 90px;
         object-fit:fill;
       }
 
@@ -279,18 +460,28 @@
         height: 100%;   
 
         h2 {
-          font-size: 1.5rem;
+          font-size: 1.2rem;
           font-weight: 700;
           color: #fdfdfd;
           justify-content: center;
-          margin: 25px 10px 2px 10px;
+          margin: 15px 10px 2px 10px;
+
+          @media (min-width: 1024px) {
+            font-size: 1.4rem;
+            margin: 20px 10px 2px 10px;
+          }
         }
 
         p { 
-          font-size: 1rem;
+          font-size: 0.9rem;
           color: #ffffff;
           max-width: 80%;
-          margin: 0px 0px 15px 10px;
+          margin: 0px 0px 10px 10px;
+
+          @media (min-width: 1024px) {
+            font-size: 1rem;
+            margin: 0px 0px 15px 10px;
+          }
         }
       }
     }

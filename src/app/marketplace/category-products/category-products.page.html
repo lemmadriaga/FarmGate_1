@@ -1,0 +1,106 @@
+<ion-header>
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/marketplace" aria-label="Back"></ion-back-button>
+    </ion-buttons>
+    <div class="logo-title">
+      <img src="assets/marketplace/marketplaceHomepage/marketplacelogo.svg" alt="FarmGate Logo" class="farmgate-logo-svg" />
+    </div>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" aria-label="Cart">
+        <ion-icon name="cart-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding category-products-bg">
+  <!-- Search Bar -->
+  <div class="searchbar-outer">
+    <div class="searchbar-wrap">
+      <ion-searchbar placeholder="Search Product" animated></ion-searchbar>
+    </div>
+  </div>
+
+  <!-- Banner Section -->
+  <div class="banner-section">
+    <img src="assets/marketplace/marketplaceCategories/categoryad.svg" alt="Explore Latest Hand Tools" />
+  </div>
+
+  <!-- Most Searched Section -->
+  <div class="section-header">
+    <ion-label class="section-title">The most searched Hand Tools</ion-label>
+    <!-- TODO: Implement View All navigation -->
+    <ion-button fill="clear" class="view-all-button">View All</ion-button>
+  </div>
+  <ion-grid class="product-grid">
+    <ion-row>
+      <!-- Example Product Card (Repeat for each product) -->
+      <ion-col size="6" *ngFor="let product of mostSearchedProducts"> <!-- Loop through products -->
+        <ion-card class="product-card">
+          <div class="product-image-container">
+             <img [src]="product.image" [alt]="product.name" class="product-image"/>
+          </div>
+          <ion-card-header class="product-info">
+            <ion-card-title>{{ product.name }}</ion-card-title>
+            <ion-card-subtitle>₱ {{ product.price | number:'1.2-2' }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content class="product-actions">
+             <!-- TODO: Implement Add to Cart functionality -->
+            <ion-button expand="block" class="add-to-cart-button">Add to Cart</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Recommended Section -->
+  <div class="section-header">
+    <ion-label class="section-title">Recommended Tools for you</ion-label>
+    <!-- TODO: Implement View All navigation -->
+    <ion-button fill="clear" class="view-all-button">View All</ion-button>
+  </div>
+  <ion-grid class="product-grid">
+    <ion-row>
+      <!-- Example Product Card (Repeat for each product) -->
+       <ion-col size="6" *ngFor="let product of recommendedProducts"> <!-- Loop through products -->
+        <ion-card class="product-card">
+           <div class="product-image-container">
+             <img [src]="product.image" [alt]="product.name" class="product-image"/>
+          </div>
+          <ion-card-header class="product-info">
+            <ion-card-title>{{ product.name }}</ion-card-title>
+            <ion-card-subtitle>₱ {{ product.price | number:'1.2-2' }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content class="product-actions">
+             <!-- TODO: Implement Add to Cart functionality -->
+            <ion-button expand="block" class="add-to-cart-button">Add to Cart</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+
+<!-- Footer - Assuming same footer as marketplace -->
+<ion-footer>
+  <ion-tab-bar slot="bottom" class="custom-tab-bar">
+    <ion-tab-button tab="home">
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="market" class="tab-selected">
+      <ion-icon name="storefront"></ion-icon>
+      <ion-label>Market</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="credits">
+      <ion-icon name="card-outline"></ion-icon>
+      <ion-label>Credits</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="profile">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>Profile</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

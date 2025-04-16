@@ -1,16 +1,27 @@
-<ion-header>
-  <ion-toolbar color="primary">
+<ion-header class="ion-no-border">
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button defaultHref="/" color="light"></ion-back-button>
     </ion-buttons>
-    <ion-title>BuyLokal Options</ion-title>
+    <div class="farmgate-logo"></div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div class="search-box-background"></div>
   <div class="options-container">
+    <div class="search-container">
+      <h1 class="search-title">Buy any Local<br>Produce!</h1>
+      <ion-searchbar
+        [(ngModel)]="searchTerm"
+        (ionInput)="onSearch($event)"
+        placeholder="Search"
+        class="custom-searchbar"
+        animated="true"
+      ></ion-searchbar>
+    </div>
     <ion-list>
-      <ion-item *ngFor="let option of options" (click)="navigateTo(option.route)" 
+      <ion-item *ngFor="let option of filteredOptions" (click)="navigateTo(option.route)" 
         [class]="'option-item ' + (option.title.toLowerCase() === 'vegetables' ? 'vegetables-item' : option.title.toLowerCase() + '-item')">
         <div class="item-content" *ngIf="option.title.toLowerCase() === 'vegetables'">
           <img [src]="'assets/eggplant.png'" alt="Fresh Vegetables" class="vege-image">
