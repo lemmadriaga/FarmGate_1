@@ -12,6 +12,13 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class BuylokalFruitsComponent implements OnInit {
+  searchTerm: string = '';
+
+  onSearch(event: any) {
+    this.searchTerm = event.target.value.toLowerCase();
+    // TODO: Implement search functionality
+  }
+
   constructor() { }
 
   ngOnInit() { }

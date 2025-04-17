@@ -1,1 +1,282 @@
-/* Add styles for buylokal-vegetables component */
+:host {
+  ion-header {
+    position: absolute;
+    z-index: 2;
+    
+    ion-toolbar {
+      --background: transparent;
+      --border-color: transparent;
+
+      ion-buttons {
+        ion-button {
+          --padding-start: 8px;
+          --padding-end: 8px;
+          
+          ion-icon {
+            font-size: 24px;
+          }
+        }
+      }
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 66px;
+
+      .logo-container {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        gap: 5px;
+
+        .farmgate-logo {
+          width: 30px;
+          height: 30px;
+          
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+
+        .logo-text {
+          color: #ffffffaf;
+          font-size: 20px;
+          font-weight: 600;
+          font-family: 'Poppins', sans-serif;
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+  }
+
+  ion-content {
+    --background: #ffffff;
+    --padding-bottom: 2rem;
+  }
+
+  ion-footer {
+    ion-toolbar {
+      --background: linear-gradient(to bottom, #00DA4B 0%, #00B24B 100%);
+      padding: 0;
+
+      .bottom-nav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        padding: 5px 0;
+
+        ion-button {
+          --color: #ffffff;
+          --padding-start: 10px;
+          --padding-end: 10px;
+          height: 60px;
+          margin: 0;
+
+          .button-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            ion-icon {
+              font-size: 24px;
+              margin-bottom: 4px;
+            }
+
+            span {
+              font-size: 12px;
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.search-box-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 190px;
+
+  @media (min-width: 1024px) {
+    height: 180px;
+  }
+  background: linear-gradient(to bottom, #00DA4B 0%, #00B24B 100%);
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 0;
+}
+
+.options-container {
+  position: relative;
+  z-index: 1;
+  padding-top: 180px;
+  height: 100%;
+
+  @media (min-width: 1024px) {
+    padding: 200px 15rem 2rem;
+  }
+
+  .search-container {
+    position: absolute;
+    top: 4rem;
+    left: 2rem;
+    right: 2rem;
+
+    @media (min-width: 1024px) {
+      left: 15rem;
+      right: 15rem;
+    }
+    padding: 0;
+
+    .search-title {
+      color: #ffffff;
+      text-align: left;
+      font-size: 1.5rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      margin: 0 0 0.5rem 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+
+      @media (min-width: 1024px) {
+        font-size: 1.8rem;
+      }
+    }
+
+    .custom-searchbar {
+      --background: rgba(255, 255, 255, 0.15);
+      --border-radius: 20px;
+      --box-shadow: none;
+      --placeholder-color: rgba(255, 255, 255, 0.8);
+      --icon-color: #ffffff;
+      --clear-button-color: #ffffff;
+      --color: #ffffff;
+      padding: 0;
+      font-size: 14px;
+
+      @media (min-width: 1024px) {
+        font-size: 16px;
+      }
+
+      &::part(icon) {
+        color: #ffffff;
+      }
+
+      &::part(search-icon) {
+        color: #ffffff;
+      }
+    }
+  }
+
+  ion-list {
+    margin-top: 0;
+    padding: 2rem 0;
+    background: transparent;
+
+    @media (max-width: 1023px) {
+      padding: 2rem 0.5rem;
+    }
+  }
+
+  .option-item {
+    --padding-start: 0px;
+    --padding-end: 0px;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+    --border-width: 0;
+    --border-style: none;
+    --inner-border-width: 0;
+    --border-color: transparent;
+    height: 130px;
+
+    @media (min-width: 1024px) {
+      height: 160px;
+    }
+    margin: 0.1rem 0.25rem;
+    width: calc(100% - 0.5rem);
+    border-radius: 15px;
+    --border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
+
+  .vegetables-item {
+    --background: #6AC24B;
+
+    .item-content {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      border-radius: 15px;
+
+      .vege-image {
+        position: absolute;
+        right: 15px;
+        bottom: 5px;
+        top: 0px;
+        width: 90px;
+        height: 90px;
+        object-fit: fill;
+      }
+
+      .vege-text {
+        padding: 0.5rem 2rem;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+
+        h2 {
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: #fdfdfd;
+          justify-content: center;
+          margin: 15px 10px 2px 0;
+
+          @media (min-width: 1024px) {
+            font-size: 1.4rem;
+            margin: 20px 10px 2px 0;
+          }
+        }
+
+        p {
+          font-size: 0.9rem;
+          color: #ffffff;
+          max-width: 80%;
+          margin: 0px 0px 10px 0;
+
+          @media (min-width: 1024px) {
+            font-size: 1rem;
+            margin: 0px 0px 15px 0;
+          }
+        }
+      }
+    }
+
+    &:hover {
+      --background: #5ab23f;
+    }
+  }
+}
