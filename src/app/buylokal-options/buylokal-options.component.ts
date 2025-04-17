@@ -17,14 +17,14 @@ export class BuylokalOptionsComponent implements OnInit {
   searchTerm: string = '';
   filteredOptions = [
     { title: 'Vegetables', route: '/buylokal-vegetables', image: 'assets/buylokal-vegetables.png' },
-    { title: 'Fruits', route: '/buylokal-fruits', image: 'assets/buylokal-fruits.png' },
-    { title: 'Dairy', route: '/buylokal-dairy', image: 'assets/buylokal-dairy.png' },
+    { title: 'Fruits', route: '/buylokal-fruits', image: 'assets/buylokal-fruits basis.png' },
+    { title: 'Dairy', route: '/buylokal-dairy', image: 'assets/buylokal-dairy basis.png' },
     { title: 'Livestock', route: '/buylokal-livestock', image: 'assets/buylokal-livestocks.png' }
   ];
   private readonly allOptions = [
     { title: 'Vegetables', route: '/buylokal-vegetables', image: 'assets/buylokal-vegetables.png' },
-    { title: 'Fruits', route: '/buylokal-fruits', image: 'assets/buylokal-fruits.png' },
-    { title: 'Dairy', route: '/buylokal-dairy', image: 'assets/buylokal-dairy.png' },
+    { title: 'Fruits', route: '/buylokal-fruits', image: 'assets/buylokal-fruits basis.png' },
+    { title: 'Dairy', route: '/buylokal-dairy', image: 'assets/buylokal-dairy basis.png' },
     { title: 'Livestock', route: '/buylokal-livestock', image: 'assets/buylokal-livestocks.png' }
   ];
 
