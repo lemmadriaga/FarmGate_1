@@ -1,0 +1,100 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" color="dark" [routerLink]="['/buylokal-options']">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <div class="logo-container">
+      <div class="farmgate-logo">
+        <img src="assets/farmgate.png" alt="FarmGate Logo">
+      </div>
+      <span class="logo-text">FarmGate</span>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollY="false">
+  <div class="search-box-background"></div>
+  <div class="options-container">
+    <div class="search-container">
+      <h1 class="search-title">Fresh Livestock<br>are ready!</h1>
+      <ion-searchbar
+        [(ngModel)]="searchTerm"
+        (ionInput)="onSearch($event)"
+        placeholder="Search"
+        class="custom-searchbar"
+        animated="true"
+      ></ion-searchbar>
+    </div>
+    <ion-list>
+      <ion-item class="option-item livestock-item">
+        <div class="item-content">
+          <img src="assets/chicken.png" alt="Fresh Livestock" class="livestock-image">
+          <div class="livestock-text">
+            <h2>Fresh Chicken</h2>
+            <p>Click to buy!</p>
+          </div>
+        </div>
+      </ion-item>
+      <ion-item class="option-item livestock-item">
+        <div class="item-content">
+          <img src="assets/pork.png" alt="Fresh Livestock" class="livestock-image">
+          <div class="livestock-text">
+            <h2>Fresh Pork</h2>
+            <p>Click to buy!</p>
+          </div>
+        </div>
+      </ion-item>
+      <ion-item class="option-item livestock-item">
+        <div class="item-content">
+          <img src="assets/beef.png" alt="Fresh Livestock" class="livestock-image">
+          <div class="livestock-text">
+            <h2>Fresh Beef</h2>
+            <p>Click to buy!</p>
+          </div>
+        </div>
+      </ion-item>
+      <ion-item class="option-item livestock-item">
+        <div class="item-content">
+          <img src="assets/goat.png" alt="Fresh Livestock" class="livestock-image">
+          <div class="livestock-text">
+            <h2>Fresh Goat</h2>
+            <p>Click to buy!</p>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="bottom-nav">
+      <ion-button fill="clear" [routerLink]="['/home']">
+        <div class="button-content">
+          <ion-icon name="home-outline"></ion-icon>
+          <span>HOME</span>
+        </div>
+      </ion-button>
+      <ion-button fill="clear" [routerLink]="['/marketplace']">
+        <div class="button-content">
+          <ion-icon name="cart-outline"></ion-icon>
+          <span>MARKET</span>
+        </div>
+      </ion-button>
+      <ion-button fill="clear" [routerLink]="['/credits']">
+        <div class="button-content">
+          <ion-icon name="cash-outline"></ion-icon>
+          <span>CREDITS</span>
+        </div>
+      </ion-button>
+      <ion-button fill="clear" [routerLink]="['/user-dashboard']">
+        <div class="button-content">
+          <ion-icon name="person-outline"></ion-icon>
+          <span>PROFILE</span>
+        </div>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

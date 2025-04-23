@@ -1,0 +1,83 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" color="dark" routerLink="/">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <div class="logo-container">
+      <div class="farmgate-logo">
+        <img src="assets/farmgate.png" alt="FarmGate Logo">
+      </div>
+      <span class="logo-text">FarmGate</span>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollY="false">
+  <div class="search-box-background"></div>
+  <div class="options-container">
+    <div class="search-container">
+      <h1 class="search-title">Buy any Local<br>Produce!</h1>
+      <ion-searchbar
+        [(ngModel)]="searchTerm"
+        (ionInput)="onSearch($event)"
+        placeholder="Search"
+        class="custom-searchbar"
+        animated="true"
+      ></ion-searchbar>
+    </div>
+    <ion-list>
+      <ion-item *ngFor="let option of filteredOptions" (click)="navigateTo(option.route)" 
+        [class]="'option-item ' + (option.title.toLowerCase() === 'vegetables' ? 'vegetables-item' : option.title.toLowerCase() + '-item')">
+        <div class="item-content" *ngIf="option.title.toLowerCase() === 'vegetables'">
+          <img [src]="'assets/eggplant.png'" alt="Fresh Vegetables" class="vege-image">
+          <div class="vege-text">
+            <h2>Fresh Vegetables</h2>
+            <p>Click to buy!</p>
+          </div>
+        </div>
+        <ng-container *ngIf="option.title.toLowerCase() !== 'vegetables'">
+          <div class="item-content">
+            <img [src]="option.image" [alt]="option.title" class="option-image">
+            <div class="option-text">
+              <h2>Fresh {{ option.title }}</h2>
+              <p>Click to buy!</p>
+            </div>
+          </div>
+        </ng-container>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="bottom-nav">
+      <ion-button fill="clear" routerLink="/home">
+        <div class="button-content">
+          <ion-icon name="home-outline"></ion-icon>
+          <span>HOME</span>
+        </div>
+      </ion-button>
+      <ion-button fill="clear" routerLink="/marketplace">
+        <div class="button-content">
+          <ion-icon name="cart-outline"></ion-icon>
+          <span>MARKET</span>
+        </div>
+      </ion-button>
+      <ion-button fill="clear" routerLink="/credits">
+        <div class="button-content">
+          <ion-icon name="cash-outline"></ion-icon>
+          <span>CREDITS</span>
+        </div>
+      </ion-button>
+      <ion-button fill="clear" routerLink="/user-dashboard">
+        <div class="button-content">
+          <ion-icon name="person-outline"></ion-icon>
+          <span>PROFILE</span>
+        </div>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

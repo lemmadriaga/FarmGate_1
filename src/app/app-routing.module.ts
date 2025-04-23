@@ -41,6 +41,41 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'buylokal-options',
+    loadChildren: () =>
+      import('./buylokal-options/buylokal-options.module').then(
+        (m) => m.BuylokalOptionsModule
+      ),
+  },
+  {
+    path: 'buylokal-vegetables',
+    loadChildren: () =>
+      import('./buylokal-vegetables/buylokal-vegetables.module').then(
+        (m) => m.BuylokalVegetablesModule
+      ),
+  },
+  {
+    path: 'buylokal-fruits',
+    loadChildren: () =>
+      import('./buylokal-fruits/buylokal-fruits.module').then(
+        (m) => m.BuylokalFruitsModule
+      ),
+  },
+  {
+    path: 'buylokal-dairy',
+    loadChildren: () =>
+      import('./buylokal-dairy/buylokal-dairy.module').then(
+        (m) => m.BuylokalDairyModule
+      ),
+  },
+  {
+    path: 'buylokal-livestock',
+    loadChildren: () =>
+      import('./buylokal-livestock/buylokal-livestock.module').then(
+        (m) => m.BuylokalLivestockModule
+      ),
+  },
+  {
     path: 'marketplace',
     loadChildren: () =>
       import('./marketplace/marketplace.module').then(
