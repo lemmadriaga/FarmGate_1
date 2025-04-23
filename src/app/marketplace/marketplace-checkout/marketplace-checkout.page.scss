@@ -1,0 +1,447 @@
+// Ensure no extra padding from ion-header
+ion-header {
+  &::after {
+    display: none; // Remove default bottom border shadow if ion-no-border didn't catch it
+  }
+}
+
+.checkout-header-bg {
+  width: 100%; // Span full width
+  height: 130px;
+  flex-shrink: 0;
+  border-radius: 0px 0px 54px 54px;
+  background: linear-gradient(108deg, #00DA4B 7.95%, #00B24B 95.28%);
+  position: relative; // For positioning children if needed
+  display: flex;
+  flex-direction: column; // Stack button container and content vertically (adjust if needed)
+  padding: 10px 16px; // Add some padding
+  box-sizing: border-box;
+  color: #FFF; // Default text color for children
+  font-family: Poppins, sans-serif; // Default font
+}
+
+.back-button-container {
+  position: absolute; // Position relative to header bg
+  top: 10px; // Adjust as needed
+  left: 5px; // Adjust as needed
+  z-index: 10; // Ensure it's above other content
+
+  ion-back-button {
+    --color: #FFF; // White icon
+    --icon-font-size: 24px; // Attempt to control size
+    // Ionic back button size is hard to control directly with width/height
+    // Use padding/margin on container or button variables if possible
+    --padding-start: 5px;
+    --padding-end: 5px;
+  }
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Center logo and text horizontally
+  justify-content: center; // Center vertically within remaining space
+  text-align: center;
+  flex-grow: 1; // Take remaining space after positioning back button
+  padding-top: 10px; // Add space below absolute positioned back button
+}
+
+.checkout-logo {
+  width: 215px;
+  height: 49px;
+  flex-shrink: 0;
+  margin-bottom: 5px; // Space below logo
+  // Ignoring background property from user request as it's an img tag
+}
+
+.checkout-title {
+  width: 251px; // Apply width
+  max-width: 100%; // Ensure it doesn't overflow container
+  color: #FFF;
+  font-family: Poppins, sans-serif;
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 122.206%; /* 30.551px */
+  margin: 0 0 2px 0; // Adjust margin
+}
+
+.checkout-subtitle {
+  color: #FFF;
+  font-family: Poppins, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 122.206%; /* 24.441px */
+  margin: 0;
+}
+
+ion-content {
+  // Add padding top to prevent content from hiding under the custom header
+  // Use --offset-top instead for scroll padding
+  --offset-top: 130px !important; // Match header height
+  --background: #FFF; // Set background to white
+}
+
+// Delivery Address Section Styles
+.section-heading {
+  color: #000;
+  font-family: Poppins, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 122.206%; /* 24.441px */
+  margin-top: 20px; // Add space above the heading
+  margin-bottom: 15px; // Space below heading
+}
+
+.address-info-card {
+  width: 100%; // Use 100% for responsiveness, max-width can be set if needed
+  max-width: 352px; // Max width as specified
+  // Height will be determined by content, avoid fixed height for flexibility
+  flex-shrink: 0;
+  border-radius: 5px;
+  background: #FFF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  padding: 10px 15px; // Add internal padding
+  margin-bottom: 20px; // Space below card
+  box-sizing: border-box;
+}
+
+.address-row {
+  display: flex;
+  align-items: center; // Vertically align icon and text
+  margin-bottom: 8px; // Space between rows
+
+  &:last-child {
+    margin-bottom: 0; // No margin for the last row
+  }
+}
+
+.address-category-row {
+  margin-bottom: 12px; // More space after category
+}
+
+.address-category {
+  color: #000;
+  font-family: Poppins, sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 122.206%; /* 12.221px */
+  text-transform: uppercase; // Typically categories are uppercase
+}
+
+.address-icon {
+  flex-shrink: 0;
+  margin-right: 8px; // Space between icon and text
+  // Specific dimensions for each icon
+}
+
+.map-icon {
+  width: 10px;
+  height: 10px;
+}
+
+.user-icon {
+  width: 9px;
+  height: 10px;
+}
+
+.phone-icon {
+  width: 9px;
+  height: 9px;
+}
+
+// Common style for address text, username, phone
+.address-text,
+.user-name,
+.phone-number {
+  color: #000;
+  font-family: Poppins, sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 122.206%; /* 12.221px */
+}
+
+// Specific width for address text if needed, but generally let it wrap
+// .address-text {
+//   width: /* some value if needed */ ;
+// }
+
+// Market Cart Section Styles
+.cart-section-heading {
+  color: #000;
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 122.206%; /* 19.553px */
+  margin-top: 20px; // Space above heading
+  margin-bottom: 15px; // Space below heading
+}
+
+.cart-items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; // Space between cart items
+}
+
+.cart-item {
+  width: 100%; // Use full width available
+  max-width: 363px; // Max width as specified
+  height: 79px; // Fixed height as specified
+  flex-shrink: 0;
+  display: flex;
+  align-items: center; // Align details and delete button vertically
+  background: #FFF; // White background for the item area before delete button
+  border-radius: 12px; // Rounded corners for the whole item including delete button
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15); // Subtle shadow
+  overflow: hidden; // Ensure delete button radius works
+  position: relative; // For potential absolute positioning inside later
+}
+
+.item-details {
+  flex-grow: 1; // Takes up space left by the delete button
+  display: flex;
+  align-items: center;
+  padding: 10px 15px; // Internal padding
+  height: 100%; // Fill the height
+  box-sizing: border-box;
+}
+
+.item-image {
+  width: 48px;
+  height: 39px; // Use specified height
+  object-fit: cover; // Ensure image covers the area nicely
+  flex-shrink: 0;
+  margin-right: 10px; // Space next to image
+  // Ignoring background and box-shadow properties for img tag, apply if needed on a container
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; // Align name and amount vertically
+  flex-grow: 1; // Take available space
+  margin-right: 10px; // Space before price
+  gap: 5px; // Space between name and amount selector
+  height: 100%; // Fill height
+}
+
+.item-name {
+  color: #000;
+  font-family: Poppins, sans-serif;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 122.206%; /* 13.443px */
+  white-space: nowrap; // Prevent wrapping if too long
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px; // Limit width to prevent pushing price
+}
+
+.item-amount-selector {
+  width: 33px;
+  height: 17px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 0.5px solid #01DB4C;
+  background: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; // Space out number and icon
+  padding: 0 4px; // Internal padding
+  box-sizing: border-box;
+  cursor: pointer; // Indicate it's clickable
+}
+
+.item-amount-number {
+  color: #000;
+  font-family: Poppins, sans-serif;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1; // Adjust line height for vertical centering
+}
+
+.item-amount-dropdown-icon {
+  width: 8px;
+  height: 6px; // Match SVG height
+  flex-shrink: 0;
+  fill: #8F8B8B;
+}
+
+.item-price {
+  display: flex; // Use flex for alignment if needed, though text-align might suffice
+  // width: 89px; // Avoid fixed width, let it adapt
+  // height: 18px; // Avoid fixed height
+  // flex-direction: column; // Not needed for single line text
+  justify-content: center;
+  align-items: center; // Center price text vertically
+  flex-shrink: 0;
+  color: #000;
+  font-family: Poppins, sans-serif;
+  font-size: 16px; // Slightly smaller than spec for better fit? Adjust if needed
+  font-style: normal;
+  font-weight: 700;
+  line-height: 122.206%; /* 19.553px */
+  margin-left: auto; // Push price to the right if needed, but flex-grow on .item-info should handle space
+  text-align: right; // Align text to right
+}
+
+.delete-item-button {
+  width: 50px;
+  height: 79px; // Match item height
+  flex-shrink: 0;
+  // border-radius: 0px 12px 12px 0px; // Incorporated into .cart-item radius
+  background: #66A74C;
+  // box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); // Incorporated into .cart-item shadow
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none; // Remove default button border
+  padding: 0; // Remove default padding
+  margin: 0; // Remove default margin
+  cursor: pointer;
+  position: relative; // Needed for ion-ripple-effect
+  overflow: hidden; // Needed for ion-ripple-effect
+}
+
+.delete-icon {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  // Background property ignored for img tag
+}
+
+// Payment Summary Section Styles (within ion-content)
+.payment-summary-section {
+  // width: 390px; // Use 100% width for responsiveness
+  width: 100%;
+  max-width: 390px; // Consider if this max-width is still desired within content
+  margin: 30px auto 0; // Add top margin for space, auto for horizontal centering if max-width is used
+  flex-shrink: 0;
+  border-radius: 16px 16px 0px 0px; // Keep top radius
+  background: rgba(219, 219, 219, 0.44);
+  padding: 20px 15px 30px; // Add internal padding, more at bottom before button
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; // Space between payment rows/elements
+}
+
+.payment-title {
+  // width: 101.833px; // Avoid fixed width
+  // height: 32.031px; // Avoid fixed height
+  flex-shrink: 0;
+  color: #000;
+  font-family: Poppins, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 126%; /* 25.2px */
+  margin-bottom: 10px; // Space after title
+}
+
+.payment-row {
+  display: flex;
+  justify-content: space-between; // Space out label and value/button
+  align-items: center;
+  // height: 19.219px; // Let height be determined by content
+  width: 100%;
+}
+
+.payment-label {
+  // width: varies; // Let width adapt
+  // height: 19.219px; // Let height adapt
+  flex-shrink: 0;
+  color: #000;
+  font-family: Poppins, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 126%; /* 15.12px */
+}
+
+.payment-amount {
+  // width: varies; // Let width adapt
+  // height: 19.219px; // Let height adapt
+  flex-shrink: 0;
+  color: #000;
+  text-align: right;
+  font-family: Poppins, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 126%; /* 15.12px */
+}
+
+.choose-method-button {
+  width: 94.25px;
+  height: 19.219px;
+  flex-shrink: 0;
+  // background: #00DA4B; // Use fill in SVG or CSS background-image
+  border-radius: 9.6px; // Approximate from SVG path
+  background-color: #00DA4B; // Fallback color
+  // For SVG background:
+  // background-image: url('data:image/svg+xml,...'); // Embed SVG or use path
+  // background-size: cover;
+  // background-repeat: no-repeat;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; // For ripple
+  overflow: hidden; // For ripple
+  cursor: pointer;
+}
+
+.choose-method-text {
+  color: #FFF;
+  text-align: center; // Center text within button
+  font-family: Poppins, sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 126%; /* 12.6px */
+}
+
+.total-row {
+  margin-top: 10px; // Add space before total
+  padding-top: 10px; // Add space above total
+  border-top: 1px solid rgba(0, 0, 0, 0.1); // Separator line
+}
+
+.total-label,
+.total-amount {
+  font-weight: 700; // Make total bold
+  font-size: 14px; // Make total slightly larger
+}
+
+.place-order-button {
+  // width: 369.417px; // Use 100% width for responsiveness
+  width: 100%;
+  height: 60.219px;
+  flex-shrink: 0;
+  border-radius: 36px;
+  background: #00DA4B;
+  margin-top: 15px; // Space above button
+
+  // Text styles (applied directly to button which acts as container)
+  color: #FFF;
+  font-family: Poppins, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 60.219px; // Center text vertically by matching height
+  text-align: center;
+
+  border: none;
+  cursor: pointer;
+  position: relative; // For ripple
+  overflow: hidden; // For ripple
+}

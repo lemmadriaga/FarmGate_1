@@ -48,6 +48,14 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'marketplace-checkout',
+    // Load the standalone component directly
+    loadComponent: () =>
+      import('./marketplace/marketplace-checkout/marketplace-checkout.page').then(
+        (m) => m.MarketplaceCheckoutPage
+      ),
+  },
+  {
     path: 'marketplace/category-products/:categoryLabel',
     loadChildren: () =>
       import('./marketplace/category-products/category-products.module').then(

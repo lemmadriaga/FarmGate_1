@@ -28,11 +28,17 @@
   </div>
 
   <!-- Most Searched Section -->
-  <div class="section-header">
-    <ion-label class="section-title">The most searched Hand Tools</ion-label>
-    <!-- TODO: Implement View All navigation -->
-    <ion-button fill="clear" class="view-all-button">View All</ion-button>
-  </div>
+  <ion-grid class="section-header-grid" style="padding-left: 16px; padding-right: 16px;">
+    <ion-row class="ion-align-items-center">
+      <ion-col size="auto">
+        <ion-label class="section-title">The most searched Hand Tools</ion-label>
+      </ion-col>
+      <ion-col class="ion-text-end">
+        <!-- TODO: Implement View All navigation -->
+        <ion-button fill="clear" class="view-all-button">View All</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <ion-grid class="product-grid">
     <ion-row>
       <!-- Example Product Card (Repeat for each product) -->
@@ -55,11 +61,17 @@
   </ion-grid>
 
   <!-- Recommended Section -->
-  <div class="section-header">
-    <ion-label class="section-title">Recommended Tools for you</ion-label>
-    <!-- TODO: Implement View All navigation -->
-    <ion-button fill="clear" class="view-all-button">View All</ion-button>
-  </div>
+  <ion-grid class="section-header-grid" style="padding-left: 16px; padding-right: 16px;">
+    <ion-row class="ion-align-items-center">
+      <ion-col size="auto">
+        <ion-label class="section-title">Recommended Tools for you</ion-label>
+      </ion-col>
+      <ion-col class="ion-text-end">
+        <!-- TODO: Implement View All navigation -->
+        <ion-button fill="clear" class="view-all-button">View All</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <ion-grid class="product-grid">
     <ion-row>
       <!-- Example Product Card (Repeat for each product) -->

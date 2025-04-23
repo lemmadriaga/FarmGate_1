@@ -1,0 +1,104 @@
+<ion-header class="ion-no-border"> 
+  <div class="checkout-header-bg">
+    <ion-buttons slot="start" class="back-button-container">
+      <ion-back-button defaultHref="/marketplace" text="" icon="chevron-back-outline"></ion-back-button>
+    </ion-buttons>
+    <div class="header-content">
+      <img src="assets/marketplace/marketplaceCheckout/farmgate_white_logo.svg" alt="FarmGate Logo" class="checkout-logo" />
+      <h1 class="checkout-title">Check all the items</h1>
+      <p class="checkout-subtitle">FOR DELIVERY</p>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content class="ion-padding"> 
+
+  <!-- Delivery Address Section -->
+  <h2 class="section-heading">Delivery address</h2>
+
+  <div class="address-info-card">
+    <div class="address-row address-category-row">
+      <span class="address-category">HOME</span> 
+    </div>
+    <div class="address-row">
+      <img src="assets/marketplace/marketplaceCheckout/maps_flag.svg" alt="Location" class="address-icon map-icon" />
+      <span class="address-text">Blk 23, Lot 13 CornerStone Residences, Dasmarinas Cavite</span> 
+    </div>
+    <div class="address-row">
+       <img src="assets/marketplace/marketplaceCheckout/user_icon.svg" alt="User" class="address-icon user-icon" />
+       <span class="user-name">Clarenz Mauro</span> 
+    </div>
+     <div class="address-row">
+       <img src="assets/marketplace/marketplaceCheckout/phone_icon.svg" alt="Phone" class="address-icon phone-icon" />
+       <span class="phone-number">(+63) 912 345 6789</span> 
+    </div>
+  </div>
+
+  <!-- Market Cart Section -->
+  <h3 class="cart-section-heading">Market Cart</h3>
+
+  <div class="cart-items-container">
+    <!-- Loop through cart items -->
+    <div class="cart-item" *ngFor="let item of cartItems">
+      <div class="item-details">
+        <img [src]="item.imageUrl" [alt]="item.name" class="item-image" />
+        <div class="item-info">
+          <span class="item-name">{{ item.name }}</span>
+          <div class="item-amount-selector">
+            <span class="item-amount-number">{{ item.amount }}</span>
+            <!-- Actual dropdown SVG/logic would go here -->
+            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg" class="item-amount-dropdown-icon">
+              <path d="M4 6L0.535898 6.52533e-07L7.4641 4.68497e-08L4 6Z" fill="#8F8B8B"/>
+            </svg>
+          </div>
+        </div>
+         <span class="item-price">₱{{ item.price.toLocaleString() }}</span>
+      </div>
+      <button class="delete-item-button ion-activatable">
+        <ion-ripple-effect></ion-ripple-effect>
+        <img src="assets/marketplace/marketplaceCheckout/delete_icon.svg" alt="Delete" class="delete-icon" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Payment Summary Section (Moved into content) -->
+  <div class="payment-summary-section"> 
+    <h3 class="payment-title">Payment</h3>
+
+    <div class="payment-row">
+      <span class="payment-label">Payment method</span>
+      <button class="choose-method-button ion-activatable">
+        <ion-ripple-effect></ion-ripple-effect>
+        <span class="choose-method-text">Choose method</span>
+      </button>
+    </div>
+
+    <div class="payment-row">
+      <span class="payment-label">Order total</span>
+      <span class="payment-amount">₱{{ orderSubtotal.toLocaleString() }}</span>
+    </div>
+
+    <div class="payment-row">
+      <span class="payment-label">Delivery fee</span>
+      <span class="payment-amount">₱{{ deliveryFee.toLocaleString() }}</span>
+    </div>
+
+    <div class="payment-row">
+      <span class="payment-label">Discount</span>
+      <span class="payment-amount">- ₱{{ discount.toLocaleString() }}</span>
+    </div>
+
+    <div class="payment-row total-row">
+      <span class="payment-label total-label">Total</span>
+      <span class="payment-amount total-amount">₱{{ finalTotal.toLocaleString() }}</span>
+    </div>
+
+     <button class="place-order-button ion-activatable">
+       <ion-ripple-effect></ion-ripple-effect>
+       Place order
+     </button>
+  </div> 
+
+  <!-- Rest of the checkout content will go here -->
+
+</ion-content>
