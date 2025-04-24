@@ -7,7 +7,7 @@ import { switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class WeatherService {
-  private apiKey = 'c92effdbeda56bf3e26093ef44399689'; // Replace with your API key
+  private apiKey = 'c92effdbeda56bf3e26093ef44399689'; 
   private currentWeatherUrl = 'https://api.openweathermap.org/data/2.5/weather';
   private forecastUrl = 'https://api.openweathermap.org/data/2.5/forecast';
 
