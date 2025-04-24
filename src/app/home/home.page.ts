@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import {
   AnimationController,
   IonContent,
@@ -6,18 +6,78 @@ import {
   NavController,
 } from '@ionic/angular';
 
+import { WeatherService } from '../services/weather.service';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
   @ViewChild(IonContent, { static: false }) content!: IonContent;
-
+  weatherData: any = {
+    temperature: 0,
+    condition: '',
+    location: '',
+    forecast: [],
+  };
   constructor(
     private animationCtrl: AnimationController,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private weatherService: WeatherService
   ) {}
+  ngOnInit() {
+    this.loadWeather();
+  }
+  loadWeather() {
+    this.weatherService.getCurrentLocation().subscribe((position) => {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      // Get current weather
+      this.weatherService.getCurrentWeather(lat, lon).subscribe((data: any) => {
+        this.weatherData.temperature = Math.round(data.main.temp);
+        this.weatherData.condition = data.weather[0].main;
+        this.weatherData.location = data.name;
+      });
+
+      // Get forecast
+      this.weatherService.getForecast(lat, lon).subscribe((data: any) => {
+        const dailyData = data.list
+          .filter((_: unknown, i: number) => i % 8 === 0) // every ~24h
+          .slice(0, 4); // Only next 4 days
+
+        this.weatherData.forecast = dailyData.map(
+          (item: any, index: number) => {
+            const date = new Date(item.dt * 1000);
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const day = index === 0 ? 'Today' : dayNames[date.getDay()];
+            const temp = Math.round(item.main.temp);
+            const condition = item.weather[0].main.toLowerCase();
+
+            // Choose icon based on condition
+            let icon = 'cloudy';
+            if (condition.includes('sun')) icon = 'sunny';
+            else if (condition.includes('rain')) icon = 'rainy';
+            else if (condition.includes('cloud')) icon = 'cloudy';
+            else if (condition.includes('clear')) icon = 'sunny';
+            else if (condition.includes('storm')) icon = 'thunderstorm';
+
+            return { day, temp, icon };
+          }
+        );
+      });
+    });
+  }
+
+  mapWeatherToIcon(condition: string): string {
+    if (condition.includes('cloud')) return 'cloudy';
+    if (condition.includes('rain')) return 'rainy';
+    if (condition.includes('sun') || condition.includes('clear'))
+      return 'sunny';
+    if (condition.includes('storm')) return 'thunderstorm';
+    return 'partly-sunny';
+  }
 
   featuredProducts = [
     {
@@ -70,17 +130,7 @@ export class HomePage {
     },
   ];
 
-  weatherData = {
-    temperature: 32,
-    condition: 'Sunny',
-    location: 'San Fernando',
-    forecast: [
-      { day: 'Today', temp: 32, icon: 'sunny' },
-      { day: 'Thu', temp: 31, icon: 'partly-sunny' },
-      { day: 'Fri', temp: 29, icon: 'rainy' },
-      { day: 'Sat', temp: 30, icon: 'partly-sunny' },
-    ],
-  };
+
 
   selectedCategory = 'all';
 
@@ -99,6 +149,9 @@ export class HomePage {
   }
 
   buyLokal() {
-    this.navCtrl.navigateForward('buylokal-options')
+    this.navCtrl.navigateForward('buylokal-options');
+  }
+  marketplace(){
+    this.navCtrl.navigateForward('marketplace')
   }
 }

@@ -160,6 +160,7 @@ ion-badge {
   margin: 24px 0 16px;
 
   .welcome-text {
+    padding-right: 10px;
     h1 {
       margin: 0;
       font-size: 24px;
@@ -184,6 +185,10 @@ ion-badge {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     position: relative;
     overflow: hidden;
+    margin-right: 10px;
+    width: 150px;
+    height: 70px;
+  
 
     .weather-icon {
       display: flex;
@@ -206,7 +211,7 @@ ion-badge {
       }
 
       .location {
-        font-size: 12px;
+        font-size: 10px;
         color: rgba(255, 255, 255, 0.9);
       }
     }
