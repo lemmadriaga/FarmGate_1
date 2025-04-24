@@ -73,35 +73,35 @@
 
         <!-- Mobile Phone Number -->
         <div class="form-group">
-          <div class="form-label">Mobile Phone Number</div>
+          <div class="form-label">Email</div>
           <ion-item lines="none" class="custom-input">
             <ion-icon
-              name="call-outline"
+              name="mail-outline"
               slot="start"
               class="input-icon"
             ></ion-icon>
             <ion-input
               type="tel"
-              formControlName="phoneNumber"
-              placeholder="9584524573"
+              formControlName="email"
+              placeholder="Enter your email here"
             ></ion-input>
           </ion-item>
           <div
             class="error-message"
-            *ngIf="submitted && f['phoneNumber'].errors"
+            *ngIf="submitted && f['email'].errors"
           >
-            <span *ngIf="f['phoneNumber'].errors['required']"
+            <span *ngIf="f['email'].errors['required']"
               >Phone number is required</span
             >
-            <span *ngIf="f['phoneNumber'].errors['pattern']"
+            <span *ngIf="f['email'].errors['pattern']"
               >Enter a valid 10-digit number</span
             >
           </div>
         </div>
 
-        <!-- MPIN -->
+        <!-- password -->
         <div class="form-group">
-          <div class="form-label">Create MPIN</div>
+          <div class="form-label">Create password</div>
           <ion-item lines="none" class="custom-input">
             <ion-icon
               name="lock-closed-outline"
@@ -110,7 +110,7 @@
             ></ion-icon>
             <ion-input
               [type]="showPassword ? 'text' : 'password'"
-              formControlName="mpin"
+              formControlName="password"
               placeholder="••••••••"
             ></ion-input>
             <ion-icon
@@ -120,17 +120,17 @@
               class="eye-icon"
             ></ion-icon>
           </ion-item>
-          <div class="error-message" *ngIf="submitted && f['mpin'].errors">
-            <span *ngIf="f['mpin'].errors['required']">MPIN is required</span>
-            <span *ngIf="f['mpin'].errors['minlength']"
-              >MPIN must be at least 4 characters</span
+          <div class="error-message" *ngIf="submitted && f['password'].errors">
+            <span *ngIf="f['password'].errors['required']">password is required</span>
+            <span *ngIf="f['password'].errors['minlength']"
+              >password must be at least 4 characters</span
             >
           </div>
         </div>
 
-        <!-- Confirm MPIN -->
+        <!-- Confirm password -->
         <div class="form-group">
-          <div class="form-label">Confirm MPIN</div>
+          <div class="form-label">Confirm password</div>
           <ion-item lines="none" class="custom-input">
             <ion-icon
               name="lock-closed-outline"
@@ -139,19 +139,19 @@
             ></ion-icon>
             <ion-input
               [type]="showPassword ? 'text' : 'password'"
-              formControlName="confirmMpin"
+              formControlName="confirmpassword"
               placeholder="••••••••"
             ></ion-input>
           </ion-item>
           <div
             class="error-message"
-            *ngIf="submitted && f['confirmMpin'].errors"
+            *ngIf="submitted && f['confirmpassword'].errors"
           >
-            <span *ngIf="f['confirmMpin'].errors['required']"
-              >Confirm MPIN is required</span
+            <span *ngIf="f['confirmpassword'].errors['required']"
+              >Confirm password is required</span
             >
-            <span *ngIf="f['confirmMpin'].errors['mustMatch']"
-              >MPINs must match</span
+            <span *ngIf="f['confirmpassword'].errors['mustMatch']"
+              >passwords must match</span
             >
           </div>
         </div>

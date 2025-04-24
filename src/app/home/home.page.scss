@@ -1,27 +1,1084 @@
-#container {
-  text-align: center;
+:root {
+  --ion-color-primary: #4caf50;
+  --ion-color-primary-rgb: 76, 175, 80;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #439a46;
+  --ion-color-primary-tint: #5eb762;
 
+  --ion-color-secondary: #ff9800;
+  --ion-color-secondary-rgb: 255, 152, 0;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #e08600;
+  --ion-color-secondary-tint: #ffa21a;
+}
+
+/* Global styling */
+* {
+  font-family: "Poppins", "Roboto", sans-serif;
+}
+
+ion-content {
+  --background: #f9f9fb;
+  --padding-bottom: 24px;
+}
+
+/* Header styling */
+// .animated-header {
+//   ion-toolbar {
+//     --background: rgba(255, 255, 255, 0.95);
+//     --border-width: 0;
+//     backdrop-filter: blur(10px);
+//     -webkit-backdrop-filter: blur(10px);
+//   }
+
+//   .logo-container {
+//     display: flex;
+//     align-items: center;
+
+//     .logo {
+//       height: 28px;
+//       margin-right: 8px;
+//     }
+
+//     .logo-text {
+//       font-size: 20px;
+//       font-weight: 700;
+//       color: #333;
+//       letter-spacing: -0.5px;
+
+//       .accent {
+//         color: #4caf50;
+//       }
+//     }
+//   }
+// }
+.premium-header {
+  --background: transparent;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+}
+
+.glass-effect {
+  --background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(209, 213, 219, 0.3);
+}
+
+.menu-button {
+  font-size: 24px;
+  margin-left: 8px;
+}
+
+.premium-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.premium-logo {
+  margin-left: 3%;
+  height: 30px;
+  width: auto;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.premium-logo-text {
+  font-family: "Poppins";
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.5px;
+  background: linear-gradient(120deg, #2c3e50, #4a6572);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.premium-accent {
+  background: linear-gradient(120deg, #2e7d32, #66bb6a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 8px;
+}
+
+.notification-btn {
+  position: relative;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  color: #2e7d32;
+}
+
+.notification-badge {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 2px;
+  right: 2px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 6px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#container strong {
+.user-avatar {
+  --border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  transition: transform 0.2s ease;
+}
+
+.user-avatar:active {
+  transform: scale(0.95);
+}
+
+ion-icon {
   font-size: 20px;
-  line-height: 26px;
+}
+ion-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 6px;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
+/* Welcome section */
+.welcome-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px 0 16px;
 
-  color: #8c8c8c;
+  .welcome-text {
+    h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: #439a46;
+      letter-spacing: -0.5px;
+    }
 
+    .subtitle {
+      margin: 4px 0 0;
+      font-size: 14px;
+      color: #757575;
+    }
+  }
+
+  .weather-card {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #f6d365, #fda085);
+    border-radius: 16px;
+    padding: 8px 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+
+    .weather-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      ion-icon {
+        font-size: 28px;
+        color: #fff;
+      }
+    }
+
+    .weather-info {
+      margin-left: 8px;
+
+      .temperature {
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+      }
+
+      .location {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.9);
+      }
+    }
+  }
+}
+
+/* Search container */
+.search-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+
+  ion-searchbar {
+    --background: #ffffff;
+    --color: #333333;
+    --placeholder-color: #9e9e9e;
+    --icon-color: #4caf50;
+    --border-radius: 12px;
+    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    padding: 0;
+  }
+
+  .filter-button {
+    margin-left: 8px;
+    --padding-start: 8px;
+    --padding-end: 8px;
+    height: 20px;
+    width: 60px;
+    border-radius: 10px;
+    background-color: green;
+
+    ion-icon {
+      font-size: 25px;
+      color: #ffff;
+    }
+  }
+}
+
+/* Quick actions */
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+
+  .action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+
+    .action-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: #2e7d32;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      margin-bottom: 8px;
+
+      ion-icon {
+        font-size: 24px;
+        color: #ffffff;
+      }
+    }
+
+    span {
+      font-size: 12px;
+      color: #424242;
+      font-weight: 500;
+    }
+  }
+}
+
+/* Section headers */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px 0 16px;
+
+  h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #212121;
+  }
+
+  ion-button {
+    --color: #4caf50;
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+/* Segment styling */
+ion-segment {
+  margin-bottom: 16px;
+  background: transparent;
+
+  ion-segment-button {
+    --color: #757575;
+    --color-checked: #4caf50;
+    --indicator-color: #4caf50;
+    --indicator-height: 3px;
+    --padding-top: 8px;
+    --padding-bottom: 8px;
+    min-width: auto;
+    text-transform: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+/* Market cards */
+.cards-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+
+  .market-card {
+    margin: 0;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    position: relative;
+
+    ion-card-content {
+      padding: 16px;
+    }
+
+    .card-content {
+      display: flex;
+      align-items: center;
+
+      .card-text {
+        flex: 1;
+
+        .tag {
+          display: inline-block;
+          padding: 4px 8px;
+          background-color: white;
+          color: #4caf50;
+          border-radius: 8px;
+          font-size: 12px;
+          font-weight: 600;
+          margin-bottom: 8px;
+        }
+
+        h3 {
+          margin: 0 0 8px;
+          font-size: 18px;
+          font-weight: 700;
+          color: white;
+        }
+
+        p {
+          margin: 0 0 12px;
+          font-size: 14px;
+          color: white;
+          line-height: 1.4;
+        }
+
+        .explore-btn {
+          background-color: green;
+          border-radius: 10px;
+          --color: white;
+          margin: 0;
+          padding: 0;
+          font-size: 14px;
+          font-weight: 600;
+          height: auto;
+
+          ion-icon {
+            margin-left: 4px;
+          }
+        }
+      }
+
+      .card-image {
+        width: 150px;
+        height: 130px;
+        margin-left: 16px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 12px;
+        }
+      }
+    }
+  }
+
+  .gradient-card {
+    background: linear-gradient(135deg, #43cea2, #185a9d);
+
+    .card-text {
+      h3,
+      p {
+        color: #ffffff;
+      }
+
+      .tag {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+      }
+
+      .explore-btn {
+        --color: #ffffff;
+      }
+    }
+  }
+
+  .buylokal-card {
+    background: linear-gradient(135deg, #43cea2, #185a9d);
+  }
+
+  .marketplace-card {
+    background: linear-gradient(135deg, #ff8008, #ffc837);
+
+    .card-text {
+      h3,
+      p {
+        color: #ffffff;
+      }
+
+      .tag {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+      }
+
+      .explore-btn {
+        --color: #ffffff;
+      }
+    }
+  }
+}
+
+/* Featured products */
+.product-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 4px 0 16px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+  }
+
+  .product-card {
+    flex: 0 0 160px;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+
+    .product-image {
+      position: relative;
+      height: 120px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .discount-tag {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: var(--ion-color-secondary);
+        color: #ffffff;
+        border-radius: 8px;
+        padding: 2px 6px;
+        font-size: 10px;
+        font-weight: 600;
+      }
+    }
+
+    .product-info {
+      padding: 12px;
+
+      h4 {
+        margin: 0 0 8px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #212121;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .product-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+
+        .price {
+          font-size: 14px;
+          font-weight: 700;
+          color: #4caf50;
+        }
+
+        .rating {
+          display: flex;
+          align-items: center;
+
+          ion-icon {
+            color: #ffc107;
+            font-size: 14px;
+            margin-right: 2px;
+          }
+
+          span {
+            font-size: 12px;
+            color: #757575;
+          }
+        }
+      }
+
+      ion-button {
+        margin: 0;
+        --border-radius: 8px;
+        font-size: 12px;
+        height: 32px;
+        background-color: #439a46;
+        border-radius: 10px;
+      }
+    }
+  }
+}
+
+/* Educational Hub */
+.education-slider {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding: 4px 0 16px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .education-card {
+    flex: 0 0 240px;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+
+    .education-image {
+      position: relative;
+      height: 140px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .education-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        ion-icon {
+          font-size: 42px;
+          color: #ffffff;
+          opacity: 0.9;
+        }
+      }
+    }
+
+    .education-info {
+      padding: 12px;
+
+      h4 {
+        margin: 0 0 8px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #212121;
+      }
+
+      .education-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .duration {
+          display: flex;
+          align-items: center;
+          font-size: 12px;
+          color: #757575;
+
+          ion-icon {
+            margin-right: 4px;
+            font-size: 14px;
+          }
+        }
+
+        .level {
+          font-size: 11px;
+          font-weight: 500;
+          color: #4caf50;
+          background: rgba(76, 175, 80, 0.1);
+          border-radius: 8px;
+          padding: 2px 6px;
+        }
+      }
+    }
+  }
+}
+
+/* Special Offers */
+.offer-card {
   margin: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #4caf50, #8bc34a);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+
+  .offer-content {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+
+    .offer-text {
+      flex: 1;
+
+      .limited-tag {
+        display: inline-block;
+        padding: 4px 10px;
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+
+      h3 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        font-weight: 700;
+        color: #ffffff;
+      }
+
+      p {
+        margin: 0 0 12px;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.4;
+      }
+
+      .offer-features {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 16px;
+
+        li {
+          display: flex;
+          align-items: center;
+          margin-bottom: 6px;
+          font-size: 13px;
+          color: rgba(255, 255, 255, 0.9);
+
+          ion-icon {
+            color: #ffffff;
+            margin-right: 6px;
+            min-width: 16px;
+          }
+        }
+      }
+
+      .apply-button {
+        --background: #ffffff;
+        --color: #4caf50;
+        --border-radius: 12px;
+        margin: 0;
+        font-weight: 600;
+
+        ion-icon {
+          margin-left: 8px;
+        }
+      }
+    }
+
+    .offer-image {
+      width: 150px;
+      height: 150px;
+      margin-left: 20px;
+      position: relative;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid rgba(255, 255, 255, 0.5);
+      }
+    }
+  }
 }
 
-#container a {
-  text-decoration: none;
+/* Community section */
+.community-card {
+  margin: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+  img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  ion-card-content {
+    padding: 20px;
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #212121;
+    }
+
+    p {
+      margin: 0 0 16px;
+      font-size: 14px;
+      color: #757575;
+      line-height: 1.4;
+    }
+
+    .community-stats {
+      display: flex;
+      margin-bottom: 20px;
+
+      .stat {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+        background-color: #f5f5f5;
+        border-radius: 12px;
+        margin-right: 12px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+
+        .value {
+          display: block;
+          font-size: 18px;
+          font-weight: 700;
+          color: #4caf50;
+          margin-bottom: 4px;
+        }
+
+        .label {
+          font-size: 12px;
+          color: #757575;
+        }
+      }
+    }
+
+    ion-button {
+      --border-color: #4caf50;
+      --color: #4caf50;
+      --border-radius: 12px;
+      margin: 0;
+      font-weight: 600;
+    }
+  }
+}
+
+/* Weather forecast */
+.forecast-container {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  margin-bottom: 24px;
+  margin-top: 20px;
+
+  .forecast-header {
+    margin-bottom: 16px;
+
+    h3 {
+      margin: 0 0 4px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #212121;
+    }
+
+    span {
+      font-size: 12px;
+      color: #757575;
+    }
+  }
+
+  .forecast-days {
+    display: flex;
+    justify-content: space-between;
+
+    .forecast-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+
+      .day-name {
+        font-size: 12px;
+        font-weight: 500;
+        color: #424242;
+        margin-bottom: 8px;
+      }
+
+      ion-icon {
+        font-size: 24px;
+        color: #ff9800;
+        margin-bottom: 8px;
+      }
+
+      .day-temp {
+        font-size: 14px;
+        font-weight: 600;
+        color: #212121;
+      }
+    }
+  }
+}
+
+/* FAB button */
+ion-fab-button {
+  --background: #4caf50;
+  --background-activated: var(--ion-color-primary-shade);
+  --box-shadow: 0 4px 16px rgba(76, 175, 80, 0.4);
+}
+
+/* Responsive styles */
+@media (min-width: 768px) {
+  .cards-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .quick-actions {
+    gap: 16px;
+  }
+
+  .product-card {
+    flex: 0 0 180px;
+  }
+
+  .education-card {
+    flex: 0 0 260px;
+  }
+
+  .offer-card .offer-content .offer-image {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-header,
+.market-card,
+.product-card,
+.education-card,
+.offer-card,
+.community-card,
+.forecast-container {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Ripple effect */
+.ripple-parent {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Custom scrollbar for browsers that support it */
+::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+}
+
+/* Skeleton loading effect */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-item {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  ion-content {
+    --background: #121212;
+  }
+
+  .animated-header ion-toolbar {
+    --background: rgba(18, 18, 18, 0.95);
+  }
+
+  .logo-text {
+    color: #ffffff !important;
+  }
+
+  .welcome-container .welcome-text h1 {
+    color: #ffffff;
+  }
+
+  .welcome-container .welcome-text .subtitle {
+    color: #b0b0b0;
+
+  }
+
+  .section-header h2 {
+    color: #ffffff;
+  }
+
+  ion-searchbar {
+    --background: #1e1e1e !important;
+    --color: #ffffff !important;
+    --placeholder-color: #b0b0b0 !important;
+  }
+
+  .quick-actions .action-item .action-icon {
+    background: #1e1e1e;
+  }
+
+  .quick-actions .action-item span {
+    color: #b0b0b0;
+  }
+
+  .product-card,
+  .education-card,
+  .forecast-container {
+    background: #1e1e1e;
+  }
+
+  .product-card .product-info h4,
+  .education-card .education-info h4,
+  .forecast-container .forecast-header h3,
+  .forecast-container .forecast-days .forecast-day .day-temp {
+    color: #ffffff;
+  }
+
+  .community-card ion-card-content h3 {
+    color: #ffffff;
+  }
+
+  .community-card ion-card-content p,
+  .product-card .product-info .product-meta .rating span,
+  .education-card .education-info .education-meta .duration,
+  .forecast-container .forecast-header span {
+    color: #b0b0b0;
+  }
+
+  .community-card .community-stats .stat {
+    background-color: #2a2a2a;
+  }
+
+  .community-card .community-stats .stat .label {
+    color: #b0b0b0;
+  }
+
+  .skeleton-item {
+    background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  }
+}
+
+/* Native-like scroll behavior */
+.product-scroll,
+.education-slider {
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+
+  .product-card,
+  .education-card {
+    scroll-snap-align: start;
+  }
+}
+
+/* Additional custom styling */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0, 0, 0, 0.1),
+    transparent
+  );
+  margin: 32px 0;
+}
+
+/* Bottom tab styling if needed */
+ion-tab-bar {
+  --background: rgba(255, 255, 255, 0.95);
+  --border: none;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 20px 20px 0 0;
+  padding: 8px 0;
+
+  ion-tab-button {
+    --color: #9e9e9e;
+    --color-selected: #4caf50;
+
+    ion-icon {
+      font-size: 22px;
+    }
+
+    ion-label {
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
+}
+
+/* Active item indicator */
+.active-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #4caf50;
 }

@@ -1,7 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core'; // Import NgZone
 import { NavController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoadingController, ToastController } from '@ionic/angular';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+
+interface User {
+  role: string;
+}
 
 @Component({
   selector: 'app-login',
@@ -10,8 +18,8 @@ import { LoadingController, ToastController } from '@ionic/angular';
   standalone: false,
 })
 export class LoginPage implements OnInit {
-  phoneNumber: string = '';
-  mpin: string = '';
+  email: string = '';
+  password: string = '';
   showPassword = false;
   isLoading = false;
   loginForm!: FormGroup;
@@ -20,16 +28,25 @@ export class LoginPage implements OnInit {
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private afAuth: AngularFireAuth,
+    private afs: AngularFirestore,
+    private router: Router,
+    private ngZone: NgZone 
   ) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      phoneNumber: [
+      email: [
         '',
-        [Validators.required, Validators.pattern(/^[0-9]{10}$/)],
+        [
+          Validators.required,
+          Validators.pattern(
+            '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
+          ),
+        ],
       ],
-      mpin: ['', [Validators.required, Validators.minLength(4)]],
+      password: ['', [Validators.required, Validators.minLength(4)]],
     });
   }
 
@@ -37,55 +54,81 @@ export class LoginPage implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  async onLogin() {
-    if (this.loginForm.invalid) {
+  async onLogin(event: Event) {
+    event.preventDefault();
 
-      this.loginForm.markAllAsTouched();
+    const email = this.loginForm.get('email')?.value;
+    const password = this.loginForm.get('password')?.value;
+
+    console.log('Trying to log in with:', email, password);
+
+    if (!this.loginForm.valid) {
+      const toast = await this.toastCtrl.create({
+        message: 'Please enter a valid email and password.',
+        duration: 3000,
+        color: 'danger',
+      });
+      await toast.present();
       return;
     }
 
+    try {
+      const loading = await this.loadingCtrl.create({
+        message: 'Logging in...',
+      });
+      await loading.present();
 
-    this.isLoading = true;
-    const loading = await this.loadingCtrl.create({
-      message: 'Logging in...',
-      duration: 2000,
-      spinner: 'circular',
-      cssClass: 'custom-loading',
-    });
-    await loading.present();
+      const userCredential = await this.afAuth.signInWithEmailAndPassword(
+        email,
+        password
+      );
+      const uid = userCredential.user?.uid;
 
-    // Simulate API call
-    setTimeout(async () => {
+      if (!uid) {
+        throw new Error('No UID found.');
+      }
+
+      const userDocSnapshot = await firstValueFrom(
+        this.afs.doc(`users/${uid}`).get()
+      );
+
+      if (!userDocSnapshot.exists) {
+        throw new Error('User document does not exist.');
+      }
+
+      const userRole = (userDocSnapshot.data() as { role: string })?.role;
+      console.log('User role:', userRole);
+
       await loading.dismiss();
-      this.isLoading = false;
 
-      // Handle success or error here
-      if (Math.random() > 0.3) {
-        // Simulating successful login 70% of the time
-        this.navCtrl.navigateRoot('/dashboard');
+      if (userRole === 'farmer') {
+        this.ngZone.run(() => this.router.navigate(['/farmer-dashboard']));
+      } else if (userRole === 'admin') {
+        this.ngZone.run(() => this.router.navigate(['/admin-dashboard']));
+      } else if (userRole === 'regular') {
+        this.ngZone.run(() => this.router.navigate(['home']));
       } else {
         const toast = await this.toastCtrl.create({
-          message: 'Invalid credentials. Please try again.',
+          message: 'Invalid user role.',
           duration: 3000,
-          position: 'bottom',
           color: 'danger',
-          buttons: [
-            {
-              text: 'Dismiss',
-              role: 'cancel',
-            },
-          ],
         });
         await toast.present();
       }
-    }, 2000);
+    } catch (error: any) {
+      console.error('Login error:', error);
+
+      const toast = await this.toastCtrl.create({
+        message: `Login failed: ${error.message || error}`,
+        duration: 3000,
+        color: 'danger',
+      });
+      await toast.present();
+    }
   }
 
+  forgotpassword() {}
   goToSignUp() {
-    this.navCtrl.navigateForward('./registration');
-  }
-
-  forgotMpin() {
-    this.navCtrl.navigateForward('/forgot-mpin');
+    this.navCtrl.navigateRoot('registration');
   }
 }

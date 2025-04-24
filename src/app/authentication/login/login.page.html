@@ -22,29 +22,33 @@
       <h2 class="welcome-text">Welcome Back</h2>
       <p class="subtitle">Login to access your farm management portal</p>
 
-      <form (submit)="onLogin()" class="login-form">
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="onLogin($event)"
+        class="login-form"
+      >
         <div class="form-group">
-          <div class="form-label">Mobile Phone Number</div>
+          <div class="form-label">Email</div>
           <ion-item lines="none" class="custom-input">
             <ion-icon
-              name="call-outline"
+              name="mail-outline"
               slot="start"
               class="input-icon"
             ></ion-icon>
             <ion-input
-              type="tel"
-              [(ngModel)]="phoneNumber"
-              name="phoneNumber"
-              required
-              placeholder="9584524573"
+              type="email"
+              formControlName="email"
+              placeholder="Enter your email here"
             ></ion-input>
           </ion-item>
         </div>
 
         <div class="form-group">
           <div class="form-label-row">
-            <div class="form-label">Enter MPIN</div>
-            <a class="forgot-link" (click)="forgotMpin()">Forgot MPIN?</a>
+            <div class="form-label">Enter password</div>
+            <a class="forgot-link" (click)="forgotpassword()"
+              >Forgot password?</a
+            >
           </div>
           <ion-item lines="none" class="custom-input">
             <ion-icon
@@ -54,8 +58,7 @@
             ></ion-icon>
             <ion-input
               [type]="showPassword ? 'text' : 'password'"
-              [(ngModel)]="mpin"
-              name="mpin"
+              formControlName="password"
               required
               placeholder="••••••••"
             ></ion-input>

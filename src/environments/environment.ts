@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  firebase: {
+  firebaseConfig: {
     apiKey: 'AIzaSyCsNrv4xHT1FJ7Cd9oHczcjY1ekglXFh2Y',
     authDomain: 'farmgate-e4ff7.firebaseapp.com',
     projectId: 'farmgate-e4ff7',

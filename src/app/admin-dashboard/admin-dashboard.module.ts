@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
-import { AdminDashboardPageRoutingModule } from './admin-dashboard-routing.module';
+import { RouterModule } from '@angular/router';
 
 import { AdminDashboardPage } from './admin-dashboard.page';
 
@@ -13,8 +11,14 @@ import { AdminDashboardPage } from './admin-dashboard.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    AdminDashboardPageRoutingModule
+    RouterModule.forChild([
+      {
+        path: '',
+        component: AdminDashboardPage,
+      },
+    ]),
+    AdminDashboardPage, // Import instead of declaring if component is standalone
   ],
-  declarations: [AdminDashboardPage]
+  // Remove declarations since component is standalone
 })
 export class AdminDashboardPageModule {}

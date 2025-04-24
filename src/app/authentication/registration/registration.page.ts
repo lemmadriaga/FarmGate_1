@@ -2,19 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { LoadingController, ToastController } from '@ionic/angular';
-
-
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Injector, runInInjectionContext } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 export function MustMatch(controlName: string, matchingControlName: string) {
   return (formGroup: FormGroup) => {
     const control = formGroup.controls[controlName];
     const matchingControl = formGroup.controls[matchingControlName];
 
     if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
-
       return;
     }
 
- 
     if (control.value !== matchingControl.value) {
       matchingControl.setErrors({ mustMatch: true });
     } else {
@@ -27,10 +27,10 @@ export function MustMatch(controlName: string, matchingControlName: string) {
   selector: 'app-registration',
   templateUrl: './registration.page.html',
   styleUrls: ['./registration.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class RegistrationPage implements OnInit {
-  registrationForm!: FormGroup; // Added non-null assertion operator
+  registrationForm!: FormGroup; 
   showPassword = false;
   submitted = false;
 
@@ -38,7 +38,11 @@ export class RegistrationPage implements OnInit {
     private formBuilder: FormBuilder,
     private navCtrl: NavController,
     private loadingCtrl: LoadingController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private authService: AuthenticationService,
+    private auth: AngularFireAuth,
+    private firestore: AngularFirestore,
+    private injector: Injector
   ) {}
 
   ngOnInit() {
@@ -46,35 +50,46 @@ export class RegistrationPage implements OnInit {
       {
         firstName: ['', Validators.required],
         lastName: ['', Validators.required],
-        phoneNumber: [
+        email: [
           '',
-          [Validators.required, Validators.pattern(/^[0-9]{10}$/)],
+          [
+            Validators.required,
+            Validators.pattern(
+              '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
+            ),
+          ],
         ],
-        mpin: ['', [Validators.required, Validators.minLength(4)]],
-        confirmMpin: ['', Validators.required],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmpassword: ['', Validators.required],
         address: ['', Validators.required],
       },
       {
-        validator: MustMatch('mpin', 'confirmMpin'),
+        validator: MustMatch('password', 'confirmpassword'),
       }
     );
   }
 
-  // convenience getter for easy access to form fields
   get f() {
     return this.registrationForm.controls;
+  }
+
+  async presentToast(message: string, color: string) {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 2000,
+      color,
+      position: 'top',
+    });
+    await toast.present();
   }
 
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
-
   async onRegister() {
     this.submitted = true;
 
-    // stop here if form is invalid
     if (this.registrationForm.invalid) {
-      // scroll to first error
       const firstErrorElement = document.querySelector('.error-message');
       if (firstErrorElement) {
         firstErrorElement.scrollIntoView({
@@ -85,7 +100,6 @@ export class RegistrationPage implements OnInit {
       return;
     }
 
-    // Show loading spinner
     const loading = await this.loadingCtrl.create({
       message: 'Creating your account...',
       duration: 2000,
@@ -94,38 +108,50 @@ export class RegistrationPage implements OnInit {
     });
     await loading.present();
 
-    // Form is valid, simulate API call
-    setTimeout(async () => {
-      await loading.dismiss();
+    const { firstName, lastName, email, password, address } =
+      this.registrationForm.value;
 
-      // Simulate successful registration
-      if (Math.random() > 0.2) {
-        // 80% success rate for demo
-        const toast = await this.toastCtrl.create({
-          message: 'Registration successful! You can now log in.',
-          duration: 3000,
-          position: 'bottom',
-          color: 'success',
-          buttons: [{ text: 'OK', role: 'cancel' }],
-        });
-        await toast.present();
+    try {
+      const userCredential = await this.authService.registerUser(
+        email,
+        password
+      );
+      const uid = userCredential.user?.uid;
 
-        this.navCtrl.navigateRoot('/login');
-      } else {
-        // Handle error
-        const toast = await this.toastCtrl.create({
-          message: 'Registration failed. Please try again.',
-          duration: 3000,
-          position: 'bottom',
-          color: 'danger',
-          buttons: [{ text: 'OK', role: 'cancel' }],
+      if (uid) {
+
+        runInInjectionContext(this.injector, async () => {
+          try {
+            await this.firestore.collection('users').doc(uid).set({
+              uid,
+              firstName,
+              lastName,
+              email,
+              address,
+              createdAt: new Date(),
+              role: 'regular',
+            });
+            await loading.dismiss();
+            this.presentToast('Registration successful!', 'success');
+            this.navCtrl.navigateRoot('home')
+          } catch (firestoreError) {
+            console.error('Firestore error:', firestoreError);
+            await loading.dismiss();
+            this.presentToast(
+              'Failed to save user data to Firestore.',
+              'danger'
+            );
+          }
         });
-        await toast.present();
       }
-    }, 2000);
+    } catch (error: any) {
+      await loading.dismiss();
+      this.presentToast(error.message, 'danger');
+    }
   }
 
+
   goToLogin() {
-    this.navCtrl.navigateBack('/login');
+    this.navCtrl.navigateBack('login');
   }
 }

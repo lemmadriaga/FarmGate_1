@@ -9,14 +9,14 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'authentication',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
-    path: 'authentication',
+    path: 'login',
     loadChildren: () =>
-      import('./authentication/authentication.module').then(
-        (m) => m.AuthenticationPageModule
+      import('./authentication/login/login.module').then(
+        (m) => m.LoginPageModule
       ),
   },
   {
@@ -86,9 +86,9 @@ const routes: Routes = [
     path: 'marketplace-checkout',
     // Load the standalone component directly
     loadComponent: () =>
-      import('./marketplace/marketplace-checkout/marketplace-checkout.page').then(
-        (m) => m.MarketplaceCheckoutPage
-      ),
+      import(
+        './marketplace/marketplace-checkout/marketplace-checkout.page'
+      ).then((m) => m.MarketplaceCheckoutPage),
   },
   {
     path: 'marketplace/category-products/:categoryLabel',
@@ -99,7 +99,17 @@ const routes: Routes = [
   },
   {
     path: 'category-products',
-    loadChildren: () => import('./marketplace/category-products/category-products.module').then( m => m.CategoryProductsPageModule)
+    loadChildren: () =>
+      import('./marketplace/category-products/category-products.module').then(
+        (m) => m.CategoryProductsPageModule
+      ),
+  },
+  {
+    path: 'registration',
+    loadChildren: () =>
+      import('./authentication/registration/registration.module').then(
+        (m) => m.RegistrationPageModule
+      ),
   },
 ];
 
