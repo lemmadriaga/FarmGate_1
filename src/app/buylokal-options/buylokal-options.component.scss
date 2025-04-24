@@ -185,13 +185,12 @@
 
 
   ion-list {
-    margin-top: 0;
-    padding: 2rem 0;
+    margin-top: 15px;
+    padding: 1rem;
     background: transparent;
-
-    @media (max-width: 1023px) {
-      padding: 2rem 0.5rem;
-    }
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .option-item {
