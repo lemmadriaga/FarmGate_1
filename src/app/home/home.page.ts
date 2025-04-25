@@ -149,9 +149,9 @@ export class HomePage implements OnInit {
   }
 
   buyLokal() {
-    this.navCtrl.navigateForward('buylokal-options');
+    this.navCtrl.navigateForward('user-dashboard/BuyLokal');
   }
   marketplace(){
-    this.navCtrl.navigateForward('marketplace')
+    this.navCtrl.navigateForward('user-dashboard/marketplace')
   }
 }

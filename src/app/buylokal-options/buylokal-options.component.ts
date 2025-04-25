@@ -77,6 +77,6 @@ export class BuylokalOptionsComponent implements OnInit {
     this.router.navigate([route]);
   }
   back() {
-    this.navCtrl.navigateBack('home');
+    this.navCtrl.navigateBack('user-dashboard/home');
   }
 }

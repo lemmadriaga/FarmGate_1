@@ -133,7 +133,7 @@ export class RegistrationPage implements OnInit {
             });
             await loading.dismiss();
             this.presentToast('Registration successful!', 'success');
-            this.navCtrl.navigateRoot('home')
+            this.navCtrl.navigateRoot('user-dashboard/home')
           } catch (firestoreError) {
             console.error('Firestore error:', firestoreError);
             await loading.dismiss();

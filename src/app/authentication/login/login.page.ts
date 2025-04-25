@@ -106,7 +106,7 @@ export class LoginPage implements OnInit {
       } else if (userRole === 'admin') {
         this.ngZone.run(() => this.router.navigate(['/admin-dashboard']));
       } else if (userRole === 'regular') {
-        this.ngZone.run(() => this.router.navigate(['home']));
+        this.ngZone.run(() => this.router.navigate(['user-dashboard/home']));
       } else {
         const toast = await this.toastCtrl.create({
           message: 'Invalid user role.',
