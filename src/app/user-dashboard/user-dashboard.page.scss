@@ -1,5 +1,5 @@
 ion-tab-bar {
-  --background: rgb(255, 255, 255); // Semi-transparent background
+  --background: rgb(255, 255, 255); 
   border-radius: 16px 16px 0 0;
   padding: 10px;
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
@@ -20,7 +20,7 @@ ion-tab-button {
   transition: all 0.3s ease;
   border-radius: 25px;
   flex: 1;
-  max-width: 20%; // Adjust based on the number of tabs
+  max-width: 20%; 
 
   ion-icon {
     font-size: 24px;
@@ -45,8 +45,8 @@ ion-tab-button {
       123,
       255,
       0.05
-    ); // Reduced opacity for a more subtle background
-    max-width: 35%; // Adjust based on desired expanded width
+    ); 
+    max-width: 35%; 
 
     ion-icon {
       transform: translateX(-4px);
@@ -54,36 +54,35 @@ ion-tab-button {
 
     ion-label {
       opacity: 1;
-      max-width: 100px; // Adjust based on your label width
+      max-width: 100px; 
     }
   }
 
-  // Flex layout for icon and label
+  
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 }
 
-// Add this new rule to adjust non-selected tabs
 ion-tab-bar:has(.tab-selected) ion-tab-button:not(.tab-selected) {
-  max-width: 15%; // Adjust to make room for the expanded tab
+  max-width: 15%; 
 }
 
-// Custom highlight colors for specific tabs (if needed)
+
 ion-tab-button:nth-child(2).tab-selected {
-  background-color: #8aca46; // Reduced opacity for second tab
+  background-color: #8aca46; 
 }
 ion-tab-button:nth-child(1).tab-selected {
-  background-color: #8aca46; // Reduced opacity for second tab
+  background-color: #8aca46; 
 }
 
 ion-tab-button:nth-child(3).tab-selected {
-  background-color: #4caf50; // Reduced opacity for third tab
+  background-color: #4caf50; 
 }
 ion-tab-button:nth-child(4).tab-selected {
-  background-color: #8aca46; // Reduced opacity for second tab
+  background-color: #8aca46; 
 }
 ion-tab-button:nth-child(5).tab-selected {
-  background-color: #8aca46; // Reduced opacity for second tab
+  background-color: #8aca46; 
 }

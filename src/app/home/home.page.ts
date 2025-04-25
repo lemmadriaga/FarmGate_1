@@ -34,18 +34,18 @@ export class HomePage implements OnInit {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
 
-      // Get current weather
+      
       this.weatherService.getCurrentWeather(lat, lon).subscribe((data: any) => {
         this.weatherData.temperature = Math.round(data.main.temp);
         this.weatherData.condition = data.weather[0].main;
         this.weatherData.location = data.name;
       });
 
-      // Get forecast
+      
       this.weatherService.getForecast(lat, lon).subscribe((data: any) => {
         const dailyData = data.list
-          .filter((_: unknown, i: number) => i % 8 === 0) // every ~24h
-          .slice(0, 4); // Only next 4 days
+          .filter((_: unknown, i: number) => i % 8 === 0) 
+          .slice(0, 4); 
 
         this.weatherData.forecast = dailyData.map(
           (item: any, index: number) => {
@@ -55,7 +55,7 @@ export class HomePage implements OnInit {
             const temp = Math.round(item.main.temp);
             const condition = item.weather[0].main.toLowerCase();
 
-            // Choose icon based on condition
+            
             let icon = 'cloudy';
             if (condition.includes('sun')) icon = 'sunny';
             else if (condition.includes('rain')) icon = 'rainy';

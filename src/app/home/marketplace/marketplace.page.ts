@@ -151,9 +151,7 @@ export class MarketplacePage implements OnInit {
 
   constructor(private animationCtrl: AnimationController) {}
 
-  ngOnInit() {
-    // Initialize animations or data loading here
-  }
+  ngOnInit() {}
 
   toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;
@@ -161,22 +159,18 @@ export class MarketplacePage implements OnInit {
   }
 
   searchProducts(event: any) {
-    // Handle search functionality
     console.log('Searching for:', event.target.value);
   }
 
   showProductDetails(product: any) {
-    // Navigate to product details
     console.log('Viewing product:', product.name);
   }
 
   enterChatSupport() {
-    // Open chat support interface
     console.log('Opening chat support');
   }
 
   applyForFinancing(option: any) {
-    // Navigate to financing application
     console.log('Applying for financing:', option.title);
   }
 }

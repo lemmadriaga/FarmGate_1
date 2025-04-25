@@ -14,7 +14,6 @@
   --ion-color-secondary-tint: #ffa21a;
 }
 
-/* Global styling */
 * {
   font-family: "Poppins", "Roboto", sans-serif;
 }
@@ -24,36 +23,35 @@ ion-content {
   --padding-bottom: 24px;
 }
 
-/* Header styling */
-// .animated-header {
-//   ion-toolbar {
-//     --background: rgba(255, 255, 255, 0.95);
-//     --border-width: 0;
-//     backdrop-filter: blur(10px);
-//     -webkit-backdrop-filter: blur(10px);
-//   }
 
-//   .logo-container {
-//     display: flex;
-//     align-items: center;
 
-//     .logo {
-//       height: 28px;
-//       margin-right: 8px;
-//     }
 
-//     .logo-text {
-//       font-size: 20px;
-//       font-weight: 700;
-//       color: #333;
-//       letter-spacing: -0.5px;
 
-//       .accent {
-//         color: #4caf50;
-//       }
-//     }
-//   }
-// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .premium-header {
   --background: transparent;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
@@ -152,7 +150,6 @@ ion-badge {
   border-radius: 6px;
 }
 
-/* Welcome section */
 .welcome-container {
   display: flex;
   justify-content: space-between;
@@ -217,7 +214,6 @@ ion-badge {
   }
 }
 
-/* Search container */
 .search-container {
   display: flex;
   align-items: center;
@@ -249,7 +245,6 @@ ion-badge {
   }
 }
 
-/* Quick actions */
 .quick-actions {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -288,7 +283,6 @@ ion-badge {
   }
 }
 
-/* Section headers */
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -310,7 +304,6 @@ ion-badge {
   }
 }
 
-/* Segment styling */
 ion-segment {
   margin-bottom: 16px;
   background: transparent;
@@ -329,7 +322,6 @@ ion-segment {
   }
 }
 
-/* Market cards */
 .cards-container {
   display: grid;
   grid-template-columns: 1fr;
@@ -454,17 +446,16 @@ ion-segment {
   }
 }
 
-/* Featured products */
 .product-scroll {
   display: flex;
   overflow-x: auto;
   gap: 16px;
   padding: 4px 0 16px;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 
   &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, and Opera */
+    display: none;
   }
 
   .product-card {
@@ -551,7 +542,6 @@ ion-segment {
   }
 }
 
-/* Educational Hub */
 .education-slider {
   display: flex;
   overflow-x: auto;
@@ -640,7 +630,6 @@ ion-segment {
   }
 }
 
-/* Special Offers */
 .offer-card {
   margin: 0;
   border-radius: 20px;
@@ -731,7 +720,6 @@ ion-segment {
   }
 }
 
-/* Community section */
 .community-card {
   margin: 0;
   border-radius: 20px;
@@ -802,7 +790,6 @@ ion-segment {
   }
 }
 
-/* Weather forecast */
 .forecast-container {
   background: #ffffff;
   border-radius: 20px;
@@ -859,14 +846,12 @@ ion-segment {
   }
 }
 
-/* FAB button */
 ion-fab-button {
   --background: #4caf50;
   --background-activated: var(--ion-color-primary-shade);
   --box-shadow: 0 4px 16px rgba(76, 175, 80, 0.4);
 }
 
-/* Responsive styles */
 @media (min-width: 768px) {
   .cards-container {
     grid-template-columns: 1fr 1fr;
@@ -890,7 +875,6 @@ ion-fab-button {
   }
 }
 
-/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -912,13 +896,11 @@ ion-fab-button {
   animation: fadeIn 0.5s ease-out forwards;
 }
 
-/* Ripple effect */
 .ripple-parent {
   position: relative;
   overflow: hidden;
 }
 
-/* Custom scrollbar for browsers that support it */
 ::-webkit-scrollbar {
   height: 4px;
   width: 4px;
@@ -933,7 +915,6 @@ ion-fab-button {
   border-radius: 2px;
 }
 
-/* Skeleton loading effect */
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -950,7 +931,6 @@ ion-fab-button {
   border-radius: 8px;
 }
 
-/* Dark mode support */
 @media (prefers-color-scheme: dark) {
   ion-content {
     --background: #121212;
@@ -1027,7 +1007,6 @@ ion-fab-button {
   }
 }
 
-/* Native-like scroll behavior */
 .product-scroll,
 .education-slider {
   -webkit-overflow-scrolling: touch;
@@ -1039,7 +1018,6 @@ ion-fab-button {
   }
 }
 
-/* Additional custom styling */
 .section-divider {
   height: 1px;
   background: linear-gradient(
@@ -1051,7 +1029,6 @@ ion-fab-button {
   margin: 32px 0;
 }
 
-/* Bottom tab styling if needed */
 ion-tab-bar {
   --background: rgba(255, 255, 255, 0.95);
   --border: none;
@@ -1074,7 +1051,6 @@ ion-tab-bar {
   }
 }
 
-/* Active item indicator */
 .active-indicator {
   position: absolute;
   bottom: 0;
