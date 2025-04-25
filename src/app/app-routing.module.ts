@@ -78,7 +78,7 @@ const routes: Routes = [
   {
     path: 'marketplace',
     loadChildren: () =>
-      import('./marketplace/marketplace.module').then(
+      import('./home/marketplace/marketplace.module').then(
         (m) => m.MarketplacePageModule
       ),
   },
@@ -110,7 +110,19 @@ const routes: Routes = [
       import('./authentication/registration/registration.module').then(
         (m) => m.RegistrationPageModule
       ),
+  },  {
+    path: 'tabs',
+    loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
   },
+  {
+    path: 'scan',
+    loadChildren: () => import('./scan/scan.module').then( m => m.ScanPageModule)
+  },
+  {
+    path: 'user-profile',
+    loadChildren: () => import('./user-profile/user-profile.module').then( m => m.UserProfilePageModule)
+  },
+
 ];
 
 @NgModule({

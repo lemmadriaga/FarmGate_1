@@ -6,7 +6,29 @@ import { UserDashboardPage } from './user-dashboard.page';
 const routes: Routes = [
   {
     path: '',
-    component: UserDashboardPage
+    component: UserDashboardPage, 
+    children:[
+      {
+        path: 'home',
+        loadChildren: () => import('../home/home.module').then( m => m.HomePageModule)
+      },
+      {
+        path: 'marketplace',
+        loadChildren: () => import('../home/marketplace/marketplace.module').then( m => m.MarketplacePageModule)
+      },
+      {
+        path: 'scan',
+        loadChildren: () => import('../scan/scan.module').then( m => m.ScanPageModule)
+      },
+      {
+        path: 'BuyLokal',
+        loadChildren: () => import('../buylokal-options/buylokal-options.module').then( m => m.BuylokalOptionsModule)
+      },
+      {
+        path: 'profile',
+        loadChildren: () => import('../user-profile/user-profile.module').then( m => m.UserProfilePageModule)
+      },
+    ]
   }
 ];
 

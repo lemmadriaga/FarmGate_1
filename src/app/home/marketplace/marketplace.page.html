@@ -1,0 +1,328 @@
+<ion-content [class.dark-mode]="isDarkMode">
+  <!-- Header Area -->
+  <div class="header-container">
+    <div class="top-bar">
+      <div class="logo-weather">
+        <div class="premium-logo-container">
+          <img src="assets/logo-text-white.png" alt="FarmGate" class="premium-logo" />
+
+        </div>
+        <!-- <div class="weather-info">
+          <ion-icon [name]="weatherData.icon"></ion-icon>
+          <span>{{weatherData.temp}}°C</span>
+          <span class="location">{{weatherData.location}}</span>
+        </div> -->
+      </div>
+      <div class="header-actions">
+        <ion-button fill="clear" (click)="toggleDarkMode()">
+          <ion-icon
+            [name]="isDarkMode ? 'sunny-outline' : 'moon-outline'"
+          ></ion-icon>
+        </ion-button>
+        <!-- <ion-button fill="clear">
+          <ion-badge color="success" *ngIf="3 > 0">3</ion-badge>
+          <ion-icon name="notifications-outline"></ion-icon>
+        </ion-button> -->
+        <ion-button fill="clear">
+          <ion-badge color="success" *ngIf="2 > 0">2</ion-badge>
+          <ion-icon name="cart-outline"></ion-icon>
+        </ion-button>
+        <!-- <ion-avatar class="user-avatar">
+          <img src="assets/user-avatar.jpg" alt="User" />
+        </ion-avatar> -->
+      </div>
+    </div>
+
+    <div class="search-container">
+      <ion-searchbar
+        placeholder="Search for farming products, equipment..."
+        (ionInput)="searchProducts($event)"
+        animated
+        class="premium-searchbar"
+      >
+      </ion-searchbar>
+      <ion-button fill="clear" class="filter-button">
+        <ion-icon name="options-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Banner with Promotions -->
+  <!-- <div class="banner-section">
+    <swiper-container [slidesPerView]="1" [loop]="true">
+      <swiper-slides>
+        <div class="promo-banner primary-banner">
+          <div class="banner-content">
+            <h2>2025 HARVEST COLLECTION</h2>
+            <p>Latest machinery with smart farming technology</p>
+            <ion-button>Explore Now</ion-button>
+          </div>
+          <div class="banner-image">
+            <img
+              src="assets/banner-tractor.png"
+              alt="Smart Farming Equipment"
+            />
+          </div>
+        </div>
+      </swiper-slides>
+      <swiper-slides>
+        <div class="promo-banner secondary-banner">
+          <div class="banner-content">
+            <h2>SUSTAINABLE FARMING</h2>
+            <p>Eco-friendly equipment and practices</p>
+            <ion-button>Learn More</ion-button>
+          </div>
+          <div class="banner-image">
+            <img src="assets/banner-eco.png" alt="Eco-Friendly Farming" />
+          </div>
+        </div>
+      </swiper-slides>
+    </swiper-container>
+  </div> -->
+
+  <!-- Main Categories -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2>Farm Categories</h2>
+      <!-- <ion-button fill="clear" size="small">
+        View All
+        <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+      </ion-button> -->
+    </div>
+
+    <div class="categories-grid">
+      <ion-card class="category-card" *ngFor="let category of farmCategories">
+        <div
+          class="category-icon-container"
+          [style.background-color]="category.color"
+        >
+          <ion-icon [name]="category.icon"></ion-icon>
+        </div>
+        <h3>{{category.name}}</h3>
+        <p>{{category.subCategories.join(', ')}}</p>
+        <ion-ripple-effect></ion-ripple-effect>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Featured Products -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2>Featured Equipment</h2>
+      <!-- <ion-button fill="clear" size="small">
+        View All
+        <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+      </ion-button> -->
+    </div>
+
+    <div class="products-scroll">
+      <ion-card
+        class="product-card"
+        *ngFor="let product of recommendedProducts"
+        (click)="showProductDetails(product)"
+      >
+        <div class="product-image-container">
+          <ion-img [src]="product.image" alt="{{product.name}}"></ion-img>
+          <div class="discount-badge" *ngIf="product.discount > 0">
+            {{product.discount}}% OFF
+          </div>
+          <div class="product-tags">
+            <span class="tag" *ngFor="let tag of product.tags">{{tag}}</span>
+          </div>
+          <ion-button fill="clear" class="favorite-button">
+            <ion-icon name="heart-outline"></ion-icon>
+          </ion-button>
+        </div>
+
+        <div class="product-details">
+          <div class="brand-name">{{product.brand}}</div>
+          <h3 class="product-name">{{product.name}}</h3>
+
+          <div class="rating">
+            <div class="stars">
+              <ion-icon
+                name="star"
+                *ngFor="let i of [1,2,3,4,5]"
+                [class.filled]="i <= product.rating"
+                [class.half]="i - 0.5 === product.rating"
+              >
+              </ion-icon>
+            </div>
+            <span class="review-count">({{product.reviewCount}})</span>
+          </div>
+
+          <div class="price-container">
+            <div class="current-price">₱{{product.price.toLocaleString()}}</div>
+            <div class="original-price" *ngIf="product.discount > 0">
+              ₱{{product.originalPrice.toLocaleString()}}
+            </div>
+          </div>
+
+          <ion-button expand="block" class="add-to-cart-button">
+            <ion-icon name="cart-outline" slot="start"></ion-icon>
+            Add to Cart
+          </ion-button>
+        </div>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Financing Solutions -->
+  <div class="financing-section">
+    <div class="section-header light">
+      <h2>Farm Financing Solutions</h2>
+      <ion-button fill="clear" size="small" color="light">
+        Learn More
+        <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+      </ion-button>
+    </div>
+
+    <div class="finance-options-grid">
+      <ion-card
+        class="finance-card"
+        *ngFor="let option of financeOptions"
+        (click)="applyForFinancing(option)"
+      >
+        <ion-icon [name]="option.icon"></ion-icon>
+        <h3>{{option.title}}</h3>
+        <p>{{option.description}}</p>
+        <ion-ripple-effect></ion-ripple-effect>
+      </ion-card>
+    </div>
+
+    <ion-button expand="block" class="apply-now-button">
+      Apply for Financing Now
+    </ion-button>
+  </div>
+
+  <!-- Brand Showcase -->
+  <div class="section-container">
+    <div class="section-header">
+      <h2>Top Agricultural Brands</h2>
+      <!-- <ion-button fill="clear" size="small">
+        All Brands
+        <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+      </ion-button> -->
+    </div>
+
+    <div class="brands-scroll">
+      <ion-card
+        class="brand-card"
+        *ngFor="let brand of featuredBrands"
+        [class.featured-brand]="brand.featured"
+      >
+        <ion-img [src]="brand.logo" alt="{{brand.name}}"></ion-img>
+        <div class="featured-tag" *ngIf="brand.featured">Featured Partner</div>
+      </ion-card>
+    </div>
+  </div>
+
+  <!-- Farming Events & Tips -->
+  <ion-grid class="insights-grid">
+    <ion-row>
+      <ion-col size="12" sizeMd="6">
+        <div class="events-section">
+          <div class="section-header">
+            <h2>Upcoming Events</h2>
+            <ion-button fill="clear" size="small">
+              Calendar
+              <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+            </ion-button>
+          </div>
+
+          <ion-card class="event-card" *ngFor="let event of upcomingEvents">
+            <div class="event-image">
+              <ion-img [src]="event.image" alt="{{event.title}}"></ion-img>
+            </div>
+            <div class="event-details">
+              <h3>{{event.title}}</h3>
+              <div class="event-info">
+                <div>
+                  <ion-icon name="calendar-outline"></ion-icon>
+                  <span>{{event.date}}</span>
+                </div>
+                <div>
+                  <ion-icon name="location-outline"></ion-icon>
+                  <span>{{event.location}}</span>
+                </div>
+              </div>
+              <ion-button fill="outline" size="small"
+                >Add to Calendar</ion-button
+              >
+            </div>
+          </ion-card>
+        </div>
+      </ion-col>
+
+      <ion-col size="12" sizeMd="6">
+        <div class="tips-section">
+          <div class="section-header">
+            <h2>Farming Tips</h2>
+            <!-- <ion-button fill="clear" size="small">
+              More Tips
+              <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+            </ion-button> -->
+          </div>
+
+          <ion-card class="tip-card" *ngFor="let tip of farmingTips">
+            <div class="tip-content">
+              <ion-icon name="bulb-outline"></ion-icon>
+              <div class="tip-text">
+                <p>"{{tip.tip}}"</p>
+                <div class="tip-author">
+                  <strong>{{tip.author}}</strong>
+                  <span>{{tip.authorTitle}}</span>
+                </div>
+              </div>
+            </div>
+          </ion-card>
+
+          <div class="community-support">
+            <h3>Need farming advice?</h3>
+            <p>Connect with our community of agriculture experts</p>
+            <ion-button expand="block" (click)="enterChatSupport()">
+              <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
+              Chat with Experts
+            </ion-button>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Bottom Navigation -->
+  <!-- <ion-footer class="app-footer">
+    <ion-toolbar>
+      <ion-tabs>
+        <ion-tab-bar slot="bottom">
+          <ion-tab-button tab="home" selected="true">
+            <ion-icon name="home"></ion-icon>
+            <ion-label>Home</ion-label>
+          </ion-tab-button>
+
+          <ion-tab-button tab="marketplace">
+            <ion-icon name="storefront"></ion-icon>
+            <ion-label>Shop</ion-label>
+          </ion-tab-button>
+
+          <ion-tab-button tab="scan" class="scan-tab">
+            <div class="scan-button">
+              <ion-icon name="scan-outline"></ion-icon>
+            </div>
+            <ion-label>Scan</ion-label>
+          </ion-tab-button>
+
+          <ion-tab-button tab="community">
+            <ion-icon name="people"></ion-icon>
+            <ion-label>Community</ion-label>
+          </ion-tab-button>
+
+          <ion-tab-button tab="profile">
+            <ion-icon name="person"></ion-icon>
+            <ion-label>Profile</ion-label>
+          </ion-tab-button>
+        </ion-tab-bar>
+      </ion-tabs>
+    </ion-toolbar>
+  </ion-footer> -->
+</ion-content>
