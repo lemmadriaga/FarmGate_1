@@ -7,7 +7,7 @@
       <img src="assets/marketplace/marketplaceHomepage/marketplacelogo.svg" alt="FarmGate Logo" class="farmgate-logo-svg" />
     </div>
     <ion-buttons slot="end">
-      <ion-button fill="clear" aria-label="Cart">
+      <ion-button fill="clear" aria-label="Cart" routerLink="/home/marketplace-checkout">
         <ion-icon name="cart-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -16,10 +16,16 @@
 
 <ion-content class="ion-padding category-products-bg">
   <!-- Search Bar -->
-  <div class="searchbar-outer">
-    <div class="searchbar-wrap">
-      <ion-searchbar placeholder="Search Product" animated></ion-searchbar>
-    </div>
+  <div class="search-container">
+    <ion-searchbar
+      placeholder="Search Product"
+      animated
+      [(ngModel)]="searchTerm"
+      (ionInput)="handleInput($event)"
+    ></ion-searchbar>
+    <!-- <ion-button fill="clear" class="filter-button" aria-label="Filter Options">
+      <ion-icon slot="icon-only" name="options-outline"></ion-icon>
+    </ion-button> -->
   </div>
 
   <!-- Banner Section -->
@@ -35,7 +41,7 @@
       </ion-col>
       <ion-col class="ion-text-end">
         <!-- TODO: Implement View All navigation -->
-        <ion-button fill="clear" class="view-all-button">View All</ion-button>
+        <ion-button fill="clear" class="view-all-button" (click)="navigateToUnderConstruction()">View All</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -53,7 +59,7 @@
           </ion-card-header>
           <ion-card-content class="product-actions">
              <!-- TODO: Implement Add to Cart functionality -->
-            <ion-button expand="block" class="add-to-cart-button">Add to Cart</ion-button>
+            <ion-button expand="block" class="add-to-cart-button" (click)="addToCart(product); $event.stopPropagation();">Add to Cart</ion-button>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -68,7 +74,7 @@
       </ion-col>
       <ion-col class="ion-text-end">
         <!-- TODO: Implement View All navigation -->
-        <ion-button fill="clear" class="view-all-button">View All</ion-button>
+        <ion-button fill="clear" class="view-all-button" (click)="navigateToUnderConstruction()">View All</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -86,7 +92,7 @@
           </ion-card-header>
           <ion-card-content class="product-actions">
              <!-- TODO: Implement Add to Cart functionality -->
-            <ion-button expand="block" class="add-to-cart-button">Add to Cart</ion-button>
+            <ion-button expand="block" class="add-to-cart-button" (click)="addToCart(product); $event.stopPropagation();">Add to Cart</ion-button>
           </ion-card-content>
         </ion-card>
       </ion-col>

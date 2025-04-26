@@ -25,19 +25,22 @@ export class BuylokalFruitsComponent implements OnInit {
       id: 'mango',
       name: 'Mango',
       localName: 'Mangga',
-      image: 'assets/mango.png'
+      image: 'assets/mango.png',
+      price: 50
     },
     {
       id: 'banana',
       name: 'Banana',
       localName: 'Saging',
-      image: 'assets/banana.png'
+      image: 'assets/banana.png',
+      price: 20
     },
     {
       id: 'papaya',
       name: 'Papaya',
       localName: 'Papaya',
-      image: 'assets/papaya.png'
+      image: 'assets/papaya.png',
+      price: 30
     }
   ];
 
@@ -100,6 +103,7 @@ export class BuylokalFruitsComponent implements OnInit {
       id: fruit.id,
       name: fruit.name,
       localName: fruit.localName,
+      price: fruit.price,
       quantity: this.basketCount,
       image: fruit.image
     };

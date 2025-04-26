@@ -100,6 +100,7 @@ export class BuylokalVegetablesComponent implements OnInit {
       id: vegetable.id,
       name: vegetable.name,
       localName: vegetable.localName,
+      price: vegetable.price, // Add price
       quantity: this.basketCount,
       image: vegetable.image
     };

@@ -97,6 +97,7 @@ export class BuylokalLivestockComponent implements OnInit {
       id: item.id,
       name: item.name,
       localName: item.localName,
+      price: item.price, // Add price
       quantity: this.basketCount,
       image: item.image
     };

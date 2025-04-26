@@ -16,45 +16,65 @@
   <!-- Delivery Address Section -->
   <h2 class="section-heading">Delivery address</h2>
 
-  <div class="address-info-card">
+  <!-- Show skeleton text while loading -->
+  <div class="address-info-card ion-padding" *ngIf="isLoadingProfile">
+    <ion-skeleton-text animated style="width: 40%; height: 16px; margin-bottom: 10px;"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 80%; height: 16px; margin-bottom: 10px;"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 60%; height: 16px; margin-bottom: 10px;"></ion-skeleton-text>
+    <ion-skeleton-text animated style="width: 50%; height: 16px;"></ion-skeleton-text>
+  </div>
+
+  <!-- Show actual data when loaded -->
+  <div class="address-info-card" *ngIf="!isLoadingProfile && userProfile">
     <div class="address-row address-category-row">
+      <!-- Assuming 'HOME' is static or comes from profile later -->
       <span class="address-category">HOME</span> 
     </div>
     <div class="address-row">
       <img src="assets/marketplace/marketplaceCheckout/maps_flag.svg" alt="Location" class="address-icon map-icon" />
-      <span class="address-text">Blk 23, Lot 13 CornerStone Residences, Dasmarinas Cavite</span> 
+      <!-- Bind to userProfile.address -->
+      <span class="address-text">{{ userProfile.address || 'Address not set' }}</span> 
     </div>
     <div class="address-row">
        <img src="assets/marketplace/marketplaceCheckout/user_icon.svg" alt="User" class="address-icon user-icon" />
-       <span class="user-name">Clarenz Mauro</span> 
+       <!-- Bind to userProfile.firstName and userProfile.lastName, use TitleCasePipe -->
+       <span class="user-name">{{ (userProfile.firstName || '') + ' ' + (userProfile.lastName || '') | titlecase }}</span> 
     </div>
-     <div class="address-row">
+    <div class="address-row">
        <img src="assets/marketplace/marketplaceCheckout/phone_icon.svg" alt="Phone" class="address-icon phone-icon" />
-       <span class="phone-number">(+63) 912 345 6789</span> 
-    </div>
+       <!-- Bind to userProfile.phoneNumber, show default if not set -->
+       <span class="phone-number">{{ userProfile.phoneNumber || 'Phone not set' }}</span> 
+    </div> 
+  </div>
+
+  <!-- Show message if profile not found and not loading -->
+  <div class="ion-padding ion-text-center" *ngIf="!isLoadingProfile && !userProfile">
+    <p>Could not load user information.</p>
   </div>
 
   <!-- Market Cart Section -->
   <h3 class="cart-section-heading">Market Cart</h3>
 
   <div class="cart-items-container">
-    <!-- Loop through cart items -->
-    <div class="cart-item" *ngFor="let item of cartItems">
+    <!-- Loop through cart items from the service -->
+    <div class="cart-item" *ngFor="let item of cartItems$ | async">
       <div class="item-details">
-        <img [src]="item.imageUrl" [alt]="item.name" class="item-image" />
+        <img [src]="item.image" [alt]="item.name" class="item-image" />
         <div class="item-info">
           <span class="item-name">{{ item.name }}</span>
           <div class="item-amount-selector">
-            <span class="item-amount-number">{{ item.amount }}</span>
-            <!-- Actual dropdown SVG/logic would go here -->
-            <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg" class="item-amount-dropdown-icon">
-              <path d="M4 6L0.535898 6.52533e-07L7.4641 4.68497e-08L4 6Z" fill="#8F8B8B"/>
-            </svg>
+            <ion-button fill="clear" size="small" (click)="decreaseQuantity(item)" [disabled]="item.quantity <= 1">
+              <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+            </ion-button>
+            <ion-input type="number" [value]="item.quantity" min="1" (ionChange)="quantityChanged(item, $event)" class="quantity-input"></ion-input>
+            <ion-button fill="clear" size="small" (click)="increaseQuantity(item)">
+              <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+            </ion-button>
           </div>
         </div>
-         <span class="item-price">₱{{ item.price.toLocaleString() }}</span>
+         <span class="item-price">₱{{ (item.price * item.quantity) | number:'1.2-2' }}</span>
       </div>
-      <button class="delete-item-button ion-activatable">
+      <button class="delete-item-button ion-activatable" (click)="removeItem(item.id)">
         <ion-ripple-effect></ion-ripple-effect>
         <img src="assets/marketplace/marketplaceCheckout/delete_icon.svg" alt="Delete" class="delete-icon" />
       </button>
@@ -93,7 +113,10 @@
       <span class="payment-amount total-amount">₱{{ finalTotal.toLocaleString() }}</span>
     </div>
 
-     <button class="place-order-button ion-activatable">
+     <button 
+       class="place-order-button ion-activatable" 
+       (click)="placeOrder()"
+       [disabled]="currentCartItems.length === 0">
        <ion-ripple-effect></ion-ripple-effect>
        Place order
      </button>
@@ -102,3 +125,8 @@
   <!-- Rest of the checkout content will go here -->
 
 </ion-content>
+
+<!-- Success Overlay -->
+<div class="success-overlay" *ngIf="orderPlacedSuccessfully">
+  <img src="assets/marketplace/marketplaceCategories/ordersuccess.png" alt="Order Successful" />
+</div>

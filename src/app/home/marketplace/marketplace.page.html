@@ -23,8 +23,10 @@
           <ion-badge color="success" *ngIf="3 > 0">3</ion-badge>
           <ion-icon name="notifications-outline"></ion-icon>
         </ion-button> -->
-        <ion-button fill="clear">
-          <ion-badge color="success" *ngIf="2 > 0">2</ion-badge>
+        <ion-button fill="clear" routerLink="/home/marketplace-checkout">
+          <ng-container *ngIf="cartItemCount$ | async as count">
+            <ion-badge color="success" *ngIf="count > 0">{{ count }}</ion-badge>
+          </ng-container>
           <ion-icon name="cart-outline"></ion-icon>
         </ion-button>
         <!-- <ion-avatar class="user-avatar">
@@ -41,11 +43,74 @@
         class="premium-searchbar"
       >
       </ion-searchbar>
-      <ion-button fill="clear" class="filter-button">
+      <ion-button 
+        fill="clear" 
+        class="filter-button" 
+        id="filter-button" 
+        (click)="presentFilterModal()"
+      >
         <ion-icon name="options-outline"></ion-icon>
       </ion-button>
     </div>
   </div>
+
+  <!-- Filter Modal -->
+  <ion-modal #filterModal trigger="filter-button">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancelFilters()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Filter & Sort</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="applyFilters()" [strong]="true">Done</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <!-- Sorting Options -->
+        <ion-list>
+          <ion-list-header>Sort By</ion-list-header>
+          <!-- Use temporary state variable tempSortBy for ngModel -->
+          <ion-radio-group [(ngModel)]="tempSortBy">
+            <ion-item>
+              <ion-radio value="recommended">Recommended</ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-radio value="price_asc">Price: Low to High</ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-radio value="price_desc">Price: High to Low</ion-radio>
+            </ion-item>
+            <ion-item>
+              <ion-radio value="name_asc">Name: A to Z</ion-radio>
+            </ion-item>
+             <ion-item>
+              <ion-radio value="name_desc">Name: Z to A</ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+
+        <!-- Category Filtering -->
+        <ion-list>
+          <ion-list-header>Categories</ion-list-header>
+          <!-- Use temporary state object tempSelectedCategories for ngModel -->
+          <ion-item *ngFor="let category of availableCategories">
+            <ion-checkbox 
+              slot="start" 
+              [value]="category.id" 
+              [(ngModel)]="tempSelectedCategories[category.id]">
+            </ion-checkbox>
+            <ion-label>{{ category.name }}</ion-label>
+          </ion-item>
+          <ion-item *ngIf="availableCategories.length === 0">
+            <ion-label>No categories found.</ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 
   <!-- Banner with Promotions -->
   <!-- <div class="banner-section">
@@ -91,7 +156,11 @@
     </div>
 
     <div class="categories-grid">
-      <ion-card class="category-card" *ngFor="let category of farmCategories">
+      <ion-card
+        class="category-card"
+        *ngFor="let category of farmCategories"
+        [routerLink]="['/home/marketplace/category-products', category.name]"
+      >
         <div
           class="category-icon-container"
           [style.background-color]="category.color"
@@ -158,7 +227,7 @@
             </div>
           </div>
 
-          <ion-button expand="block" class="add-to-cart-button">
+          <ion-button expand="block" class="add-to-cart-button" (click)="addToCartAndNavigate(product); $event.stopPropagation();">
             <ion-icon name="cart-outline" slot="start"></ion-icon>
             Add to Cart
           </ion-button>
@@ -171,7 +240,7 @@
   <div class="financing-section">
     <div class="section-header light">
       <h2>Farm Financing Solutions</h2>
-      <ion-button fill="clear" size="small" color="light">
+      <ion-button fill="clear" size="small" color="light" routerLink="/under-construction">
         Learn More
         <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
       </ion-button>
@@ -190,7 +259,7 @@
       </ion-card>
     </div>
 
-    <ion-button expand="block" class="apply-now-button">
+    <ion-button expand="block" class="apply-now-button" routerLink="/under-construction">
       Apply for Financing Now
     </ion-button>
   </div>
@@ -224,7 +293,7 @@
         <div class="events-section">
           <div class="section-header">
             <h2>Upcoming Events</h2>
-            <ion-button fill="clear" size="small">
+            <ion-button fill="clear" size="small" routerLink="/under-construction">
               Calendar
               <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
             </ion-button>
@@ -246,9 +315,9 @@
                   <span>{{event.location}}</span>
                 </div>
               </div>
-              <ion-button fill="outline" size="small"
-                >Add to Calendar</ion-button
-              >
+              <ion-button fill="outline" size="small" routerLink="/under-construction">
+                Add to Calendar
+              </ion-button>
             </div>
           </ion-card>
         </div>
@@ -280,7 +349,7 @@
           <div class="community-support">
             <h3>Need farming advice?</h3>
             <p>Connect with our community of agriculture experts</p>
-            <ion-button expand="block" (click)="enterChatSupport()">
+            <ion-button expand="block" routerLink="/under-construction">
               <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
               Chat with Experts
             </ion-button>
