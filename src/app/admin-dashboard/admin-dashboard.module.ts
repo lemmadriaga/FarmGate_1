@@ -17,7 +17,6 @@ import { AdminDashboardPage } from './admin-dashboard.page';
         component: AdminDashboardPage,
       },
     ]),
-    AdminDashboardPage, // Import instead of declaring if component is standalone
   ],
   // Remove declarations since component is standalone
 })
