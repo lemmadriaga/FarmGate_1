@@ -1,0 +1,28 @@
+ion-content {
+  --background: #f4f4f4; // Optional: match other page backgrounds
+}
+
+.construction-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%; // Take full height of the content area
+  padding: 20px;
+}
+
+.construction-icon {
+  font-size: 6rem; // Make the icon large
+  color: var(--ion-color-medium-shade);
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: var(--ion-color-dark);
+  margin-bottom: 10px;
+}
+
+p {
+  color: var(--ion-color-medium);
+  margin-bottom: 30px;
+}

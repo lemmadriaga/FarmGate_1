@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <!-- Use the component's goBack method -->
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Under Construction</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-text-center">
+  <div class="construction-content">
+    <ion-icon name="construct-outline" class="construction-icon"></ion-icon>
+    <h2>Page Under Construction</h2>
+    <p>This feature is currently being developed. Please check back later!</p>
+    <ion-button (click)="goBack()" expand="block" fill="clear">
+      Go Back
+    </ion-button>
+  </div>
+</ion-content>

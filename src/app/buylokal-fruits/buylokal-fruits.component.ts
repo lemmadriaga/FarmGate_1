@@ -25,19 +25,22 @@ export class BuylokalFruitsComponent implements OnInit {
       id: 'mango',
       name: 'Mango',
       localName: 'Mangga',
-      image: 'assets/mango.png'
+      image: 'assets/mango.png',
+      price: 50
     },
     {
       id: 'banana',
       name: 'Banana',
       localName: 'Saging',
-      image: 'assets/banana.png'
+      image: 'assets/banana.png',
+      price: 20
     },
     {
       id: 'papaya',
       name: 'Papaya',
       localName: 'Papaya',
-      image: 'assets/papaya.png'
+      image: 'assets/papaya.png',
+      price: 30
     }
   ];
 
@@ -60,8 +63,7 @@ export class BuylokalFruitsComponent implements OnInit {
   }
 
   openCart() {
-    // We'll implement the cart page navigation later
-    console.log('Opening cart...');
+    this.router.navigate(['/home/marketplace-checkout']);
   }
 
   // Search functionality logic
@@ -100,21 +102,20 @@ export class BuylokalFruitsComponent implements OnInit {
       id: fruit.id,
       name: fruit.name,
       localName: fruit.localName,
+      price: fruit.price,
       quantity: this.basketCount,
       image: fruit.image
     };
 
     this.cartService.addToCart(cartItem);
 
+    const kilos = this.basketCount * 4;
     const toast = await this.toastController.create({
-      message: `Added ${this.basketCount} basket(s) of ${fruit.name} to cart`,
-      duration: 2000,
+      message: `Added ${this.basketCount} basket(s) of ${fruit.name} to cart (${kilos} kilos). Each basket contains 4 kilos.`,
+      duration: 3000,
       position: 'bottom',
       color: 'success'
     });
     toast.present();
-
-    // Reset basket count after adding to cart
-    this.basketCount = 0;
   }
 }

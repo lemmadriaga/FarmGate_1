@@ -66,7 +66,7 @@ export class BuylokalDairyComponent implements OnInit {
   }
 
   openCart() {
-    this.router.navigate(['cart']);
+    this.router.navigate(['/home/marketplace-checkout']);
   }
 
   increaseCount() {
@@ -97,21 +97,20 @@ export class BuylokalDairyComponent implements OnInit {
       id: item.id,
       name: item.name,
       localName: item.localName,
+      price: item.price, // Add price
       quantity: this.basketCount,
       image: item.image
     };
 
     this.cartService.addToCart(cartItem);
 
+    const kilos = this.basketCount * 4;
     const toast = await this.toastController.create({
-      message: `Added ${this.basketCount} basket(s) of ${item.name} to cart`,
-      duration: 2000,
+      message: `Added ${this.basketCount} basket(s) of ${item.name} to cart (${kilos} kilos). Each basket contains 4 kilos.`,
+      duration: 3000,
       position: 'bottom',
       color: 'success'
     });
     toast.present();
-
-    // Reset basket count after adding to cart
-    this.basketCount = 0;
   }
 }

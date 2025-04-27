@@ -203,31 +203,24 @@ ion-content {
 }
 
 .item-details {
-  flex-grow: 1; // Takes up space left by the delete button
   display: flex;
   align-items: center;
-  padding: 10px 15px; // Internal padding
-  height: 100%; // Fill the height
-  box-sizing: border-box;
-}
-
-.item-image {
-  width: 48px;
-  height: 39px; // Use specified height
-  object-fit: cover; // Ensure image covers the area nicely
-  flex-shrink: 0;
-  margin-right: 10px; // Space next to image
-  // Ignoring background and box-shadow properties for img tag, apply if needed on a container
+  width: 100%;
 }
 
 .item-info {
+  flex-grow: 1;
   display: flex;
-  flex-direction: column;
-  justify-content: center; // Align name and amount vertically
-  flex-grow: 1; // Take available space
-  margin-right: 10px; // Space before price
-  gap: 5px; // Space between name and amount selector
-  height: 100%; // Fill height
+  flex-direction: column; // Stack name and selector vertically
+  justify-content: center;
+  margin: 0 10px; // Add margin around item info
+}
+
+.item-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .item-name {
@@ -244,37 +237,48 @@ ion-content {
 }
 
 .item-amount-selector {
-  width: 33px;
-  height: 17px;
-  flex-shrink: 0;
-  border-radius: 4px;
-  border: 0.5px solid #01DB4C;
-  background: #FFF;
   display: flex;
-  align-items: center;
-  justify-content: space-between; // Space out number and icon
-  padding: 0 4px; // Internal padding
-  box-sizing: border-box;
-  cursor: pointer; // Indicate it's clickable
-}
+  align-items: center; // Vertically align items in the middle
+  justify-content: center; // Center items horizontally (optional)
+  // Add some spacing if needed
+  // gap: 5px;
 
-.item-amount-number {
-  color: #000;
-  font-family: Poppins, sans-serif;
-  font-size: 11px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1; // Adjust line height for vertical centering
-}
+  ion-button {
+    --padding-start: 2px; // Reduce button padding
+    --padding-end: 2px;
+    height: 28px; // Adjust height as needed
+    margin: 0;
+  }
 
-.item-amount-dropdown-icon {
-  width: 8px;
-  height: 6px; // Match SVG height
-  flex-shrink: 0;
-  fill: #8F8B8B;
+  .quantity-input {
+    width: 50px;
+    text-align: center;
+    --padding-start: 0;
+    --padding-end: 0;
+  }
+
+  .unit-label {
+    font-size: 14px;
+    color: var(--ion-color-medium);
+    margin: 0 4px;
+  }
+
+  .quantity-input {
+    width: 40px; // Give the input a specific width
+    height: 28px; // Match button height (optional)
+    border: 1px solid var(--ion-color-medium-shade); // Add a border to see it
+    border-radius: 4px;
+    text-align: center;
+    --padding-start: 2px; // Adjust internal padding
+    --padding-end: 2px;
+    margin: 0 5px; // Add horizontal margin
+  }
 }
 
 .item-price {
+  font-weight: bold;
+  margin-left: auto; // Push price to the right
+  padding-left: 10px; // Add space before price
   display: flex; // Use flex for alignment if needed, though text-align might suffice
   // width: 89px; // Avoid fixed width, let it adapt
   // height: 18px; // Avoid fixed height
@@ -308,6 +312,7 @@ ion-content {
   cursor: pointer;
   position: relative; // Needed for ion-ripple-effect
   overflow: hidden; // Needed for ion-ripple-effect
+  margin-left: 10px; // Add space before the delete button
 }
 
 .delete-icon {
@@ -444,4 +449,21 @@ ion-content {
   cursor: pointer;
   position: relative; // For ripple
   overflow: hidden; // For ripple
+}
+
+// Styles for the success overlay
+.success-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0; // Ensure no padding
+  z-index: 1000; // Ensure it's above other content
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; // Keep aspect ratio, fit within bounds
+  }
 }

@@ -60,8 +60,7 @@ export class BuylokalVegetablesComponent implements OnInit {
   }
 
   openCart() {
-    // We'll implement the cart page navigation later
-    console.log('Opening cart...');
+    this.router.navigate(['/home/marketplace-checkout']);
   }
 
   // Search functionality logic
@@ -100,21 +99,20 @@ export class BuylokalVegetablesComponent implements OnInit {
       id: vegetable.id,
       name: vegetable.name,
       localName: vegetable.localName,
+      price: vegetable.price, // Add price
       quantity: this.basketCount,
       image: vegetable.image
     };
 
     this.cartService.addToCart(cartItem);
 
+    const kilos = this.basketCount * 4;
     const toast = await this.toastController.create({
-      message: `Added ${this.basketCount} basket(s) of ${vegetable.name} to cart`,
-      duration: 2000,
+      message: `Added ${this.basketCount} basket(s) of ${vegetable.name} to cart (${kilos} kilos). Each basket contains 4 kilos.`,
+      duration: 3000,
       position: 'bottom',
       color: 'success'
     });
     toast.present();
-
-    // Reset basket count after adding to cart
-    this.basketCount = 0;
   }
 }

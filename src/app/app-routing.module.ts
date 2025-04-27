@@ -83,34 +83,13 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'marketplace-checkout',
-    // Load the standalone component directly
-    loadComponent: () =>
-      import(
-        './marketplace/marketplace-checkout/marketplace-checkout.page'
-      ).then((m) => m.MarketplaceCheckoutPage),
-  },
-  {
-    path: 'marketplace/category-products/:categoryLabel',
-    loadChildren: () =>
-      import('./marketplace/category-products/category-products.module').then(
-        (m) => m.CategoryProductsPageModule
-      ),
-  },
-  {
-    path: 'category-products',
-    loadChildren: () =>
-      import('./marketplace/category-products/category-products.module').then(
-        (m) => m.CategoryProductsPageModule
-      ),
-  },
-  {
     path: 'registration',
     loadChildren: () =>
       import('./authentication/registration/registration.module').then(
         (m) => m.RegistrationPageModule
       ),
-  },  {
+  },
+  {
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
   },
@@ -127,6 +106,11 @@ const routes: Routes = [
     loadChildren: () => import('./cart/cart.module').then( m => m.CartPageModule)
   },
 
+  {
+    path: 'under-construction',
+    // Corrected to use loadComponent for standalone page
+    loadComponent: () => import('./under-construction/under-construction.page').then( m => m.UnderConstructionPage)
+  },
 ];
 
 @NgModule({

@@ -10,6 +10,14 @@ const routes: Routes = [
   {
     path: 'marketplace',
     loadChildren: () => import('./marketplace/marketplace.module').then( m => m.MarketplacePageModule)
+  },
+  {
+    path: 'marketplace/category-products/:categoryLabel',
+    loadChildren: () => import('./category-products/category-products.module').then( m => m.CategoryProductsPageModule)
+  },
+  {
+    path: 'marketplace-checkout',
+    loadChildren: () => import('./marketplace-checkout/marketplace-checkout.module').then(m => m.MarketplaceCheckoutPageModule)
   }
 
 ];
