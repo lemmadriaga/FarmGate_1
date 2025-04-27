@@ -109,9 +109,10 @@ export class BuylokalFruitsComponent implements OnInit {
 
     this.cartService.addToCart(cartItem);
 
+    const kilos = this.basketCount * 4;
     const toast = await this.toastController.create({
-      message: `Added ${this.basketCount} basket(s) of ${fruit.name} to cart`,
-      duration: 2000,
+      message: `Added ${this.basketCount} basket(s) of ${fruit.name} to cart (${kilos} kilos). Each basket contains 4 kilos.`,
+      duration: 3000,
       position: 'bottom',
       color: 'success'
     });

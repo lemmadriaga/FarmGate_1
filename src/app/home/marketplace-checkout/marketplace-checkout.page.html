@@ -67,6 +67,7 @@
               <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
             </ion-button>
             <ion-input type="number" [value]="item.quantity" min="1" (ionChange)="quantityChanged(item, $event)" class="quantity-input"></ion-input>
+            <span class="unit-label">kilo</span>
             <ion-button fill="clear" size="small" (click)="increaseQuantity(item)">
               <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
             </ion-button>
