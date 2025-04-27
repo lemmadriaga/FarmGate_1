@@ -3,6 +3,14 @@
 // @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
 // Set page background to white
+ion-header {
+  ion-toolbar.profile-header-toolbar {
+    --background: #ffffff; // Set background to white
+    --border-width: 0;
+    --box-shadow: none;
+  }
+}
+
 ion-content {
   --background: #ffffff; // or use var(--ion-color-light) or another appropriate variable
 }
