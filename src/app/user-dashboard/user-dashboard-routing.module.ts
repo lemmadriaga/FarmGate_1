@@ -17,8 +17,8 @@ const routes: Routes = [
         loadChildren: () => import('../home/marketplace/marketplace.module').then( m => m.MarketplacePageModule)
       },
       {
-        path: 'scan',
-        loadChildren: () => import('../scan/scan.module').then( m => m.ScanPageModule)
+        path: 'cart',
+        loadChildren: () => import('../cart/cart.module').then( m => m.CartPageModule)
       },
       {
         path: 'BuyLokal',
