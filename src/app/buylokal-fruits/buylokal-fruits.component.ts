@@ -116,8 +116,5 @@ export class BuylokalFruitsComponent implements OnInit {
       color: 'success'
     });
     toast.present();
-
-    // Reset basket count after adding to cart
-    this.basketCount = 0;
   }
 }
