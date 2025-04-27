@@ -13,6 +13,6 @@ import { MarketplaceCheckoutPage } from './marketplace-checkout.page';
     IonicModule,
     MarketplaceCheckoutPageRoutingModule
   ],
-  declarations: []
+  declarations: [MarketplaceCheckoutPage]
 })
 export class MarketplaceCheckoutPageModule {}

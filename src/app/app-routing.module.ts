@@ -101,6 +101,7 @@ const routes: Routes = [
     path: 'user-profile',
     loadChildren: () => import('./user-profile/user-profile.module').then( m => m.UserProfilePageModule)
   },
+
   {
     path: 'under-construction',
     // Corrected to use loadComponent for standalone page

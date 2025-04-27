@@ -63,8 +63,7 @@ export class BuylokalFruitsComponent implements OnInit {
   }
 
   openCart() {
-    // We'll implement the cart page navigation later
-    console.log('Opening cart...');
+    this.router.navigate(['/home/marketplace-checkout']);
   }
 
   // Search functionality logic

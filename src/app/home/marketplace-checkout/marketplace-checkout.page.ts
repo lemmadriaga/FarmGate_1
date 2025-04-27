@@ -12,9 +12,7 @@ import firebase from 'firebase/compat/app'; // Import firebase namespace for typ
 @Component({
   selector: 'app-marketplace-checkout',
   templateUrl: './marketplace-checkout.page.html',
-  styleUrls: ['./marketplace-checkout.page.scss'],
-  standalone: true,
-  imports: [IonicModule, CommonModule, RouterModule]
+  styleUrls: ['./marketplace-checkout.page.scss']
 })
 export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
 

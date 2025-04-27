@@ -66,7 +66,7 @@ export class BuylokalLivestockComponent implements OnInit {
   }
 
   openCart() {
-    this.router.navigate(['cart']);
+    this.router.navigate(['/home/marketplace-checkout']);
   }
 
   increaseCount() {
