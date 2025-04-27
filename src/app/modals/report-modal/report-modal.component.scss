@@ -1,0 +1,11 @@
+ion-item ion-label ion-text[color="danger"] {
+  // Adjust spacing or alignment for the required asterisk if needed
+  margin-left: 2px; // Small space between label text and asterisk
+  font-size: 0.9em; // Make asterisk slightly smaller if desired
+}
+
+ion-item {
+  // Ensure item doesn't have extra padding that misaligns label
+  --inner-padding-end: 0;
+  --padding-start: 0;
+}

@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()" color="medium">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Submit Feedback</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="submitFeedback()" [disabled]="!feedbackForm?.valid || isLoading" strong="true">
+        <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
+        Submit
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Wrap form in *ngIf to ensure feedbackForm is initialized -->
+  <div *ngIf="feedbackForm">
+    <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()">
+      <ion-label class="rating-label">Rating:</ion-label>
+      <div class="star-rating-container">
+        <ion-icon
+          *ngFor="let i of [1, 2, 3, 4, 5]"
+          [name]="(rating ?? 0) >= i ? 'star' : 'star-outline'"
+          [color]="(rating ?? 0) >= i ? 'warning' : 'medium'"
+          (click)="setRating(i)"
+          class="star-icon">
+        </ion-icon>
+        <!-- Hidden input to store rating value in the form -->
+        <input type="hidden" formControlName="rating">
+      </div>
+
+      <ion-item lines="full" class="comment-item">
+        <ion-label position="stacked">Comments (Optional)</ion-label>
+        <ion-textarea
+          formControlName="comments"
+          rows="5"
+          placeholder="Share your thoughts...">
+        </ion-textarea>
+      </ion-item>
+    </form>
+  </div>
+</ion-content>

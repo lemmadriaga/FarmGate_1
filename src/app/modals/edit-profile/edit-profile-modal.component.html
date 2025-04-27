@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()" color="medium">Cancel</ion-button>
+    </ion-buttons>
+    <!-- *ngIf ensures userProfile is defined here -->
+    <ion-title *ngIf="userProfile">Edit {{ userProfile.firstName }}'s Profile</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="saveChanges()" [disabled]="!editForm?.valid || isLoading" strong="true">
+        <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
+        Save
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Wrap form in *ngIf to ensure editForm is initialized -->
+  <div *ngIf="editForm">
+    <form [formGroup]="editForm" (ngSubmit)="saveChanges()">
+      <ion-list>
+        <ion-item lines="full">
+          <ion-label position="stacked">First Name <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input type="text" formControlName="firstName" required></ion-input>
+          <!-- Add validation message display if needed -->
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="stacked">Last Name <ion-text color="danger">*</ion-text></ion-label>
+          <ion-input type="text" formControlName="lastName" required></ion-input>
+          <!-- Add validation message display if needed -->
+        </ion-item>
+
+        <!-- Add Phone Number Input -->
+        <ion-item lines="full">
+          <ion-label position="stacked">Phone Number</ion-label>
+          <ion-input type="tel" formControlName="phoneNumber" placeholder="e.g., +63 917 123 4567"></ion-input>
+          <!-- Consider adding validation for phone number format -->
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="stacked">Gender</ion-label>
+          <!-- Consider ion-select for predefined options -->
+          <ion-input type="text" formControlName="gender"></ion-input>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="stacked">Date of Birth</ion-label>
+          <!-- Consider ion-datetime-button and ion-modal -->
+          <ion-input type="text" formControlName="dateOfBirth" placeholder="YYYY-MM-DD"></ion-input>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="stacked">Full Address</ion-label>
+          <ion-textarea formControlName="address" autoGrow="true"></ion-textarea>
+        </ion-item>
+
+      </ion-list>
+    </form>
+  </div>
+</ion-content>

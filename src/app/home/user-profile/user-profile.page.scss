@@ -1,0 +1,330 @@
+// Ensure Poppins font is loaded. If not already loaded globally (e.g., in index.html or global.scss),
+// you might need to import it, for example:
+// @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+// Set page background to white
+ion-content {
+  --background: #ffffff; // or use var(--ion-color-light) or another appropriate variable
+}
+
+.user-info-container {
+  // Using a fixed width might impact responsiveness. Consider alternatives if needed.
+  width: 378px;
+  max-width: 95%; // Prevents overflow on very small screens
+  height: 97px;
+  flex-shrink: 0;
+  border-radius: 13px;
+  background: rgba(105, 255, 75, 0.46);
+
+  display: flex;
+  align-items: center;
+  padding: 10px 15px; // Add padding for internal spacing
+  margin: 20px auto; // Add margin top/bottom and center horizontally
+  box-sizing: border-box; // Ensure padding is included in width/height
+}
+
+.user-icon {
+  margin-right: 15px; // Space between icon and text details
+
+  svg {
+    display: block; // Removes potential extra space below inline SVG
+    // width/height defined in SVG attributes
+    // fill/stroke defined in SVG attributes
+  }
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; // Align text vertically
+}
+
+.user-name {
+  color: #000;
+  font-family: 'Poppins', sans-serif; // Added fallback font
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal; // Consider a specific value like 1.2 if needed
+  margin-bottom: 4px; // Space between name and type
+}
+
+.user-type {
+  color: #01B44C;
+  font-family: 'Poppins', sans-serif; // Added fallback font
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal; // Consider a specific value like 1.2 if needed
+}
+
+// BuyLokal Promo Section Styles
+.buylokal-promo-container {
+  width: 378px;
+  max-width: 95%; // For responsiveness
+  height: 93px;
+  flex-shrink: 0;
+  border-radius: 13px;
+  background: #207203;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between; // Pushes text and button apart
+  padding: 15px 20px; // Add padding
+  margin: 20px auto; // Spacing and centering
+  box-sizing: border-box;
+}
+
+.promo-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.promo-title {
+  color: #FFF;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-bottom: 5px; // Space between title and subtitle
+}
+
+.promo-subtitle {
+  width: 162px; // As specified
+  color: #FFF;
+  font-family: 'Poppins', sans-serif;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+// Styling the Ion Button
+ion-button.try-now-button {
+  // Reset Ionic default styles as needed
+  --background: #FFF;
+  --background-hover: #f0f0f0; // Optional hover effect
+  --background-activated: #e0e0e0; // Optional activated effect
+  --border-radius: 7px;
+  --box-shadow: none; // Remove default shadow if any
+  --padding-start: 0;
+  --padding-end: 0;
+  width: 130px;
+  height: 43px;
+  flex-shrink: 0;
+  margin: 0; // Reset margin if needed
+  text-transform: none; // Prevent default uppercase
+}
+
+// Styling the text inside the button
+.try-now-text {
+  color: #207203;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+// Profile Info Section Styles
+.profile-info-section {
+  padding: 0 16px; // Add horizontal padding to the section
+  margin-top: 30px; // Space above this section
+}
+
+.profile-info-header {
+  color: #000;
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-bottom: 15px; // Space below the main header
+}
+
+.user-details-subheader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px; // Space below the subheader row
+
+  span { // Style for "User Details" text
+    // width: 105px; // Fixed width might not be ideal, let it size naturally
+    color: #66A74C;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 119%; /* 19.04px */
+  }
+}
+
+ion-button.edit-profile-button {
+  // Reset Ionic defaults
+  --padding-start: 5px;
+  --padding-end: 5px;
+  --color: #207203; // Text color for clear button
+  height: auto; // Adjust height if needed
+  margin: 0; // Reset margin
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 119%; /* 19.04px */
+  text-transform: none; // Prevent uppercase
+  // width: 89px; // Avoid fixed width
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px; // Space between rows
+  padding-bottom: 12px; // Space below the row
+  border-bottom: 1px solid #e0e0e0; // Add a subtle separator line
+
+  &:last-child {
+    border-bottom: none; // Remove border from last row
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+.info-label {
+  // width: 76px; // Avoid fixed widths for flexibility
+  color: rgba(0, 0, 0, 0.53);
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 119%; /* 16.66px */
+  margin-right: 10px; // Space between label and value
+}
+
+.info-value {
+  // width: 148px; // Let width be flexible
+  color: #000;
+  text-align: right;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 119%; /* 16.66px */
+  // Handle potential wrapping for long addresses
+  word-break: break-word;
+  flex-grow: 1; // Allow value to take remaining space
+}
+
+// Feedback and Report Section Styles
+.feedback-report-container {
+  display: flex;
+  justify-content: space-around; // Space out the boxes
+  align-items: center;
+  padding: 0 16px; // Match horizontal padding of profile info
+  margin-top: 30px; // Space above this section
+  gap: 10px; // Space between the boxes
+}
+
+.feedback-box,
+.report-box {
+  width: 189.194px; // As specified, but consider using flex-basis or percentages for better responsiveness
+  max-width: 48%; // Prevent overflow and allow wrapping if needed
+  height: 97px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  padding: 10px 15px; // Internal padding
+  box-sizing: border-box;
+  display: flex; // To align content inside
+  flex-direction: column; // Stack header and subheader
+  justify-content: center; // Center content vertically
+  cursor: pointer; // Indicate they are clickable
+  transition: transform 0.2s ease-in-out; // Add subtle hover effect
+
+  &:hover {
+    transform: translateY(-2px); // Slight lift on hover
+  }
+}
+
+.feedback-box {
+  background: #5AA3F6;
+}
+
+.report-box {
+  background: #FF5353;
+}
+
+.feedback-box .box-header,
+.report-box .box-header {
+  color: #FFF;
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 119%; /* 23.8px */
+  margin: 0 0 5px 0; // Reset margin and add space below
+  height: auto; // Let height be auto based on content
+  // width: auto; // Avoid fixed widths
+}
+
+.feedback-box .box-subheader,
+.report-box .box-subheader {
+  color: #FFF;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 119%; /* 15.47px */
+  margin: 0;
+  height: auto; // Let height be auto
+  // width: auto; // Avoid fixed widths
+  // word-wrap: break-word; // Ensure text wraps if too long
+}
+
+// Specific width/alignment adjustments from specs
+.feedback-box .box-header {
+  // width: 114px; // Avoid fixed width
+  text-align: left; // Default alignment
+}
+
+.feedback-box .box-subheader {
+  width: 148px; // Specified width
+  max-width: 100%; // Ensure it doesn't overflow container
+  text-align: left;
+}
+
+.report-box .box-header {
+  // width: 78px; // Avoid fixed width
+  text-align: right; // Specified alignment
+}
+
+.report-box .box-subheader {
+  width: 127px; // Specified width
+  max-width: 100%;
+  text-align: right;
+  align-self: flex-end; // Align the subheader itself to the right within the flex column
+}
+
+// Watermark Styles
+.watermark-container {
+  width: 100%; // Ensure it takes full width for text-align
+  text-align: center; // Align text to the center
+  padding: 10px 16px; // Add some padding similar to ion-content default
+  margin-top: 20px; // Add space above the watermark
+  font-family: 'Poppins', sans-serif; // Set the font family
+  font-size: 14px; // Set base font size
+  color: #B7B7B7; // Set base color
+  line-height: 119%; // Set line height
+}
+
+.watermark-part1 {
+  font-weight: 400; // Normal weight for "FarmGate by "
+  font-style: normal;
+}
+
+.watermark-part2 {
+  font-weight: 700; // Bold weight for "CyberNex Innovate"
+  font-style: normal;
+}

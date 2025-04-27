@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()" color="medium">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Submit Report</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="submitReport()" [disabled]="!reportForm?.valid || isLoading" strong="true">
+        <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
+        Submit
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Wrap form in *ngIf to ensure reportForm is initialized -->
+  <div *ngIf="reportForm">
+    <form [formGroup]="reportForm" (ngSubmit)="submitReport()">
+      <ion-item lines="full">
+        <ion-label position="stacked">Report Details <ion-text color="danger">*</ion-text></ion-label>
+        <ion-textarea
+          formControlName="reportDetails"
+          rows="8"
+          placeholder="Please describe the issue or event you want to report..."
+          required>
+        </ion-textarea>
+        <!-- Optional: Add validation message display -->
+        <!-- <div *ngIf="reportForm.get('reportDetails')?.invalid && reportForm.get('reportDetails')?.touched" class="validation-error">
+          Report details are required.
+        </div> -->
+      </ion-item>
+    </form>
+  </div>
+</ion-content>

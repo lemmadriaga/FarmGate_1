@@ -1,0 +1,28 @@
+ion-label.rating-label {
+  display: block; // Ensure it takes full width
+  margin-bottom: 8px;
+  font-weight: 500; // Slightly bolder
+  color: var(--ion-color-step-800, #3a3a3a); // Use Ionic variable or fallback
+}
+
+.star-rating-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; // Space below stars
+}
+
+.star-icon {
+  font-size: 32px; // Adjust size as needed
+  margin-right: 5px; // Space between stars
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1); // Slightly enlarge on hover
+  }
+}
+
+.comment-item {
+  // Add margin-top or other spacing if needed
+  margin-top: 10px;
+}

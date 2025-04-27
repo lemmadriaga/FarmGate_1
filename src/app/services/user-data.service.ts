@@ -8,10 +8,19 @@ export interface UserProfile {
   email?: string; // Keep email if it exists
   firstName?: string; 
   lastName?: string; 
+  gender?: string; // Added field
+  dateOfBirth?: string; // Added field (Consider using Date or Timestamp type)
   address?: string;
   role?: string; // Keep role if it exists
   phoneNumber?: string; // Added back as optional
-  createdAt?: any; // Keep createdAt if it exists (use firebase.firestore.Timestamp if preferred)
+  createdAt?: Date;
+}
+
+export interface FeedbackReportPayload {
+  rating?: number; // For feedback
+  comments?: string; // For feedback
+  reportDetails?: string; // For report
+  // Add any other common or specific fields needed
 }
 
 @Injectable({
@@ -27,5 +36,22 @@ export class UserDataService {
     return userDoc.valueChanges({ idField: 'uid' }); // Use valueChanges to get Observable
   }
 
-  // Add other methods if needed (e.g., updateUserProfile)
+  // Update a user's profile document
+  updateUserProfile(uid: string, data: Partial<UserProfile>): Promise<void> {
+    const userDoc: AngularFirestoreDocument<UserProfile> = this.afs.doc<UserProfile>(`users/${uid}`);
+    // Use update to only change specified fields
+    return userDoc.update(data);
+  }
+
+  // Submit feedback or a report using the AngularFire service
+  submitFeedbackOrReport(userId: string, type: 'feedback' | 'report', payload: FeedbackReportPayload) {
+    // Use the AngularFire service's collection method
+    const collectionRef = this.afs.collection('feedbackAndReports');
+    return collectionRef.add({
+      userId: userId,
+      type: type,
+      ...payload, // Spread the specific feedback/report data
+      submittedAt: new Date()
+    });
+  }
 }

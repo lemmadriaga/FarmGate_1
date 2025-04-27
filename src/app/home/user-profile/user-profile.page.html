@@ -1,0 +1,100 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-img
+      src="assets/marketplace/marketplaceHomepage/marketplacelogo.svg"
+      alt="FarmGate Logo"
+      style="height: 40px; margin: auto;"
+    ></ion-img>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- User Info Section -->
+  <div *ngIf="userProfile$ | async as userProfile" class="user-info-container">
+    <div class="user-icon">
+      <!-- Inline SVG for the user icon -->
+      <svg width="59" height="59" viewBox="0 0 59 59" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="29.5" cy="29.5" r="29" fill="white" stroke="black"/>
+      </svg>
+    </div>
+    <div class="user-details">
+      <div class="user-name">{{ userProfile.firstName }} {{ userProfile.lastName }}</div>
+      <div class="user-type">{{ userProfile.role === 'regular' ? 'Customer' : userProfile.role }}</div>
+    </div>
+  </div>
+  <!-- End User Info Section -->
+
+  <!-- BuyLokal Promo Section -->
+  <div class="buylokal-promo-container">
+    <div class="promo-text">
+      <div class="promo-title">Out of fruits & veggies?</div>
+      <div class="promo-subtitle">Try our BuyLokal and get fresh fruits and veggies right on your doorstep!</div>
+    </div>
+    <ion-button class="try-now-button" routerLink="../BuyLokal" routerDirection="forward">
+      <span class="try-now-text">Try Now</span>
+    </ion-button>
+  </div>
+  <!-- End BuyLokal Promo Section -->
+
+  <!-- Profile Info Section -->
+  <div class="profile-info-section" *ngIf="userProfile$ | async as userProfile">
+    <h2 class="profile-info-header">Profile Info</h2>
+
+    <div class="user-details-block">
+      <div class="user-details-subheader">
+        <span>User Details</span>
+        <ion-button fill="clear" size="small" class="edit-profile-button" (click)="openEditModal()">
+          Edit Profile
+        </ion-button>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">Full Name</span>
+        <span class="info-value">{{ (userProfile.firstName || userProfile.lastName) ? ((userProfile.firstName || '') + ' ' + (userProfile.lastName || '') | titlecase) : 'No Information Set Yet!' }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Phone Number</span>
+        <span class="info-value">{{ userProfile.phoneNumber ? userProfile.phoneNumber : 'No Information Set Yet!' }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Gender</span>
+        <span class="info-value">{{ userProfile.gender ? userProfile.gender : 'No Information Set Yet!' }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Date of Birth</span>
+        <span class="info-value">{{ userProfile.dateOfBirth ? userProfile.dateOfBirth : 'No Information Set Yet!' }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Full Address</span>
+        <span class="info-value">{{ userProfile.address ? userProfile.address : 'No Information Set Yet!' }}</span>
+      </div>
+    </div>
+  </div>
+  <!-- End Profile Info Section -->
+
+  <!-- Feedback and Report Section -->
+  <div class="feedback-report-container">
+    <!-- Feedback Box -->
+    <div class="feedback-box" (click)="openFeedbackModal()">
+      <div class="box-content">
+        <h3 class="box-header">Feedback</h3>
+        <p class="box-subheader">Share us your thoughts about the new update!</p>
+      </div>
+    </div>
+    <!-- Report Box -->
+    <div class="report-box" (click)="openReportModal()">
+      <div class="box-content">
+        <h3 class="box-header">Report</h3>
+        <p class="box-subheader">Are you okay? Please tell us what happened</p>
+      </div>
+    </div>
+  </div>
+  <!-- End Feedback and Report Section -->
+
+  <!-- Watermark Section -->
+  <div class="watermark-container">
+    <span class="watermark-part1">FarmGate by </span>
+    <span class="watermark-part2">CyberNex Innovate</span>
+  </div>
+
+</ion-content>
