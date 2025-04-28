@@ -1,0 +1,60 @@
+<div class="custom-header">
+  <button class="back-button" (click)="goBack()">
+    <ion-icon name="arrow-back-outline"></ion-icon>
+  </button>
+  <h1>Educational Hub</h1>
+</div>
+
+<ion-content class="ion-padding">
+  <!-- Search bar -->
+  <ion-searchbar
+    [(ngModel)]="searchTerm"
+    placeholder="Search videos"
+    animated
+  ></ion-searchbar>
+
+  <!-- Level filter -->
+  <div class="level-filter">
+    <ion-segment [(ngModel)]="selectedLevel" mode="ios">
+      <ion-segment-button value="all">
+        <ion-label>All</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Beginner">
+        <ion-label>Beginner</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Intermediate">
+        <ion-label>Intermediate</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="Advanced">
+        <ion-label>Advanced</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- Video grid -->
+  <div class="video-grid">
+    <ion-card *ngFor="let video of filteredVideos" class="video-card">
+      <div class="video-thumbnail" (click)="openYoutubeVideo(video.youtubeUrl)">
+        <img [src]="video.image" [alt]="video.title"/>
+        <div class="play-overlay">
+          <ion-icon name="play-circle"></ion-icon>
+        </div>
+        <div class="duration-badge">
+          <ion-icon name="time-outline"></ion-icon>
+          {{video.duration}}
+        </div>
+      </div>
+      <ion-card-header>
+        <ion-card-title>{{video.title}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{video.description}}</p>
+        <div class="video-meta">
+          <ion-chip [color]="video.level === 'Beginner' ? 'success' : video.level === 'Intermediate' ? 'warning' : 'danger'">
+            <ion-label>{{video.level}}</ion-label>
+          </ion-chip>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

@@ -111,6 +111,13 @@ const routes: Routes = [
     // Corrected to use loadComponent for standalone page
     loadComponent: () => import('./under-construction/under-construction.page').then( m => m.UnderConstructionPage)
   },
+  {
+    path: 'user-dashboard/educational-hub',
+    loadChildren: () =>
+      import('./home/user-dashboard/educational-hub/educational-hub.module').then(
+        (m) => m.EducationalHubPageModule
+      ),
+  },
 ];
 
 @NgModule({

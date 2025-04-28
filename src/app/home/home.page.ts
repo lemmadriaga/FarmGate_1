@@ -111,22 +111,25 @@ export class HomePage implements OnInit {
       id: 1,
       title: 'Modern Rice Farming',
       image: 'assets/education/rice-farming.jpg',
-      duration: '25 min',
+      duration: '11 min',
       level: 'Beginner',
+      youtubeUrl: 'https://www.youtube.com/watch?v=SJgDswVRuXA',
     },
     {
       id: 2,
       title: 'Sustainable Practices',
-      image: 'assets/education/sustainable.jpg',
-      duration: '40 min',
+      image: 'assets/education/sustainable2.png',
+      duration: '20 min',
       level: 'Intermediate',
+      youtubeUrl: 'https://www.youtube.com/watch?v=iIqi3Fy2kXM',
     },
     {
       id: 3,
       title: 'Pest Management',
-      image: 'assets/education/pest-management.jpg',
-      duration: '35 min',
+      image: 'assets/education/pest2.png',
+      duration: '4 min',
       level: 'Advanced',
+      youtubeUrl: 'https://www.youtube.com/watch?v=AVSs-EkYTCo',
     },
   ];
 
@@ -153,5 +156,13 @@ export class HomePage implements OnInit {
   }
   marketplace(){
     this.navCtrl.navigateForward('user-dashboard/marketplace')
+  }
+
+  openYoutubeVideo(url: string): void {
+    window.open(url, '_blank');
+  }
+
+  goToEducationalHub() {
+    this.navCtrl.navigateForward('user-dashboard/educational-hub');
   }
 }

@@ -207,12 +207,12 @@
   <!-- Educational Hub -->
   <div class="section-header">
     <h2>Educational Hub</h2>
-    <ion-button fill="clear" size="small">More</ion-button>
+    <ion-button fill="clear" size="small" (click)="goToEducationalHub()">More</ion-button>
   </div>
 
   <div class="education-slider">
     <div class="education-card" *ngFor="let content of educationalContent">
-      <div class="education-image">
+      <div class="education-image" (click)="openYoutubeVideo(content.youtubeUrl)" style="cursor: pointer;">
         <img [src]="content.image" [alt]="content.title" />
         <div class="education-overlay">
           <ion-icon name="play-circle"></ion-icon>

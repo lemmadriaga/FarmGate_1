@@ -5,6 +5,10 @@ import { UserDashboardPage } from './user-dashboard.page';
 
 const routes: Routes = [
   {
+    path: 'educational-hub',
+    loadChildren: () => import('./educational-hub/educational-hub.module').then( m => m.EducationalHubPageModule)
+  },
+  {
     path: '',
     component: UserDashboardPage, 
     children:[
@@ -27,7 +31,7 @@ const routes: Routes = [
       {
         path: 'profile',
         loadChildren: () => import('../user-profile/user-profile.module').then( m => m.UserProfilePageModule)
-      },
+      }
     ]
   }
 ];

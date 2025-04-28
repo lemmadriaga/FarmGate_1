@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:host {
+  font-family: 'Poppins', sans-serif;
+}
+
+.custom-header {
+  background: #4caf50;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: white;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+
+  .back-button {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    ion-icon {
+      font-size: 24px;
+    }
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+}
+
+.level-filter {
+  margin: 16px 0;
+  ion-segment {
+    --background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    padding: 4px;
+  }
+
+  ion-segment-button {
+    --color: #757575;
+    --color-checked: #4caf50;
+    --indicator-color: #4caf50;
+    font-weight: 500;
+    min-height: 40px;
+    --border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    
+    &::part(indicator) {
+      border-radius: 8px;
+    }
+  }
+}
+
+ion-content {
+  --background: #f5f7f2;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+  animation: fadeIn 0.5s ease-out forwards;
+  
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.video-card {
+  margin: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  background: white;
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: fadeIn 0.5s ease-out forwards;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.15);
+  }
+
+  .video-thumbnail {
+    position: relative;
+    aspect-ratio: 16/9;
+    cursor: pointer;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover {
+      img {
+        transform: scale(1.05);
+      }
+      .play-overlay {
+        opacity: 1;
+      }
+    }
+  }
+
+  .play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(76, 175, 80, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+
+    ion-icon {
+      font-size: 48px;
+      color: white;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+  }
+
+  .duration-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(33, 33, 33, 0.85);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    backdrop-filter: blur(4px);
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+
+    ion-icon {
+      font-size: 14px;
+      color: #4caf50;
+    }
+  }
+
+  ion-card-header {
+    padding: 16px 16px 8px;
+  }
+
+  ion-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #212121;
+    margin: 0;
+    line-height: 1.4;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  ion-card-content {
+    padding: 0 16px 16px;
+
+    p {
+      color: #757575;
+      font-size: 14px;
+      margin: 8px 0;
+      line-height: 1.5;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 400;
+    }
+  }
+
+  .video-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+
+    ion-chip {
+      margin: 0;
+      font-size: 12px;
+      height: 24px;
+      border-radius: 12px;
+      font-weight: 500;
+
+      &[color="success"] {
+        --background: rgba(76, 175, 80, 0.1);
+        --color: #4caf50;
+        font-family: 'Poppins', sans-serif;
+      }
+
+      &[color="warning"] {
+        --background: rgba(255, 152, 0, 0.1);
+        --color: #ff9800;
+        font-family: 'Poppins', sans-serif;
+      }
+
+      &[color="danger"] {
+        --background: rgba(244, 67, 54, 0.1);
+        --color: #f44336;
+        font-family: 'Poppins', sans-serif;
+      }
+    }
+  }
+}
