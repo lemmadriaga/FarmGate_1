@@ -1,43 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, NavController, ToastController } from '@ionic/angular';
+import { IonicModule, ToastController } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { Location } from '@angular/common';
-import { CartService, CartItem } from '../services/cart.service';
+import { CartService, CartItem } from '../../services/cart.service';
+import { FilterPipe } from '../../pipes/filter.pipe';
 
 @Component({
-  selector: 'app-buylokal-vegetables',
-  templateUrl: './buylokal-vegetables.component.html',
-  styleUrls: ['./buylokal-vegetables.component.scss'],
+  selector: 'app-buylokal-fruits',
+  templateUrl: './buylokal-fruits.component.html',
+  styleUrls: ['./buylokal-fruits.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, FormsModule, RouterModule],
+  imports: [CommonModule, IonicModule, FormsModule, RouterModule, FilterPipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class BuylokalVegetablesComponent implements OnInit {
+export class BuylokalFruitsComponent implements OnInit {
   searchTerm: string = '';
   basketCount: number = 0;
   cartItemCount: number = 0;
 
-  vegetables = [
+  fruits = [
     {
-      id: 'tomato',
-      name: 'Tomatoes',
-      localName: 'Kamatis',
-      image: 'assets/tomato.png'
+      id: 'mango',
+      name: 'Mango',
+      localName: 'Mangga',
+      image: 'assets/mango.png',
+      price: 50
     },
     {
-      id: 'onion',
-      name: 'Onion',
-      localName: 'Sibuyas',
-      image: 'assets/onion.png'
+      id: 'banana',
+      name: 'Banana',
+      localName: 'Saging',
+      image: 'assets/banana.png',
+      price: 20
     },
     {
-      id: 'eggplant',
-      name: 'Eggplant',
-      localName: 'Talong',
-      image: 'assets/eggplant.png'
+      id: 'papaya',
+      name: 'Papaya',
+      localName: 'Papaya',
+      image: 'assets/papaya.png',
+      price: 30
     }
   ];
 
@@ -83,7 +86,7 @@ export class BuylokalVegetablesComponent implements OnInit {
 
   ngOnInit() { }
 
-  async addToCart(vegetable: any) {
+  async addToCart(fruit: any) {
     if (this.basketCount === 0) {
       const toast = await this.toastController.create({
         message: 'Please select the number of baskets first',
@@ -96,19 +99,19 @@ export class BuylokalVegetablesComponent implements OnInit {
     }
 
     const cartItem: CartItem = {
-      id: vegetable.id,
-      name: vegetable.name,
-      localName: vegetable.localName,
-      price: vegetable.price, // Add price
+      id: fruit.id,
+      name: fruit.name,
+      localName: fruit.localName,
+      price: fruit.price,
       quantity: this.basketCount,
-      image: vegetable.image
+      image: fruit.image
     };
 
     this.cartService.addToCart(cartItem);
 
     const kilos = this.basketCount * 4;
     const toast = await this.toastController.create({
-      message: `Added ${this.basketCount} basket(s) of ${vegetable.name} to cart (${kilos} kilos). Each basket contains 4 kilos.`,
+      message: `Added ${this.basketCount} basket(s) of ${fruit.name} to cart (${kilos} kilos). Each basket contains 4 kilos.`,
       duration: 3000,
       position: 'bottom',
       color: 'success'

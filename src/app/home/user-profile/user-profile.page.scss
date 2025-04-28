@@ -24,46 +24,58 @@ ion-content {
   border-radius: 13px;
   background: rgba(105, 255, 75, 0.46);
 
-  display: flex;
-  align-items: center;
+  display: flex;          // Use flexbox for layout
+  align-items: center;    // Vertically center items
   padding: 10px 15px; // Add padding for internal spacing
   margin: 20px auto; // Add margin top/bottom and center horizontally
   box-sizing: border-box; // Ensure padding is included in width/height
-}
 
-.user-icon {
-  margin-right: 15px; // Space between icon and text details
+  .user-icon {
+    margin-right: 15px; // Space between icon and text details
 
-  svg {
-    display: block; // Removes potential extra space below inline SVG
-    // width/height defined in SVG attributes
-    // fill/stroke defined in SVG attributes
+    svg {
+      display: block; // Removes potential extra space below inline SVG
+      // width/height defined in SVG attributes
+      // fill/stroke defined in SVG attributes
+    }
   }
-}
 
-.user-details {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; // Align text vertically
-}
+  .user-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; // Align text vertically
+    flex-grow: 1; // Allow details to take up space
+  }
 
-.user-name {
-  color: #000;
-  font-family: 'Poppins', sans-serif; // Added fallback font
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal; // Consider a specific value like 1.2 if needed
-  margin-bottom: 4px; // Space between name and type
-}
+  .user-name {
+    color: #000;
+    font-family: 'Poppins', sans-serif; // Added fallback font
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal; // Consider a specific value like 1.2 if needed
+    margin-bottom: 4px; // Space between name and type
+  }
 
-.user-type {
-  color: #01B44C;
-  font-family: 'Poppins', sans-serif; // Added fallback font
-  font-size: 13px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal; // Consider a specific value like 1.2 if needed
+  .user-type {
+    color: #01B44C;
+    font-family: 'Poppins', sans-serif; // Added fallback font
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal; // Consider a specific value like 1.2 if needed
+  }
+
+  .logout-button {
+    margin-left: auto; // Pushes button to the right
+
+    --padding-start: 4px; // Reduce padding for a tighter look
+    --padding-end: 4px;
+
+    ion-icon {
+      font-size: 24px; // Adjust icon size
+    }
+  }
 }
 
 // BuyLokal Promo Section Styles

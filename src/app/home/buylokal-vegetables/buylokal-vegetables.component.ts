@@ -1,43 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule, ToastController } from '@ionic/angular';
+import { IonicModule, NavController, ToastController } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { CartService, CartItem } from '../services/cart.service';
-import { FilterPipe } from '../pipes/filter.pipe';
+import { Location } from '@angular/common';
+import { CartService, CartItem } from '../../services/cart.service';
 
 @Component({
-  selector: 'app-buylokal-livestock',
-  templateUrl: './buylokal-livestock.component.html',
-  styleUrls: ['./buylokal-livestock.component.scss'],
+  selector: 'app-buylokal-vegetables',
+  templateUrl: './buylokal-vegetables.component.html',
+  styleUrls: ['./buylokal-vegetables.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, FormsModule, RouterModule, FilterPipe],
+  imports: [CommonModule, IonicModule, FormsModule, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class BuylokalLivestockComponent implements OnInit {
+export class BuylokalVegetablesComponent implements OnInit {
   searchTerm: string = '';
   basketCount: number = 0;
   cartItemCount: number = 0;
 
-  livestock = [
+  vegetables = [
     {
-      id: 'pork',
-      name: 'Pork Belly',
-      localName: 'Liempo',
-      image: 'assets/porkbelly.png'
+      id: 'tomato',
+      name: 'Tomatoes',
+      localName: 'Kamatis',
+      image: 'assets/tomato.png'
     },
     {
-      id: 'beef',
-      name: 'Beef Cubes',
-      localName: 'Hiwang Baka',
-      image: 'assets/beefcubes.png'
+      id: 'onion',
+      name: 'Onion',
+      localName: 'Sibuyas',
+      image: 'assets/onion.png'
     },
     {
-      id: 'chicken',
-      name: 'Chicken Legs',
-      localName: 'Hita ng Manok',
-      image: 'assets/chickenlegs.png'
+      id: 'eggplant',
+      name: 'Eggplant',
+      localName: 'Talong',
+      image: 'assets/eggplant.png'
     }
   ];
 
@@ -51,26 +51,26 @@ export class BuylokalLivestockComponent implements OnInit {
     });
   }
 
-  ngOnInit() { }
-
-  onSearch(event: any) {
-    this.searchTerm = event.target.value.toLowerCase();
+  navigateTo(path: string) {
+    this.router.navigate([path]);
   }
 
   goBack() {
     this.router.navigate(['buylokal-options']);
   }
 
-  navigateTo(path: string) {
-    this.router.navigate([path]);
-  }
-
   openCart() {
     this.router.navigate(['/home/marketplace-checkout']);
   }
 
+  // Search functionality logic
+  onSearch(event: any) {
+    this.searchTerm = event.target.value.toLowerCase();
+    // TODO: Implement search functionality
+  }
+
   increaseCount() {
-    if (this.basketCount < 99) {
+    if (this.basketCount < 10) {
       this.basketCount++;
     }
   }
@@ -81,7 +81,9 @@ export class BuylokalLivestockComponent implements OnInit {
     }
   }
 
-  async addToCart(item: any) {
+  ngOnInit() { }
+
+  async addToCart(vegetable: any) {
     if (this.basketCount === 0) {
       const toast = await this.toastController.create({
         message: 'Please select the number of baskets first',
@@ -94,19 +96,19 @@ export class BuylokalLivestockComponent implements OnInit {
     }
 
     const cartItem: CartItem = {
-      id: item.id,
-      name: item.name,
-      localName: item.localName,
-      price: item.price, // Add price
+      id: vegetable.id,
+      name: vegetable.name,
+      localName: vegetable.localName,
+      price: vegetable.price, // Add price
       quantity: this.basketCount,
-      image: item.image
+      image: vegetable.image
     };
 
     this.cartService.addToCart(cartItem);
 
     const kilos = this.basketCount * 4;
     const toast = await this.toastController.create({
-      message: `Added ${this.basketCount} basket(s) of ${item.name} to cart (${kilos} kilos). Each basket contains 4 kilos.`,
+      message: `Added ${this.basketCount} basket(s) of ${vegetable.name} to cart (${kilos} kilos). Each basket contains 4 kilos.`,
       duration: 3000,
       position: 'bottom',
       color: 'success'

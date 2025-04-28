@@ -1,0 +1,179 @@
+.admin-dashboard-container {
+  display: flex;
+  width: 100%;
+  height: 100vh; // Use viewport height for full screen
+  background-color: #f4f4f4; // Example background for the content area side
+}
+
+.admin-sidebar {
+  width: 257px;
+  height: 100vh; // Full viewport height
+  flex-shrink: 0;
+  background: #fff;
+  border-right: 1px solid #e0e0e0; // Add right border
+  padding: 20px 0; // Add some vertical padding, no horizontal padding needed if items are centered/full-width
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Center items horizontally like the logo
+}
+
+.sidebar-logo {
+  width: 174.45px;
+  height: 48px;
+  flex-shrink: 0;
+  margin-bottom: 30px; // Space below the logo
+}
+
+.sidebar-nav {
+  width: 100%;
+  margin-top: 20px; // Space below logo
+  padding: 0 15px; // Horizontal padding for nav items
+  box-sizing: border-box;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 10px; // Padding inside nav item
+  margin-bottom: 8px; // Space between items
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  color: #555; // Default text color
+
+  ion-icon {
+    font-size: 20px;
+    margin-right: 15px; // Space between icon and text
+    color: #888; // Icon color
+    transition: color 0.2s ease-in-out;
+  }
+
+  &:hover {
+    background-color: #f0f0f0; // Light background on hover
+    color: #222; // Darker text on hover
+    ion-icon {
+      color: #222; // Darker icon on hover
+    }
+  }
+
+  // Active state styling (add dynamically if needed via [class.active])
+  &.active {
+    background-color: #4caf50; // Example active background
+    color: #fff; // White text for active
+    ion-icon {
+      color: #fff; // White icon for active
+    }
+  }
+}
+
+.nav-item.has-submenu {
+  position: relative; // For positioning the indicator
+
+  .submenu-indicator {
+    position: absolute;
+    right: 10px; // Position indicator to the right
+    font-size: 16px; // Smaller indicator icon
+    transition: transform 0.2s ease-in-out; // Smooth rotation
+  }
+}
+
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  padding-left: 45px; // Indent submenu items (icon width + margin)
+  margin-bottom: 5px; // Space below submenu block
+
+  &.open {
+    max-height: 500px; // Arbitrary large height, adjust as needed
+    transition: max-height 0.3s ease-in;
+  }
+}
+
+.submenu-item {
+  padding: 8px 0; // Padding for submenu items
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  transition: color 0.2s ease-in-out;
+  border-radius: 4px; // Slight rounding
+
+  &:hover {
+    color: #000; // Darker text on hover
+    background-color: #f9f9f9; // Very light background on hover
+  }
+}
+
+.admin-content {
+  flex-grow: 1; // Allow content area to take remaining space
+  // Remove direct padding, apply to content body instead
+  // padding: 20px;
+  overflow-y: auto; // Allow content to scroll if it overflows vertically
+  display: flex; // Use flex for vertical layout of navbar + body
+  flex-direction: column;
+  height: 100vh; // Ensure content area also respects viewport height
+}
+
+.admin-navbar {
+  width: 100%; // Span the full width of the content area
+  height: 84px;
+  flex-shrink: 0; // Prevent navbar from shrinking
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0; // Add bottom border
+  display: flex;
+  align-items: center;
+  padding: 0 20px; // Add horizontal padding
+  box-sizing: border-box;
+}
+
+.navbar-spacer {
+  flex-grow: 1; // Takes up space to push logout button right
+}
+
+.logout-control {
+  // Rough dimensions from spec, adjust as needed for button content
+  // width: 159px;
+  height: 43px;
+  flex-shrink: 0;
+  --color: var(--ion-color-danger); // Red color for logout
+  --padding-start: 10px;
+  --padding-end: 10px;
+  font-family: 'Poppins', sans-serif; // Match other potential styles
+
+  ion-icon {
+    margin-right: 8px; // Space between icon and text
+    font-size: 20px;
+  }
+}
+
+.admin-content-body {
+  flex-grow: 1; // Takes remaining vertical space
+  padding: 20px; // Add padding for the actual content
+  overflow-y: auto; // Allow body content to scroll independently
+  width: 100%; // Fill available width
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box; // Include padding in the element's total width and height
+  display: flex;
+  flex-direction: column;
+}
+
+// Removed .dashboard-grid and .dashboard-card styles - moved to admin-overview.component.scss
+
+// Remove Ionic page padding if necessary, as we control padding in our containers
+:host {
+  ion-content {
+    --padding-start: 0;
+    --padding-end: 0;
+    --padding-top: 0;
+    --padding-bottom: 0;
+  }
+}
+
+h1 { // Basic styling for the placeholder
+  color: #333;
+  margin: 0; // Remove default margin
+}

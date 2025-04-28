@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreDocument, QueryFn } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
+import firebase from 'firebase/compat/app';
 
 // Define an interface for the user profile data structure
 export interface UserProfile {
@@ -14,6 +15,15 @@ export interface UserProfile {
   role?: string; // Keep role if it exists
   phoneNumber?: string; // Added back as optional
   createdAt?: Date;
+}
+
+// Define an interface for the Feedback/Report document structure
+// (Assuming it includes fields from payload + metadata)
+export interface FeedbackReport extends FeedbackReportPayload {
+  id?: string; // Add if using valueChanges({ idField: 'id' })
+  userId: string;
+  type: 'feedback' | 'report';
+  submittedAt: Date | firebase.firestore.Timestamp; // Allow both types
 }
 
 export interface FeedbackReportPayload {
@@ -53,5 +63,21 @@ export class UserDataService {
       ...payload, // Spread the specific feedback/report data
       submittedAt: new Date()
     });
+  }
+
+  // Get the latest registered users
+  getLatestUsers(limitCount: number): Observable<UserProfile[]> {
+    return this.afs.collection<UserProfile>('users', ref => ref
+      .orderBy('createdAt', 'desc')
+      .limit(limitCount)
+    ).valueChanges({ idField: 'uid' }); // Include document ID if needed
+  }
+
+  // Get the latest feedback and reports
+  getLatestFeedbackAndReports(limitCount: number): Observable<FeedbackReport[]> {
+    return this.afs.collection<FeedbackReport>('feedbackAndReports', ref => ref
+      .orderBy('submittedAt', 'desc')
+      .limit(limitCount)
+    ).valueChanges({ idField: 'id' }); // Include document ID if needed
   }
 }

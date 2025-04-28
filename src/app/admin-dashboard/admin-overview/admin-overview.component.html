@@ -1,0 +1,68 @@
+<!-- Dashboard Grid -->
+<div class="dashboard-grid">
+  <!-- Analytics Card -->
+  <div class="dashboard-card analytics-card">
+    <h2>Analytics Overview</h2>
+    <div class="analytics-item">
+      <span>Total Products:</span>
+      <strong>{{ totalProducts }}</strong>
+    </div>
+    <div class="analytics-item">
+      <span>Recent Users:</span>
+      <strong *ngIf="!isLoadingUsers">{{ latestUsers.length }}</strong>
+      <span *ngIf="isLoadingUsers">Loading...</span>
+    </div>
+    <!-- Placeholder for more analytics -->
+  </div>
+
+  <!-- Market Listing Card -->
+  <div class="dashboard-card market-card">
+    <h2>Market Listings</h2>
+    <!-- Display total product count using the same structure as analytics -->
+    <div class="market-item" *ngIf="products.length > 0">
+      <span>Total Products:</span>
+      <strong>{{ totalProducts }}</strong>
+    </div>
+    <p *ngIf="products.length === 0">Loading market data...</p>
+    <!-- Placeholder for listings component/link -->
+  </div>
+
+  <!-- Customer Card -->
+  <div class="dashboard-card customer-card">
+    <h2>Customer Activity</h2>
+
+    <!-- Latest Users Section -->
+    <div class="activity-section">
+      <h3>Latest Users</h3>
+      <p *ngIf="isLoadingUsers">Loading users...</p>
+      <ul *ngIf="!isLoadingUsers && latestUsers.length > 0">
+        <li *ngFor="let user of latestUsers">
+          {{ user.firstName || 'N/A' }} {{ user.lastName || '' }} ({{ user.email || 'No email' }})
+        </li>
+      </ul>
+      <p *ngIf="!isLoadingUsers && latestUsers.length === 0">No recent user registrations found.</p>
+    </div>
+
+    <!-- Latest Reports Section -->
+    <div class="activity-section">
+      <h3>Latest Feedback/Reports</h3>
+      <p *ngIf="isLoadingReports">Loading reports...</p>
+      <ul *ngIf="!isLoadingReports && latestReports.length > 0">
+        <li *ngFor="let report of latestReports">
+          <strong>{{ report.type | titlecase }}:</strong> 
+          {{ report.comments || report.reportDetails || 'No details' }}
+          <small> (User ID: {{ report.userId }})</small>
+        </li>
+      </ul>
+      <p *ngIf="!isLoadingReports && latestReports.length === 0">No recent feedback or reports found.</p>
+    </div>
+  </div>
+
+  <!-- Updates Card -->
+  <div class="dashboard-card updates-card">
+    <h2>Recent Updates</h2>
+    <p>System notifications, new features, etc.</p>
+    <!-- Placeholder for updates list component -->
+  </div>
+</div>
+<!-- End Dashboard Grid -->

@@ -1,0 +1,84 @@
+.dashboard-grid {
+  display: grid;
+  // Creates 2 equal columns, adjust '1fr 1fr' for different widths
+  grid-template-columns: repeat(2, 1fr);
+  // Creates rows as needed, min-height ensures cards have some height
+  grid-auto-rows: minmax(200px, auto);
+  gap: 20px; // Space between grid items
+  width: 100%;
+  height: 100%; // Try to fill the container height
+  // flex-grow: 1; // Use height: 100% within the flex container instead
+}
+
+.dashboard-card {
+  background-color: #fff; 
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #333; // Default text color for cards
+
+  h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #1a1a1a;
+    font-size: 1.2em;
+  }
+
+  &.analytics-card,
+  &.customer-card {
+    p,
+    li,
+    span,
+    strong,
+    h3 {
+      color: #000; // Set content text to black
+    }
+
+    // You might need separate rules if elements have specific classes
+    .analytics-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      span {
+        color: #555; // Keep labels slightly gray if needed
+      }
+      strong {
+        color: #000; // Ensure value is black
+      }
+    }
+
+    // Style for Market Listing item (similar to analytics-item)
+    .market-item {
+      margin-bottom: 8px;
+      span {
+        display: block; // Make label take its own line
+        color: #555;
+        margin-bottom: 2px; // Add small space below label
+      }
+      strong {
+        display: block; // Make value take its own line
+        color: #000;
+        font-size: 1.1em; // Make value slightly larger
+      }
+    }
+
+    .activity-section {
+      margin-bottom: 15px;
+      h3 {
+        margin-bottom: 8px;
+        font-size: 1em;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+      }
+      ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+        li {
+          padding: 4px 0;
+          font-size: 0.9em;
+        }
+      }
+    }
+  }
+}

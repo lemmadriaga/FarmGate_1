@@ -1,0 +1,76 @@
+<div class="admin-dashboard-container">
+  <!-- Sidebar -->
+  <div class="admin-sidebar">
+    <img
+      src="assets/marketplace/marketplaceHomepage/marketplacelogo.svg"
+      alt="FarmGate Logo"
+      class="sidebar-logo"
+    />
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar-nav">
+      <!-- Dashboard Link -->
+      <div class="nav-item" (click)="navigateTo('/admin-dashboard/overview')">
+         <ion-icon name="grid-outline"></ion-icon>
+         <span>Dashboard</span>
+      </div>
+
+      <!-- User List Dropdown -->
+      <div class="nav-item has-submenu" (click)="toggleDropdown('userList')">
+        <ion-icon name="people-outline"></ion-icon>
+        <span>User List</span>
+        <ion-icon class="submenu-indicator" [name]="isDropdownOpen('userList') ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+      </div>
+      <div class="submenu" [class.open]="isDropdownOpen('userList')">
+        <div class="submenu-item" (click)="navigateTo('/admin-dashboard/users/farmers')">Farmers</div>
+        <div class="submenu-item" (click)="navigateTo('/admin-dashboard/users/customers')">Customers</div>
+      </div>
+
+      <!-- Marketplace Dropdown -->
+      <div class="nav-item has-submenu" (click)="toggleDropdown('marketplace')">
+        <ion-icon name="storefront-outline"></ion-icon>
+        <span>Marketplace</span>
+        <ion-icon class="submenu-indicator" [name]="isDropdownOpen('marketplace') ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+      </div>
+      <div class="submenu" [class.open]="isDropdownOpen('marketplace')">
+        <div class="submenu-item" (click)="navigateTo('/admin-dashboard/marketplace/tools')">Tools & Equipment</div>
+        <div class="submenu-item" (click)="navigateTo('/admin-dashboard/marketplace/crops')">Crop Production</div>
+        <div class="submenu-item" (click)="navigateTo('/admin-dashboard/marketplace/machinery')">Farm Machinery</div>
+        <div class="submenu-item" (click)="navigateTo('/admin-dashboard/marketplace/livestock')">Livestock & Poultry</div>
+      </div>
+
+       <!-- BuyLokal Dropdown -->
+       <div class="nav-item has-submenu" (click)="toggleDropdown('buyLokal')">
+        <ion-icon name="basket-outline"></ion-icon>
+        <span>BuyLokal</span>
+        <ion-icon class="submenu-indicator" [name]="isDropdownOpen('buyLokal') ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+      </div>
+      <div class="submenu" [class.open]="isDropdownOpen('buyLokal')">
+        <div class="submenu-item" (click)="navigateTo('/admin-dashboard/buylokal/dairy')">Dairy</div>
+        <div class="submenu-item" (click)="navigateTo('/admin-dashboard/buylokal/fruits')">Fruits</div>
+        <div class="submenu-item" (click)="navigateTo('/admin-dashboard/buylokal/livestock')">Livestock</div>
+        <div class="submenu-item" (click)="navigateTo('/admin-dashboard/buylokal/vegetables')">Vegetables</div>
+      </div>
+
+    </nav>
+    <!-- End Sidebar Navigation -->
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="admin-content">
+    <!-- Top Navbar -->
+    <div class="admin-navbar">
+      <!-- Navbar content (e.g., title, search) could go here -->
+      <div class="navbar-spacer"></div> <!-- Pushes logout to the right -->
+      <ion-button fill="clear" class="logout-control" (click)="adminLogout()">
+         <ion-icon slot="start" name="log-out-outline"></ion-icon>
+         Log Out
+      </ion-button>
+    </div>
+
+    <!-- Content Body -->
+    <div class="admin-content-body">
+       <!-- Child routes will be loaded here -->
+       <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

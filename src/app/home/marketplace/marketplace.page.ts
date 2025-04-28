@@ -5,6 +5,7 @@ import { CartService, CartItem } from '../../services/cart.service';
 import { ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs'; 
 import { IonModal } from '@ionic/angular';
+import { ProductService, Product } from '../../services/product.service'; 
 
 interface Category {
   id: string;
@@ -12,19 +13,6 @@ interface Category {
 }
 
 type SelectedCategories = Record<string, boolean>;
-
-interface Product {
-  id: string;
-  name: string;
-  localName?: string;
-  price: number;
-  quantity?: string;
-  image: string;
-  farmerName?: string;
-  farmerLocation?: string;
-  rating?: number;
-  categoryId?: string; 
-}
 
 @Component({
   selector: 'app-marketplace',
@@ -179,62 +167,39 @@ export class MarketplacePage implements OnInit {
 
   @ViewChild('filterModal') filterModal!: IonModal;
 
+  products: Product[] = []; 
+  filteredProducts: Product[] = [];
   availableCategories: Category[] = []; 
   sortBy: string = 'recommended'; 
   selectedCategories: SelectedCategories = {};
   tempSortBy: string = 'recommended';
   tempSelectedCategories: SelectedCategories = {};
 
-  products: Product[] = []; 
-  filteredProducts: Product[] = [];
-
   constructor(
     private animationCtrl: AnimationController,
     private router: Router,
     private cartService: CartService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private productService: ProductService
   ) { 
     this.cartItemCount$ = this.cartService.getCartItemsCount(); 
   }
 
   ngOnInit() {
-    // Fetch initial products FIRST
     this.fetchProducts(); 
-    // THEN derive categories from products
     this.fetchCategories(); 
-    // Apply default filters/sort initially
     this.applyCurrentFiltersAndSort(); 
   }
 
   fetchProducts() {
-    // Replace with actual service call to fetch products
-    this.products = [
-      {
-        id: 'prod-001',
-        name: 'Product 1',
-        price: 100,
-        image: 'assets/product1.jpg',
-        categoryId: 'vegetables',
-      },
-      {
-        id: 'prod-002',
-        name: 'Product 2',
-        price: 200,
-        image: 'assets/product2.jpg',
-        categoryId: 'fruits',
-      },
-      {
-        id: 'prod-003',
-        name: 'Product 3',
-        price: 300,
-        image: 'assets/product3.jpg',
-        categoryId: 'equipment',
-      },
-    ];
+    this.productService.getProducts().subscribe(data => {
+      console.log('MarketplacePage: Received products from service:', data);
+      this.products = data;
+      this.applyCurrentFiltersAndSort(); 
+    });
   }
 
   fetchCategories() {
-    // Derive categories from the fetched products
     if (!this.products || this.products.length === 0) {
       console.warn('No products available to derive categories from.');
       this.availableCategories = [];
@@ -246,7 +211,6 @@ export class MarketplacePage implements OnInit {
     const categoryMap = new Map<string, string>();
     this.products.forEach(product => {
       if (product.categoryId && !categoryMap.has(product.categoryId)) {
-        // Use categoryId as name for simplicity, capitalize first letter
         const categoryName = product.categoryId.charAt(0).toUpperCase() + product.categoryId.slice(1);
         categoryMap.set(product.categoryId, categoryName);
       }
@@ -255,9 +219,8 @@ export class MarketplacePage implements OnInit {
     this.availableCategories = Array.from(categoryMap, ([id, name]) => ({ id, name }));
     console.log('Derived categories:', this.availableCategories);
 
-    // Initialize selectedCategories based on available ones
     this.selectedCategories = this.availableCategories.reduce((acc, cat) => {
-      acc[cat.id] = false; // Initially, no categories are selected
+      acc[cat.id] = false; 
       return acc;
     }, {} as SelectedCategories);
     this.tempSelectedCategories = { ...this.selectedCategories };

@@ -29,7 +29,7 @@ const routes: Routes = [
   {
     path: 'user-dashboard',
     loadChildren: () =>
-      import('./user-dashboard/user-dashboard.module').then(
+      import('./home/user-dashboard/user-dashboard.module').then(
         (m) => m.UserDashboardPageModule
       ),
   },
@@ -43,35 +43,35 @@ const routes: Routes = [
   {
     path: 'buylokal-options',
     loadChildren: () =>
-      import('./buylokal-options/buylokal-options.module').then(
+      import('./home/buylokal-options/buylokal-options.module').then(
         (m) => m.BuylokalOptionsModule
       ),
   },
   {
     path: 'buylokal-vegetables',
     loadChildren: () =>
-      import('./buylokal-vegetables/buylokal-vegetables.module').then(
+      import('./home/buylokal-vegetables/buylokal-vegetables.module').then(
         (m) => m.BuylokalVegetablesModule
       ),
   },
   {
     path: 'buylokal-fruits',
     loadChildren: () =>
-      import('./buylokal-fruits/buylokal-fruits.module').then(
+      import('./home/buylokal-fruits/buylokal-fruits.module').then(
         (m) => m.BuylokalFruitsModule
       ),
   },
   {
     path: 'buylokal-dairy',
     loadChildren: () =>
-      import('./buylokal-dairy/buylokal-dairy.module').then(
+      import('./home/buylokal-dairy/buylokal-dairy.module').then(
         (m) => m.BuylokalDairyModule
       ),
   },
   {
     path: 'buylokal-livestock',
     loadChildren: () =>
-      import('./buylokal-livestock/buylokal-livestock.module').then(
+      import('./home/buylokal-livestock/buylokal-livestock.module').then(
         (m) => m.BuylokalLivestockModule
       ),
   },
@@ -103,7 +103,7 @@ const routes: Routes = [
   },
   {
     path: 'cart',
-    loadChildren: () => import('./cart/cart.module').then( m => m.CartPageModule)
+    loadChildren: () => import('./home/cart/cart.module').then( m => m.CartPageModule)
   },
 
   {

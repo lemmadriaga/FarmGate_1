@@ -21,6 +21,9 @@
       <div class="user-name">{{ userProfile.firstName }} {{ userProfile.lastName }}</div>
       <div class="user-type">{{ userProfile.role === 'regular' ? 'Customer' : userProfile.role }}</div>
     </div>
+    <ion-button fill="clear" size="small" class="logout-button" (click)="logout()">
+      <ion-icon slot="icon-only" name="log-out-outline" color="danger"></ion-icon>
+    </ion-button>
   </div>
   <!-- End User Info Section -->
 

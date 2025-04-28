@@ -10,11 +10,11 @@ const routes: Routes = [
     children:[
       {
         path: 'home',
-        loadChildren: () => import('../home/home.module').then( m => m.HomePageModule)
+        loadChildren: () => import('../home.module').then( m => m.HomePageModule)
       },
       {
         path: 'marketplace',
-        loadChildren: () => import('../home/marketplace/marketplace.module').then( m => m.MarketplacePageModule)
+        loadChildren: () => import('../marketplace/marketplace.module').then( m => m.MarketplacePageModule)
       },
       {
         path: 'cart',
@@ -26,7 +26,7 @@ const routes: Routes = [
       },
       {
         path: 'profile',
-        loadChildren: () => import('../home/user-profile/user-profile.module').then( m => m.UserProfilePageModule)
+        loadChildren: () => import('../user-profile/user-profile.module').then( m => m.UserProfilePageModule)
       },
     ]
   }

@@ -24,7 +24,7 @@
 
       <form
         [formGroup]="loginForm"
-        (ngSubmit)="onLogin($event)"
+        (ngSubmit)="login()"
         class="login-form"
       >
         <div class="form-group">
@@ -79,6 +79,10 @@
         <div class="signup-text">
           Don't have an account?
           <a (click)="goToSignUp()" class="signup-link">Sign Up</a>
+        </div>
+        <div class="signup-text">
+          Looking for Admin sign-in? 
+          <a (click)="adminInfoClick()" class="signup-link">Click here</a>
         </div>
       </form>
     </div>

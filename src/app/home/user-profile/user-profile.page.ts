@@ -3,11 +3,12 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { UserProfile, UserDataService } from '../../services/user-data.service'; 
 import { AuthService } from '../../services/auth.service'; 
-import { ModalController } from '@ionic/angular'; 
+import { ModalController, ToastController } from '@ionic/angular'; 
 import { EditProfileModalComponent } from '../../modals/edit-profile/edit-profile-modal.component'; 
 import { FeedbackModalComponent } from '../../modals/feedback-modal/feedback-modal.component'; 
 import { ReportModalComponent } from '../../modals/report-modal/report-modal.component'; 
 import { firstValueFrom } from 'rxjs'; 
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-user-profile',
@@ -21,7 +22,9 @@ export class UserProfilePage implements OnInit {
   constructor(
     private userDataService: UserDataService,
     private authService: AuthService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private toastCtrl: ToastController,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -91,6 +94,23 @@ export class UserProfilePage implements OnInit {
     // if (role === 'submit') {
     //   console.log('Report submitted:', data);
     // }
+  }
+
+  async logout() {
+    try {
+      await this.authService.logout();
+      // Navigate to login page after successful sign out
+      // Replace '/login' with your actual login route if different
+      this.router.navigateByUrl('/login', { replaceUrl: true });
+    } catch (error) {
+      console.error('Error logging out:', error);
+      const toast = await this.toastCtrl.create({
+        message: 'Logout failed. Please try again.',
+        duration: 3000,
+        color: 'danger',
+      });
+      await toast.present();
+    }
   }
 
 }

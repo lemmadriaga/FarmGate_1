@@ -4,40 +4,40 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { CartService, CartItem } from '../services/cart.service';
-import { FilterPipe } from '../pipes/filter.pipe';
+import { CartService, CartItem } from '../../services/cart.service';
+import { FilterPipe } from '../../pipes/filter.pipe';
 
 @Component({
-  selector: 'app-buylokal-dairy',
-  templateUrl: './buylokal-dairy.component.html',
-  styleUrls: ['./buylokal-dairy.component.scss'],
+  selector: 'app-buylokal-livestock',
+  templateUrl: './buylokal-livestock.component.html',
+  styleUrls: ['./buylokal-livestock.component.scss'],
   standalone: true,
   imports: [CommonModule, IonicModule, FormsModule, RouterModule, FilterPipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class BuylokalDairyComponent implements OnInit {
+export class BuylokalLivestockComponent implements OnInit {
   searchTerm: string = '';
   basketCount: number = 0;
   cartItemCount: number = 0;
 
-  dairy = [
+  livestock = [
     {
-      id: 'milk',
-      name: 'Fresh Milk',
-      localName: 'Sariwang Gatas',
-      image: 'assets/milk.png'
+      id: 'pork',
+      name: 'Pork Belly',
+      localName: 'Liempo',
+      image: 'assets/porkbelly.png'
     },
     {
-      id: 'cheese',
-      name: 'Cheese',
-      localName: 'Keso',
-      image: 'assets/cheese.png'
+      id: 'beef',
+      name: 'Beef Cubes',
+      localName: 'Hiwang Baka',
+      image: 'assets/beefcubes.png'
     },
     {
-      id: 'butter',
-      name: 'Butter',
-      localName: 'Mantikilya',
-      image: 'assets/butter.png'
+      id: 'chicken',
+      name: 'Chicken Legs',
+      localName: 'Hita ng Manok',
+      image: 'assets/chickenlegs.png'
     }
   ];
 

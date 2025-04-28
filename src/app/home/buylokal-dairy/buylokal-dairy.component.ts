@@ -4,43 +4,40 @@ import { IonicModule, ToastController } from '@ionic/angular';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { CartService, CartItem } from '../services/cart.service';
-import { FilterPipe } from '../pipes/filter.pipe';
+import { CartService, CartItem } from '../../services/cart.service';
+import { FilterPipe } from '../../pipes/filter.pipe';
 
 @Component({
-  selector: 'app-buylokal-fruits',
-  templateUrl: './buylokal-fruits.component.html',
-  styleUrls: ['./buylokal-fruits.component.scss'],
+  selector: 'app-buylokal-dairy',
+  templateUrl: './buylokal-dairy.component.html',
+  styleUrls: ['./buylokal-dairy.component.scss'],
   standalone: true,
   imports: [CommonModule, IonicModule, FormsModule, RouterModule, FilterPipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class BuylokalFruitsComponent implements OnInit {
+export class BuylokalDairyComponent implements OnInit {
   searchTerm: string = '';
   basketCount: number = 0;
   cartItemCount: number = 0;
 
-  fruits = [
+  dairy = [
     {
-      id: 'mango',
-      name: 'Mango',
-      localName: 'Mangga',
-      image: 'assets/mango.png',
-      price: 50
+      id: 'milk',
+      name: 'Fresh Milk',
+      localName: 'Sariwang Gatas',
+      image: 'assets/milk.png'
     },
     {
-      id: 'banana',
-      name: 'Banana',
-      localName: 'Saging',
-      image: 'assets/banana.png',
-      price: 20
+      id: 'cheese',
+      name: 'Cheese',
+      localName: 'Keso',
+      image: 'assets/cheese.png'
     },
     {
-      id: 'papaya',
-      name: 'Papaya',
-      localName: 'Papaya',
-      image: 'assets/papaya.png',
-      price: 30
+      id: 'butter',
+      name: 'Butter',
+      localName: 'Mantikilya',
+      image: 'assets/butter.png'
     }
   ];
 
@@ -54,26 +51,26 @@ export class BuylokalFruitsComponent implements OnInit {
     });
   }
 
-  navigateTo(path: string) {
-    this.router.navigate([path]);
+  ngOnInit() { }
+
+  onSearch(event: any) {
+    this.searchTerm = event.target.value.toLowerCase();
   }
 
   goBack() {
     this.router.navigate(['buylokal-options']);
   }
 
+  navigateTo(path: string) {
+    this.router.navigate([path]);
+  }
+
   openCart() {
     this.router.navigate(['/home/marketplace-checkout']);
   }
 
-  // Search functionality logic
-  onSearch(event: any) {
-    this.searchTerm = event.target.value.toLowerCase();
-    // TODO: Implement search functionality
-  }
-
   increaseCount() {
-    if (this.basketCount < 10) {
+    if (this.basketCount < 99) {
       this.basketCount++;
     }
   }
@@ -84,9 +81,7 @@ export class BuylokalFruitsComponent implements OnInit {
     }
   }
 
-  ngOnInit() { }
-
-  async addToCart(fruit: any) {
+  async addToCart(item: any) {
     if (this.basketCount === 0) {
       const toast = await this.toastController.create({
         message: 'Please select the number of baskets first',
@@ -99,19 +94,19 @@ export class BuylokalFruitsComponent implements OnInit {
     }
 
     const cartItem: CartItem = {
-      id: fruit.id,
-      name: fruit.name,
-      localName: fruit.localName,
-      price: fruit.price,
+      id: item.id,
+      name: item.name,
+      localName: item.localName,
+      price: item.price, // Add price
       quantity: this.basketCount,
-      image: fruit.image
+      image: item.image
     };
 
     this.cartService.addToCart(cartItem);
 
     const kilos = this.basketCount * 4;
     const toast = await this.toastController.create({
-      message: `Added ${this.basketCount} basket(s) of ${fruit.name} to cart (${kilos} kilos). Each basket contains 4 kilos.`,
+      message: `Added ${this.basketCount} basket(s) of ${item.name} to cart (${kilos} kilos). Each basket contains 4 kilos.`,
       duration: 3000,
       position: 'bottom',
       color: 'success'

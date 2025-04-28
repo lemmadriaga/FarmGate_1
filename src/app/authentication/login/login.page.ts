@@ -1,15 +1,10 @@
-import { Component, OnInit, NgZone } from '@angular/core'; // Import NgZone
-import { NavController } from '@ionic/angular';
+import { Component, OnInit, NgZone } from '@angular/core';
+import { NavController, LoadingController, ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoadingController, ToastController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-
-interface User {
-  role: string;
-}
+import { UserDataService, UserProfile } from '../../services/user-data.service';
 
 @Component({
   selector: 'app-login',
@@ -30,9 +25,8 @@ export class LoginPage implements OnInit {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private afAuth: AngularFireAuth,
-    private afs: AngularFirestore,
     private router: Router,
-    private ngZone: NgZone 
+    private userDataService: UserDataService
   ) {}
 
   ngOnInit() {
@@ -54,81 +48,91 @@ export class LoginPage implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-  async onLogin(event: Event) {
-    event.preventDefault();
-
-    const email = this.loginForm.get('email')?.value;
-    const password = this.loginForm.get('password')?.value;
-
-    console.log('Trying to log in with:', email, password);
-
-    if (!this.loginForm.valid) {
-      const toast = await this.toastCtrl.create({
-        message: 'Please enter a valid email and password.',
-        duration: 3000,
-        color: 'danger',
-      });
-      await toast.present();
+  async login() {
+    if (this.loginForm.invalid) {
+      this.presentToast('Please enter valid email and password.', 'warning');
       return;
     }
 
-    try {
-      const loading = await this.loadingCtrl.create({
-        message: 'Logging in...',
-      });
-      await loading.present();
+    const loading = await this.loadingCtrl.create({ message: 'Logging in...' });
+    await loading.present();
 
+    const { email, password } = this.loginForm.value;
+
+    try {
       const userCredential = await this.afAuth.signInWithEmailAndPassword(
         email,
         password
       );
-      const uid = userCredential.user?.uid;
+      const user = userCredential.user;
 
-      if (!uid) {
-        throw new Error('No UID found.');
-      }
+      if (user) {
+        // Get user profile to check role
+        try {
+          // Use firstValueFrom to get the profile data once
+          const userProfile = await firstValueFrom(
+            this.userDataService.getUserProfile(user.uid)
+          ) as UserProfile | undefined;
 
-      const userDocSnapshot = await firstValueFrom(
-        this.afs.doc(`users/${uid}`).get()
-      );
-
-      if (!userDocSnapshot.exists) {
-        throw new Error('User document does not exist.');
-      }
-
-      const userRole = (userDocSnapshot.data() as { role: string })?.role;
-      console.log('User role:', userRole);
-
-      await loading.dismiss();
-
-      if (userRole === 'farmer') {
-        this.ngZone.run(() => this.router.navigate(['/farmer-dashboard']));
-      } else if (userRole === 'admin') {
-        this.ngZone.run(() => this.router.navigate(['/admin-dashboard']));
-      } else if (userRole === 'regular') {
-        this.ngZone.run(() => this.router.navigate(['user-dashboard/home']));
+          if (userProfile && userProfile.role === 'admin') {
+            // Admin user, navigate to admin dashboard
+            this.router.navigateByUrl('/admin-dashboard', { replaceUrl: true });
+          } else {
+            // Regular user or profile not found/no role, navigate to user dashboard
+            // Ensure the path matches your routing setup
+            this.router.navigateByUrl('/home/user-dashboard', { replaceUrl: true });
+          }
+        } catch (profileError) {
+          console.error('Error fetching user profile:', profileError);
+          this.presentToast(
+            'Login successful, but failed to retrieve user role. Proceeding to default dashboard.',
+            'warning'
+          );
+          // Fallback navigation if profile fetch fails
+          this.router.navigateByUrl('/home/user-dashboard', { replaceUrl: true });
+        }
       } else {
-        const toast = await this.toastCtrl.create({
-          message: 'Invalid user role.',
-          duration: 3000,
-          color: 'danger',
-        });
-        await toast.present();
+        // Should not happen if signInWithEmailAndPassword succeeded, but handle defensively
+        throw new Error('User authentication failed unexpectedly.');
       }
     } catch (error: any) {
-      console.error('Login error:', error);
+      console.error('Login Error:', error);
 
-      const toast = await this.toastCtrl.create({
-        message: `Login failed: ${error.message || error}`,
-        duration: 3000,
-        color: 'danger',
-      });
-      await toast.present();
+      let errorMessage = 'Login failed. Please check your credentials.';
+      if (
+        error.code === 'auth/user-not-found' ||
+        error.code === 'auth/wrong-password' ||
+        error.code === 'auth/invalid-credential'
+      ) {
+        errorMessage = 'Invalid email or password.';
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = 'Invalid email format.';
+      }
+      this.presentToast(errorMessage, 'danger');
+    } finally {
+      await loading.dismiss();
     }
   }
 
+  async presentToast(message: string, color: 'success' | 'warning' | 'danger' | 'primary') {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 3000,
+      color,
+    });
+    await toast.present();
+  }
+
   forgotpassword() {}
+
   goToSignUp() {
-    this.navCtrl.navigateRoot('registration');
+    this.router.navigate(['/signup']);
+  }
+
+  async adminInfoClick() {
+    console.log('Admin info link clicked');
+    // Optionally navigate to a dedicated admin login if preferred:
+    // this.router.navigate(['/admin-login']);
+    await this.presentToast('Please use your Admin credentials in the fields above.', 'primary');
   }
 }
