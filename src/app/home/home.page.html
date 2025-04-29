@@ -22,7 +22,7 @@
           class="notification"
           slot="icon-only"
           name="notifications-outline"
-          (click)="underConstruction"
+          (click)="underConstruction()"
         ></ion-icon>
       </ion-button>
       <ion-button>
@@ -73,10 +73,52 @@
       mode="md"
       placeholder="Search products, supplies, or farmers"
       animated
+      [(ngModel)]="searchTerm"
+      (ionInput)="handleSearch($event)"
+      debounce="300"
     ></ion-searchbar>
     <ion-button fill="clear" class="filter-button">
       <ion-icon name="options-outline"></ion-icon>
     </ion-button>
+  </div>
+
+  <!-- Search Results -->
+  <div *ngIf="isSearching">
+    <div *ngIf="!isLoadingProducts && searchResults.length > 0">
+      <div class="section-header">
+        <h2>Search Results</h2>
+      </div>
+      <div class="search-results-container">
+        <div class="product-card" *ngFor="let product of searchResults">
+          <div class="product-image">
+            <img [src]="product.image" [alt]="product.name" onError="this.src='assets/placeholder-image.png'" />
+            <span class="discount-tag">{{product.discount}}</span>
+          </div>
+          <div class="product-info">
+            <h4>{{product.name}}</h4>
+            <div class="product-meta">
+              <span class="price">Php {{product.price}}</span>
+              <div class="rating">
+                <ion-icon name="star"></ion-icon>
+                <span>{{product.rating}}</span>
+              </div>
+            </div>
+            <ion-button color="green" size="small" expand="block" (click)="addToCart(product)">Add to Cart</ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!isLoadingProducts && searchResults.length === 0 && searchTerm.length > 0">
+      <ion-item lines="none">
+        <ion-label class="ion-text-center">No products found matching "{{searchTerm}}".</ion-label>
+      </ion-item>
+    </div>
+    <div *ngIf="isLoadingProducts">
+      <ion-item lines="none" class="ion-text-center">
+        <ion-spinner name="crescent"></ion-spinner>
+        <ion-label class="ion-margin-start">Loading products...</ion-label>
+      </ion-item>
+    </div>
   </div>
 
   <!-- Quick actions -->
@@ -108,11 +150,11 @@
         <ion-icon name="gift-outline"></ion-icon>
       </div>
       <span>Rewards</span>
-    </div>
+  </div>
   </div> -->
 
   <!-- Market section -->
-  <div class="section-header">
+  <div class="section-header" *ngIf="!isSearching">
     <h2>Market</h2>
     <ion-button fill="clear" size="small">View All</ion-button>
   </div>
@@ -139,7 +181,7 @@
   </ion-segment> -->
 
   <!-- Market cards -->
-  <div class="cards-container">
+  <div class="cards-container" *ngIf="!isSearching">
     <ion-card
       class="market-card gradient-card buylokal-card ion-activatable ripple-parent"
     >
@@ -187,63 +229,65 @@
     </ion-card>
   </div>
 
-  <!-- Featured products -->
-  <div class="section-header">
-    <h2>Featured Products</h2>
-    <ion-button fill="clear" size="small" (click)="marketplace()"
-      >View All</ion-button
-    >
-  </div>
+  <!-- Featured Products -->
+  <div *ngIf="!isSearching">
+    <div class="section-header">
+      <h2>Featured Products</h2>
+      <ion-button fill="clear" size="small" (click)="marketplace()"
+        >View All</ion-button
+      >
+    </div>
 
-  <div class="product-scroll">
-    <div class="product-card" *ngFor="let product of featuredProducts">
-      <div class="product-image">
-        <img [src]="product.image" [alt]="product.name" />
-        <span class="discount-tag">{{product.discount}}</span>
-      </div>
-      <div class="product-info">
-        <h4>{{product.name}}</h4>
-        <div class="product-meta">
-          <span class="price">{{product.price}}</span>
-          <div class="rating">
-            <ion-icon name="star"></ion-icon>
-            <span>{{product.rating}}</span>
-          </div>
+    <div class="product-scroll">
+      <div class="product-card" *ngFor="let product of featuredProducts">
+        <div class="product-image">
+          <img [src]="product.image" [alt]="product.name" />
+          <span class="discount-tag">{{product.discount}}</span>
         </div>
-        <ion-button color="green" size="small" expand="block"
-          >Add to Cart</ion-button
-        >
+        <div class="product-info">
+          <h4>{{product.name}}</h4>
+          <div class="product-meta">
+            <span class="price">Php {{product.price}}</span>
+            <div class="rating">
+              <ion-icon name="star"></ion-icon>
+              <span>{{product.rating}}</span>
+            </div>
+          </div>
+          <ion-button color="green" size="small" expand="block" (click)="addToCart(product)">Add to Cart</ion-button>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Educational Hub -->
-  <div class="section-header">
-    <h2>Educational Hub</h2>
-    <ion-button fill="clear" size="small" (click)="goToEducationalHub()"
-      >More</ion-button
-    >
-  </div>
-
-  <div class="education-slider">
-    <div class="education-card" *ngFor="let content of educationalContent">
-      <div
-        class="education-image"
-        (click)="openYoutubeVideo(content.youtubeUrl)"
-        style="cursor: pointer"
+  <div *ngIf="!isSearching">
+    <div class="section-header">
+      <h2>Educational Hub</h2>
+      <ion-button fill="clear" size="small" (click)="goToEducationalHub()"
+        >More</ion-button
       >
-        <img [src]="content.image" [alt]="content.title" />
-        <div class="education-overlay">
-          <ion-icon name="play-circle"></ion-icon>
+    </div>
+
+    <div class="education-slider">
+      <div class="education-card" *ngFor="let content of educationalContent">
+        <div
+          class="education-image"
+          (click)="openYoutubeVideo(content.youtubeUrl)"
+          style="cursor: pointer"
+        >
+          <img [src]="content.image" [alt]="content.title" />
+          <div class="education-overlay">
+            <ion-icon name="play-circle"></ion-icon>
+          </div>
         </div>
-      </div>
-      <div class="education-info">
-        <h4>{{content.title}}</h4>
-        <div class="education-meta">
-          <span class="duration">
-            <ion-icon name="time-outline"></ion-icon> {{content.duration}}
-          </span>
-          <span class="level {{content.level}}">{{content.level}}</span>
+        <div class="education-info">
+          <h4>{{content.title}}</h4>
+          <div class="education-meta">
+            <span class="duration">
+              <ion-icon name="time-outline"></ion-icon> {{content.duration}}
+            </span>
+            <span class="level {{content.level}}">{{content.level}}</span>
+          </div>
         </div>
       </div>
     </div>
