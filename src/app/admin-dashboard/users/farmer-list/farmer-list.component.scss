@@ -1,0 +1,69 @@
+:host {
+  display: flex; // Make the component itself a flex container
+  flex-direction: column; // Stack header and content vertically
+  flex-grow: 1; // Allow the component to grow and fill the space in .admin-content-body
+  overflow: hidden; // Prevent the host itself from scrolling, let ion-content handle it
+}
+
+ion-content {
+  // Ensure ion-content itself can grow within the host's flex container
+  flex-grow: 1;
+  --background: #ffffff; // Explicitly set content background to white
+}
+
+// Add styles for the toolbar
+ion-toolbar {
+  --background: #ffffff; // White background for toolbar
+  --color: #000000; // Black text color for toolbar content (like title)
+
+  ion-title {
+    color: #000000; // Ensure title text is black
+  }
+}
+
+ion-grid {
+  width: 100%;
+}
+
+.header-row {
+  font-weight: bold;
+  background-color: #f0f0f0; // Light gray background
+  color: #333333; // Dark text color
+  border-bottom: 1px solid #dddddd;
+  padding-top: 10px; // Adjusted padding
+  padding-bottom: 10px;
+
+  ion-col {
+    color: inherit; // Ensure cols inherit header text color
+  }
+}
+
+.data-row {
+  border-bottom: 1px solid #eeeeee;
+  min-height: 44px; // Adjusted height
+  align-items: center;
+  background-color: #ffffff; // Default row background white
+  color: #444444; // Default row text color
+
+  ion-col {
+    display: flex;
+    align-items: center;
+    padding-top: 6px; // Adjusted padding
+    padding-bottom: 6px;
+    word-break: break-word;
+    color: inherit; // Ensure cols inherit row text color
+  }
+
+  &:nth-child(even) {
+    background-color: #f9f9f9; // Very light gray for zebra stripes
+  }
+
+  &:hover {
+    background-color: #f1f1f1; // Slightly darker gray on hover
+  }
+}
+
+ion-spinner {
+  display: block;
+  margin: 20px auto;
+}

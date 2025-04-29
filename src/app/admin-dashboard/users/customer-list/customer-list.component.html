@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Customers</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="(customers$ | async) as customers; else loadingOrError">
+    <div *ngIf="customers.length > 0; else noCustomers">
+      <ion-grid>
+        <ion-row class="header-row">
+          <ion-col size="4">Name</ion-col>
+          <ion-col size="5">Email</ion-col>
+          <ion-col size="3">Role</ion-col>
+        </ion-row>
+        <ion-row *ngFor="let customer of customers" class="data-row">
+          <ion-col size="4">{{ customer.firstName }} {{ customer.lastName }}</ion-col>
+          <ion-col size="5">{{ customer.email || 'N/A' }}</ion-col>
+          <ion-col size="3">{{ customer.role }}</ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <ng-template #noCustomers>
+      <ion-text color="medium">
+        <p>No customers found.</p>
+      </ion-text>
+    </ng-template>
+  </div>
+
+  <ng-template #loadingOrError>
+    <ion-spinner name="crescent"></ion-spinner>
+  </ng-template>
+</ion-content>

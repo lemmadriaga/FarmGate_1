@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Farmers</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="(farmers$ | async) as farmers; else loadingOrError">
+    <div *ngIf="farmers.length > 0; else noFarmers">
+      <!-- Basic Table Structure -->
+      <ion-grid>
+        <ion-row class="header-row">
+          <ion-col size="4">Name</ion-col>
+          <ion-col size="5">Email</ion-col>
+          <ion-col size="3">Role</ion-col>
+          <!-- Add more columns as needed based on your User interface -->
+        </ion-row>
+        <ion-row *ngFor="let farmer of farmers" class="data-row">
+          <ion-col size="4">{{ farmer.firstName }} {{ farmer.lastName }}</ion-col>
+          <ion-col size="5">{{ farmer.email || 'N/A' }}</ion-col>
+          <ion-col size="3">{{ farmer.role }}</ion-col>
+          <!-- Display data for additional columns -->
+        </ion-row>
+      </ion-grid>
+    </div>
+    <ng-template #noFarmers>
+      <ion-text color="medium">
+        <p>No farmers found.</p>
+      </ion-text>
+    </ng-template>
+  </div>
+
+  <ng-template #loadingOrError>
+    <!-- Optional: Add a loading indicator or error message -->
+    <ion-spinner name="crescent"></ion-spinner>
+    <!-- Or show an error message if the observable fails -->
+  </ng-template>
+</ion-content>

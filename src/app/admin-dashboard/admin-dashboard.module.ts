@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { AdminDashboardPage } from './admin-dashboard.page';
 import { AdminOverviewComponent } from './admin-overview/admin-overview.component';
+import { FarmerListComponent } from './users/farmer-list/farmer-list.component';
+import { CustomerListComponent } from './users/customer-list/customer-list.component';
 
 const routes: Routes = [
   {
@@ -18,11 +20,19 @@ const routes: Routes = [
         component: AdminOverviewComponent
       },
       {
+        path: 'users/farmers',
+        component: FarmerListComponent
+      },
+      {
+        path: 'users/customers',
+        component: CustomerListComponent
+      },
+      {
         path: '',
         redirectTo: 'overview',
         pathMatch: 'full'
       }
-      // Add other child routes (users, marketplace, etc.) here later
+      // Add other child routes (marketplace, etc.) here later
     ]
   }
 ];
@@ -34,6 +44,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AdminDashboardPage, AdminOverviewComponent]
+  declarations: [AdminDashboardPage, AdminOverviewComponent, FarmerListComponent, CustomerListComponent]
 })
 export class AdminDashboardPageModule {}
