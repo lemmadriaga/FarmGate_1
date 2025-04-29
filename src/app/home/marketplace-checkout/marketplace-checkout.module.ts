@@ -11,8 +11,9 @@ import { MarketplaceCheckoutPage } from './marketplace-checkout.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    MarketplaceCheckoutPageRoutingModule
+    MarketplaceCheckoutPageRoutingModule, 
+    MarketplaceCheckoutPage
   ],
-  declarations: [MarketplaceCheckoutPage]
+ 
 })
 export class MarketplaceCheckoutPageModule {}

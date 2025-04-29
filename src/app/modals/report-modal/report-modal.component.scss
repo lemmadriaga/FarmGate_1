@@ -1,11 +1,224 @@
-ion-item ion-label ion-text[color="danger"] {
-  // Adjust spacing or alignment for the required asterisk if needed
-  margin-left: 2px; // Small space between label text and asterisk
-  font-size: 0.9em; // Make asterisk slightly smaller if desired
+// Enhanced Report Modal SCSS
+:host {
+  --page-margin: 16px;
+  --ion-color-light-shade: #e0e0e0;
+  --ion-color-danger-rgb: 235, 68, 90;
 }
 
-ion-item {
-  // Ensure item doesn't have extra padding that misaligns label
+ion-header {
+  ion-toolbar {
+    --background: transparent;
+    --border-width: 0;
+
+    ion-title {
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+.report-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-start;
+  padding-top: 12px;
+}
+
+// Report icon at the top
+.report-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+
+  ion-icon {
+    font-size: 48px;
+    color: var(--ion-color-warning);
+    transition: all 0.3s ease;
+  }
+}
+
+// Report header text
+.report-header {
+  margin-bottom: 24px;
+
+  h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--ion-color-dark);
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    font-size: 16px;
+    margin: 0;
+    font-weight: 400;
+  }
+}
+
+// Category selection segment
+.category-section {
+  margin-bottom: 24px;
+
+  .category-segment {
+    --background: var(--ion-color-light-shade);
+    border-radius: 12px;
+
+    ion-segment-button {
+      --indicator-color: #439a46;
+      --indicator-height: 100%;
+      --color-checked: #ffffff;
+      --color: var(--ion-color-medium);
+      --border-radius: 10px;
+      min-height: 44px;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+
+      ion-icon {
+        margin-bottom: 4px;
+      }
+    }
+  }
+}
+
+// Report details entry
+.report-details-container {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.report-item {
+  --background: var(--ion-color-light-shade);
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
   --inner-padding-end: 0;
-  --padding-start: 0;
+
+  ion-label {
+    color: var(--ion-color-dark);
+    font-weight: 500;
+    margin-bottom: 10px;
+
+    ion-text[color="danger"] {
+      margin-left: 2px;
+      font-weight: bold;
+    }
+
+    .help-text {
+      font-size: 14px;
+      font-weight: normal;
+      color: var(--ion-color-medium);
+      margin-top: 4px;
+      margin-bottom: 0;
+    }
+  }
+
+  .custom-textarea {
+    --background: transparent;
+    --padding-bottom: 8px;
+    --padding-top: 8px;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+}
+
+// Validation error message
+.validation-error {
+  color: var(--ion-color-danger);
+  font-size: 14px;
+  margin-top: 8px;
+  margin-left: 16px;
+  display: flex;
+  align-items: center;
+
+  ion-icon {
+    font-size: 16px;
+    margin-right: 6px;
+  }
+}
+
+// Character count
+.character-count {
+  text-align: right;
+  font-size: 12px;
+  color: var(--ion-color-medium);
+  margin-top: 8px;
+  margin-right: 16px;
+
+  &.warning {
+    color: var(--ion-color-warning);
+    font-weight: 500;
+  }
+}
+
+// Contact preference
+.contact-preference {
+  margin-bottom: 20px;
+
+  .toggle-item {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --inner-padding-end: 0;
+    --background: transparent;
+
+    ion-label {
+      font-weight: 500;
+
+      p {
+        font-size: 14px;
+        font-weight: normal;
+        color: var(--ion-color-medium);
+        margin-top: 4px;
+      }
+    }
+
+  }
+}
+
+// Submit button
+.submit-button {
+  margin-top: auto;
+  margin-bottom: 20px;
+  --border-radius: 10px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
+  transition: all 0.2s ease;
+  --background: #439a46;
+  
+  &:hover:not([disabled]) {
+    --box-shadow: 0 6px 16px rgba(var(--ion-color-primary-rgb), 0.4);
+    transform: translateY(-2px);
+  }
+
+  &[disabled] {
+    opacity: 0.6;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 360px) {
+  .category-section .category-segment ion-segment-button {
+    font-size: 12px;
+
+    ion-icon {
+      font-size: 18px;
+    }
+  }
+
+  .report-header h2 {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .report-container {
+    max-width: 500px;
+    margin: 0 auto;
+  }
 }

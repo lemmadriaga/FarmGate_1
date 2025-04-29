@@ -91,31 +91,45 @@ const routes: Routes = [
   },
   {
     path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
+    loadChildren: () =>
+      import('./tabs/tabs.module').then((m) => m.TabsPageModule),
   },
   {
     path: 'scan',
-    loadChildren: () => import('./scan/scan.module').then( m => m.ScanPageModule)
+    loadChildren: () =>
+      import('./scan/scan.module').then((m) => m.ScanPageModule),
   },
   {
     path: 'user-profile',
-    loadChildren: () => import('./home/user-profile/user-profile.module').then( m => m.UserProfilePageModule)
+    loadChildren: () =>
+      import('./home/user-profile/user-profile.module').then(
+        (m) => m.UserProfilePageModule
+      ),
   },
   {
     path: 'cart',
-    loadChildren: () => import('./home/cart/cart.module').then( m => m.CartPageModule)
+    loadChildren: () =>
+      import('./home/cart/cart.module').then((m) => m.CartPageModule),
   },
 
   {
     path: 'under-construction',
     // Corrected to use loadComponent for standalone page
-    loadComponent: () => import('./under-construction/under-construction.page').then( m => m.UnderConstructionPage)
+    loadComponent: () =>
+      import('./under-construction/under-construction.page').then(
+        (m) => m.UnderConstructionPage
+      ),
   },
   {
-    path: 'user-dashboard/educational-hub',
+    path: 'orders',
     loadChildren: () =>
-      import('./home/user-dashboard/educational-hub/educational-hub.module').then(
-        (m) => m.EducationalHubPageModule
+      import('./orders/orders.module').then((m) => m.OrdersPageModule),
+  },
+  {
+    path: 'orders/:id',
+    loadChildren: () =>
+      import('./order-detail/order-detail.module').then(
+        (m) => m.OrderDetailPageModule
       ),
   },
 ];

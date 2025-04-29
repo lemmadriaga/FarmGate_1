@@ -447,23 +447,305 @@ ion-content {
 
   border: none;
   cursor: pointer;
-  position: relative; // For ripple
-  overflow: hidden; // For ripple
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
+  &:disabled {
+    opacity: 0.7;
+    background: #cccccc;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):active {
+    transform: scale(0.98);
+    background-color: darken(#00da4b, 5%);
+  }
+
+  .order-icon {
+    font-size: 20px;
+  }
 }
 
-// Styles for the success overlay
+.terms-text {
+  font-size: 11px;
+  color: var(--text-light);
+  text-align: center;
+  margin: 12px 0 0;
+
+  a {
+    color: var(--primary-dark);
+    text-decoration: none;
+  }
+}
+
+.processing-order-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+
+  .processing-spinner {
+    color: var(--primary-color);
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+  }
+
+  .processing-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text-color);
+  }
+
+  .processing-message {
+    font-size: 16px;
+    color: var(--text-light);
+  }
+}
+
+.failed-order-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+
+  .failed-icon {
+    font-size: 70px;
+    color: var(--error-color);
+    margin-bottom: 20px;
+  }
+
+  .failed-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text-color);
+  }
+
+  .failed-message {
+    font-size: 16px;
+    color: var(--text-light);
+    margin-bottom: 20px;
+  }
+
+  ion-button {
+    --border-radius: var(--border-radius-md);
+    margin-bottom: 10px;
+    max-width: 300px;
+    width: 100%;
+  }
+}
+
+.order-confirmation-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+
+  .confirmation-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .confirmation-icon {
+    font-size: 60px;
+    color: var(--success-color);
+    margin-bottom: 15px;
+    animation: pulse 2s infinite;
+  }
+
+  .confirmation-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text-color);
+  }
+
+  .confirmation-message {
+    font-size: 16px;
+    color: var(--text-light);
+  }
+
+  .order-details-card {
+    width: 100%;
+    max-width: 350px;
+    background: #fff;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--box-shadow);
+    padding: 20px;
+    margin-bottom: 25px;
+
+    > div {
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .order-label {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-bottom: 3px;
+    }
+
+    .order-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-color);
+    }
+  }
+
+  ion-button {
+    --border-radius: var(--border-radius-md);
+    margin-bottom: 10px;
+    max-width: 300px;
+    width: 100%;
+  }
+}
+
 .success-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  padding: 0; // Ensure no padding
-  z-index: 1000; // Ensure it's above other content
+  background-color: rgba(255, 255, 255, 0.98);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; // Keep aspect ratio, fit within bounds
+  .success-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    max-width: 300px;
   }
+
+  .success-image {
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+    animation: bounceIn 1s;
+  }
+
+  .success-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+  }
+
+  .success-message {
+    font-size: 16px;
+    color: var(--text-color);
+    margin-bottom: 20px;
+  }
+
+  .redirect-spinner {
+    margin-bottom: 10px;
+  }
+
+  .redirect-message {
+    font-size: 14px;
+    color: var(--text-light);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+ion-content {
+  --offset-top: 130px;
+
+  @media (max-width: 360px) {
+    --offset-top: 110px;
+  }
+}
+
+.ripple-parent {
+  position: relative;
+  overflow: hidden;
+}
+.overlay-close-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  --color: rgba(255, 255, 255, 0.7);
+}
+
+.overlay-close-button:hover {
+  --color: white;
+}
+
+/* Ensure the overlay has proper positioning */
+.success-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.success-content {
+  position: relative;
+  background-color: #28a745;
+  border-radius: 16px;
+  padding: 30px;
+  text-align: center;
+  color: white;
+  max-width: 80%;
 }

@@ -80,7 +80,7 @@ export class LoginPage implements OnInit {
           } else {
             // Regular user or profile not found/no role, navigate to user dashboard
             // Ensure the path matches your routing setup
-            this.router.navigateByUrl('/home/user-dashboard', { replaceUrl: true });
+            this.router.navigateByUrl('/user-dashboard/home', { replaceUrl: true });
           }
         } catch (profileError) {
           console.error('Error fetching user profile:', profileError);
@@ -89,7 +89,7 @@ export class LoginPage implements OnInit {
             'warning'
           );
           // Fallback navigation if profile fetch fails
-          this.router.navigateByUrl('/home/user-dashboard', { replaceUrl: true });
+          this.router.navigateByUrl('/user-dashboard/home', { replaceUrl: true });
         }
       } else {
         // Should not happen if signInWithEmailAndPassword succeeded, but handle defensively

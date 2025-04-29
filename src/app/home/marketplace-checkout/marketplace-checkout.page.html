@@ -1,59 +1,197 @@
-<ion-header class="ion-no-border"> 
+<ion-header class="ion-no-border">
   <div class="checkout-header-bg">
     <ion-buttons slot="start" class="back-button-container">
-      <ion-back-button defaultHref="/marketplace" text="" icon="chevron-back-outline"></ion-back-button>
+      <ion-back-button
+        defaultHref="/marketplace"
+        text=""
+        icon="chevron-back-outline"
+      ></ion-back-button>
     </ion-buttons>
     <div class="header-content">
-      <img src="assets/marketplace/marketplaceCheckout/farmgate_white_logo.svg" alt="FarmGate Logo" class="checkout-logo" />
+      <img
+        src="assets/marketplace/marketplaceCheckout/farmgate_white_logo.svg"
+        alt="FarmGate Logo"
+        class="checkout-logo"
+      />
       <h1 class="checkout-title">Check all the items</h1>
       <p class="checkout-subtitle">FOR DELIVERY</p>
     </div>
   </div>
 </ion-header>
 
-<ion-content class="ion-padding"> 
-
+<ion-content class="ion-padding">
   <!-- Delivery Address Section -->
   <h2 class="section-heading">Delivery address</h2>
 
   <!-- Show skeleton text while loading -->
   <div class="address-info-card ion-padding" *ngIf="isLoadingProfile">
-    <ion-skeleton-text animated style="width: 40%; height: 16px; margin-bottom: 10px;"></ion-skeleton-text>
-    <ion-skeleton-text animated style="width: 80%; height: 16px; margin-bottom: 10px;"></ion-skeleton-text>
-    <ion-skeleton-text animated style="width: 60%; height: 16px; margin-bottom: 10px;"></ion-skeleton-text>
-    <ion-skeleton-text animated style="width: 50%; height: 16px;"></ion-skeleton-text>
+    <ion-skeleton-text
+      animated
+      style="width: 40%; height: 16px; margin-bottom: 10px"
+    ></ion-skeleton-text>
+    <ion-skeleton-text
+      animated
+      style="width: 80%; height: 16px; margin-bottom: 10px"
+    ></ion-skeleton-text>
+    <ion-skeleton-text
+      animated
+      style="width: 60%; height: 16px; margin-bottom: 10px"
+    ></ion-skeleton-text>
+    <ion-skeleton-text
+      animated
+      style="width: 50%; height: 16px"
+    ></ion-skeleton-text>
+  </div>
+
+  <!-- Address Edit Form -->
+  <div
+    class="address-form-container"
+    *ngIf="editingAddress && !isLoadingProfile"
+  >
+    <form [formGroup]="addressForm" (ngSubmit)="saveAddress()">
+      <ion-item>
+        <ion-label position="floating">Full Address</ion-label>
+        <ion-input formControlName="address" type="text"></ion-input>
+        <ion-note
+          slot="error"
+          *ngIf="addressForm.get('address')?.touched && addressForm.get('address')?.hasError('required')"
+        >
+          Address is required
+        </ion-note>
+      </ion-item>
+
+      <div class="name-inputs">
+        <ion-item class="first-name">
+          <ion-label position="floating">First Name</ion-label>
+          <ion-input formControlName="firstName" type="text"></ion-input>
+          <ion-note
+            slot="error"
+            *ngIf="addressForm.get('firstName')?.touched && addressForm.get('firstName')?.hasError('required')"
+          >
+            First name is required
+          </ion-note>
+        </ion-item>
+
+        <ion-item class="last-name">
+          <ion-label position="floating">Last Name</ion-label>
+          <ion-input formControlName="lastName" type="text"></ion-input>
+          <ion-note
+            slot="error"
+            *ngIf="addressForm.get('lastName')?.touched && addressForm.get('lastName')?.hasError('required')"
+          >
+            Last name is required
+          </ion-note>
+        </ion-item>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Phone Number</ion-label>
+        <ion-input formControlName="phoneNumber" type="tel"></ion-input>
+        <ion-note
+          slot="error"
+          *ngIf="addressForm.get('phoneNumber')?.touched && addressForm.get('phoneNumber')?.hasError('required')"
+        >
+          Phone number is required
+        </ion-note>
+        <ion-note
+          slot="error"
+          *ngIf="addressForm.get('phoneNumber')?.touched && addressForm.get('phoneNumber')?.hasError('pattern')"
+        >
+          Enter a valid phone number (10-11 digits)
+        </ion-note>
+      </ion-item>
+
+      <div class="form-buttons">
+        <ion-button
+          fill="outline"
+          color="success"
+          type="button"
+          (click)="toggleAddressEdit()"
+          >Cancel</ion-button
+        >
+        <ion-button
+          type="submit"
+          color="success"
+          [disabled]="addressForm.invalid"
+          >Save Address</ion-button
+        >
+      </div>
+    </form>
   </div>
 
   <!-- Show actual data when loaded -->
   <div class="address-info-card" *ngIf="!isLoadingProfile && userProfile">
     <div class="address-row address-category-row">
       <!-- Assuming 'HOME' is static or comes from profile later -->
-      <span class="address-category">HOME</span> 
+      <span class="address-category">HOME</span>
     </div>
     <div class="address-row">
-      <img src="assets/marketplace/marketplaceCheckout/maps_flag.svg" alt="Location" class="address-icon map-icon" />
+      <img
+        src="assets/marketplace/marketplaceCheckout/maps_flag.svg"
+        alt="Location"
+        class="address-icon map-icon"
+      />
       <!-- Bind to userProfile.address -->
-      <span class="address-text">{{ userProfile.address || 'Address not set' }}</span> 
+      <span class="address-text"
+        >{{ userProfile.address || 'Address not set' }}</span
+      >
     </div>
     <div class="address-row">
-       <img src="assets/marketplace/marketplaceCheckout/user_icon.svg" alt="User" class="address-icon user-icon" />
-       <!-- Bind to userProfile.firstName and userProfile.lastName, use TitleCasePipe -->
-       <span class="user-name">{{ (userProfile.firstName || '') + ' ' + (userProfile.lastName || '') | titlecase }}</span> 
+      <img
+        src="assets/marketplace/marketplaceCheckout/user_icon.svg"
+        alt="User"
+        class="address-icon user-icon"
+      />
+      <!-- Bind to userProfile.firstName and userProfile.lastName, use TitleCasePipe -->
+      <span class="user-name"
+        >{{ (userProfile.firstName || '') + ' ' + (userProfile.lastName || '') |
+        titlecase }}</span
+      >
     </div>
     <div class="address-row">
-       <img src="assets/marketplace/marketplaceCheckout/phone_icon.svg" alt="Phone" class="address-icon phone-icon" />
-       <!-- Bind to userProfile.phoneNumber, show default if not set -->
-       <span class="phone-number">{{ userProfile.phoneNumber || 'Phone not set' }}</span> 
-    </div> 
+      <img
+        src="assets/marketplace/marketplaceCheckout/phone_icon.svg"
+        alt="Phone"
+        class="address-icon phone-icon"
+      />
+      <!-- Bind to userProfile.phoneNumber, show default if not set -->
+      <span class="phone-number"
+        >{{ userProfile.phoneNumber || 'Phone not set' }}</span
+      >
+    </div>
   </div>
 
   <!-- Show message if profile not found and not loading -->
-  <div class="ion-padding ion-text-center" *ngIf="!isLoadingProfile && !userProfile">
+  <div
+    class="ion-padding ion-text-center"
+    *ngIf="!isLoadingProfile && !userProfile"
+  >
     <p>Could not load user information.</p>
   </div>
 
   <!-- Market Cart Section -->
-  <h3 class="cart-section-heading">Market Cart</h3>
+  <div class="section-header">
+    <h3 class="cart-section-heading">Market Cart</h3>
+    <ion-badge
+      *ngIf="currentCartItems.length > 0"
+      color="success"
+      class="cart-count"
+      >{{ currentCartItems.length }}</ion-badge
+    >
+  </div>
+
+  <!-- Empty cart message -->
+  <div class="empty-cart-message" *ngIf="currentCartItems.length === 0">
+    <img
+      src="assets/marketplace/marketplaceCheckout/empty_cart.png"
+      alt="Empty Cart"
+      class="empty-cart-icon"
+    />
+    <p>Your cart is empty</p>
+    <ion-button routerLink="/user-dashboard/marketplace" color="success"
+      >Continue Shopping</ion-button
+    >
+  </div>
 
   <div class="cart-items-container">
     <!-- Loop through cart items from the service -->
@@ -63,27 +201,54 @@
         <div class="item-info">
           <span class="item-name">{{ item.name }}</span>
           <div class="item-amount-selector">
-            <ion-button fill="clear" size="small" (click)="decreaseQuantity(item)" [disabled]="item.quantity <= 1">
-              <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+            <ion-button
+              fill="clear"
+              size="small"
+              (click)="decreaseQuantity(item)"
+              [disabled]="item.quantity <= 1"
+            >
+              <ion-icon
+                slot="icon-only"
+                name="remove-circle-outline"
+              ></ion-icon>
             </ion-button>
-            <ion-input type="number" [value]="item.quantity" min="1" (ionChange)="quantityChanged(item, $event)" class="quantity-input"></ion-input>
+            <ion-input
+              type="number"
+              [value]="item.quantity"
+              min="1"
+              (ionChange)="quantityChanged(item, $event)"
+              class="quantity-input"
+            ></ion-input>
             <span class="unit-label">kilo</span>
-            <ion-button fill="clear" size="small" (click)="increaseQuantity(item)">
+            <ion-button
+              fill="clear"
+              size="small"
+              (click)="increaseQuantity(item)"
+            >
               <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
             </ion-button>
           </div>
         </div>
-         <span class="item-price">₱{{ (item.price * item.quantity) | number:'1.2-2' }}</span>
+        <span class="item-price"
+          >₱{{ (item.price * item.quantity) | number:'1.2-2' }}</span
+        >
       </div>
-      <button class="delete-item-button ion-activatable" (click)="removeItem(item.id)">
+      <button
+        class="delete-item-button ion-activatable"
+        (click)="removeItem(item)"
+      >
         <ion-ripple-effect></ion-ripple-effect>
-        <img src="assets/marketplace/marketplaceCheckout/delete_icon.svg" alt="Delete" class="delete-icon" />
+        <img
+          src="assets/marketplace/marketplaceCheckout/delete_icon.svg"
+          alt="Delete"
+          class="delete-icon"
+        />
       </button>
     </div>
   </div>
 
   <!-- Payment Summary Section (Moved into content) -->
-  <div class="payment-summary-section"> 
+  <div class="payment-summary-section">
     <h3 class="payment-title">Payment</h3>
 
     <div class="payment-row">
@@ -111,23 +276,60 @@
 
     <div class="payment-row total-row">
       <span class="payment-label total-label">Total</span>
-      <span class="payment-amount total-amount">₱{{ finalTotal.toLocaleString() }}</span>
+      <span class="payment-amount total-amount"
+        >₱{{ finalTotal.toLocaleString() }}</span
+      >
     </div>
 
-     <button 
-       class="place-order-button ion-activatable" 
-       (click)="placeOrder()"
-       [disabled]="currentCartItems.length === 0">
-       <ion-ripple-effect></ion-ripple-effect>
-       Place order
-     </button>
-  </div> 
+    <button
+      class="place-order-button ion-activatable"
+      (click)="placeOrder()"
+      [disabled]="currentCartItems.length === 0"
+    >
+      <ion-ripple-effect></ion-ripple-effect>
+      Place order
+    </button>
+  </div>
 
   <!-- Rest of the checkout content will go here -->
-
 </ion-content>
 
 <!-- Success Overlay -->
-<div class="success-overlay" *ngIf="orderPlacedSuccessfully">
-  <img src="assets/marketplace/marketplaceCategories/ordersuccess.png" alt="Order Successful" />
+<!-- <div class="success-overlay" *ngIf="orderState === 'confirmed'">
+  <div class="success-content">
+    <img
+      src="assets/marketplace/marketplaceCategories/ordersuccess.png"
+      alt="Order Successful"
+      class="success-image"
+    />
+    <h2 class="success-title">Order Successful!</h2>
+    <p class="success-message">Your order #{{ orderId }} has been placed</p>
+    <ion-spinner name="dots" class="redirect-spinner"></ion-spinner>
+    <p class="redirect-message">Redirecting to order details...</p>
+  </div>
+</div> -->
+<div
+  class="success-overlay"
+  *ngIf="orderState === 'confirmed' && !isOverlayDismissed"
+>
+  <div class="success-content">
+    <img
+      src="assets/marketplace/marketplaceCategories/ordersuccess.png"
+      alt="Order Successful"
+      class="success-image"
+    />
+    <h2 class="success-title">Order Successful!</h2>
+    <p class="success-message">Your order #{{ orderId }} has been placed</p>
+    <ion-spinner name="dots" class="redirect-spinner"></ion-spinner>
+    <p class="redirect-message">Redirecting to order details...</p>
+    <!-- Manual close button as fallback -->
+    <ion-button
+      fill="clear"
+      size="small"
+      (click)="dismissOverlay()"
+      class="overlay-close-button"
+    >
+      <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+  </div>
 </div>

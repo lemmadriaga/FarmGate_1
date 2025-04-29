@@ -1,28 +1,178 @@
-ion-label.rating-label {
-  display: block; // Ensure it takes full width
-  margin-bottom: 8px;
-  font-weight: 500; // Slightly bolder
-  color: var(--ion-color-step-800, #3a3a3a); // Use Ionic variable or fallback
+// Enhanced SCSS for the feedback modal
+:host {
+  --page-margin: 16px;
+  --ion-color-light-shade: #d7d8da;
 }
 
-.star-rating-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px; // Space below stars
-}
+ion-header {
+  ion-toolbar {
+    --background: transparent;
+    --border-width: 0;
 
-.star-icon {
-  font-size: 32px; // Adjust size as needed
-  margin-right: 5px; // Space between stars
-  cursor: pointer;
-  transition: transform 0.1s ease-in-out;
-
-  &:hover {
-    transform: scale(1.1); // Slightly enlarge on hover
+    ion-title {
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
   }
 }
 
+.feedback-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-start;
+  padding-top: 16px;
+}
+
+// Satisfaction icon at the top
+.satisfaction-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  ion-icon {
+    font-size: 64px;
+    color: #439a46;
+    transition: all 0.3s ease;
+  }
+
+  &.has-rating ion-icon {
+    color: #439a46;
+    animation: pulse 1s ease-in-out;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// Rating prompt text
+.rating-prompt {
+  margin-bottom: 24px;
+
+  h2 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--ion-color-dark);
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    font-size: 16px;
+    margin: 0;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+}
+
+// Star rating styling
+.star-rating-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 36px;
+}
+
+.star-icon {
+  font-size: 40px;
+  margin: 0 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  opacity: 0.8;
+
+  &:hover {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+
+  &.selected {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+// Comments section
+.comments-container {
+  margin-bottom: 24px;
+}
+
 .comment-item {
-  // Add margin-top or other spacing if needed
-  margin-top: 10px;
+  --background: var(--ion-color-light-shade, #eaeaea);
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  margin-bottom: 16px;
+
+  ion-label {
+    color: var(--ion-color-dark);
+    font-weight: 500;
+    margin-bottom: 10px;
+
+    .optional-text {
+      font-size: 14px;
+      font-weight: normal;
+      color: var(--ion-color-medium);
+    }
+  }
+
+  .custom-textarea {
+    --background: transparent;
+    --padding-bottom: 8px;
+    --padding-top: 8px;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+}
+
+// Submit button
+.submit-button {
+  margin-top: auto;
+  margin-bottom: 20px;
+  --border-radius: 10px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
+  transition: all 0.2s ease;
+  --background: #439a46;
+
+  &:hover:not([disabled]) {
+    --box-shadow: 0 6px 16px rgba(var(--ion-color-primary-rgb), 0.4);
+    transform: translateY(-2px);
+  }
+
+  &[disabled] {
+    opacity: 0.6;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 360px) {
+  .star-icon {
+    font-size: 32px;
+    margin: 0 4px;
+  }
+
+  .rating-prompt h2 {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  .feedback-container {
+    max-width: 500px;
+    margin: 0 auto;
+  }
 }

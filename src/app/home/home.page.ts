@@ -165,4 +165,11 @@ export class HomePage implements OnInit {
   goToEducationalHub() {
     this.navCtrl.navigateForward('user-dashboard/educational-hub');
   }
+
+  underConstruction(){
+    this.navCtrl.navigateForward('under-construction')
+  }
+  profile(){
+    this.navCtrl.navigateForward('user-dashboard/profile')
+  }
 }

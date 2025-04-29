@@ -1,35 +1,118 @@
-<ion-header>
+<!-- Enhanced Report Modal HTML -->
+<ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="dismiss()" color="medium">Cancel</ion-button>
-    </ion-buttons>
-    <ion-title>Submit Report</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="submitReport()" [disabled]="!reportForm?.valid || isLoading" strong="true">
-        <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
-        Submit
+      <ion-button (click)="dismiss()" color="medium" fill="clear">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-title class="ion-text-center">Submit Report</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Wrap form in *ngIf to ensure reportForm is initialized -->
-  <div *ngIf="reportForm">
+  <div *ngIf="reportForm" class="report-container">
     <form [formGroup]="reportForm" (ngSubmit)="submitReport()">
-      <ion-item lines="full">
-        <ion-label position="stacked">Report Details <ion-text color="danger">*</ion-text></ion-label>
-        <ion-textarea
-          formControlName="reportDetails"
-          rows="8"
-          placeholder="Please describe the issue or event you want to report..."
-          required>
-        </ion-textarea>
-        <!-- Optional: Add validation message display -->
-        <!-- <div *ngIf="reportForm.get('reportDetails')?.invalid && reportForm.get('reportDetails')?.touched" class="validation-error">
+      <!-- Report Icon -->
+      <div class="report-icon">
+        <ion-icon name="alert-circle-outline"></ion-icon>
+      </div>
+
+      <!-- Report Header -->
+      <div class="report-header ion-text-center">
+        <h2>Submit an Issue Report</h2>
+        <p>Your feedback helps us improve our service</p>
+      </div>
+
+      <!-- Category Selection -->
+      <div class="category-section">
+        <ion-segment
+          formControlName="category"
+          (ionChange)="categoryChanged($event)"
+          mode="ios"
+          class="category-segment"
+        >
+          <ion-segment-button value="bug">
+            <ion-icon name="bug-outline"></ion-icon>
+            <ion-label>Bug</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="content">
+            <ion-icon name="document-text-outline"></ion-icon>
+            <ion-label>Content</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="other">
+            <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+            <ion-label>Other</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+
+      <!-- Report Details Entry -->
+      <div class="report-details-container">
+        <ion-item lines="none" class="report-item">
+          <ion-label position="stacked">
+            Report Details <ion-text color="danger">*</ion-text>
+            <p class="help-text">{{ getHelpText() }}</p>
+          </ion-label>
+          <ion-textarea
+            formControlName="reportDetails"
+            rows="6"
+            placeholder="Please describe the issue in detail..."
+            class="custom-textarea"
+            required
+          >
+          </ion-textarea>
+        </ion-item>
+
+        <!-- Validation Error Message -->
+        <div
+          *ngIf="
+            reportForm.get('reportDetails')?.invalid &&
+            reportForm.get('reportDetails')?.touched
+          "
+          class="validation-error"
+        >
+          <ion-icon name="alert-circle"></ion-icon>
           Report details are required.
-        </div> -->
-      </ion-item>
+        </div>
+
+        <!-- Character count -->
+        <div
+          class="character-count"
+          [ngClass]="{ warning: getCharCount() > 400 }"
+        >
+          {{ getCharCount() }}/500 characters
+        </div>
+      </div>
+
+      <!-- Optional Contact Preference -->
+      <div class="contact-preference">
+        <ion-item lines="none" class="toggle-item">
+          <ion-label>
+            Contact me about this report
+            <p>We may need additional information</p>
+          </ion-label>
+          <ion-toggle
+            formControlName="allowContact"
+            color="success"
+          ></ion-toggle>
+        </ion-item>
+      </div>
+
+      <!-- Submit Button (Full Width) -->
+      <ion-button
+        expand="block"
+        type="submit"
+        [disabled]="!reportForm?.valid || isLoading"
+        class="submit-button"
+      >
+        <ion-spinner
+          *ngIf="isLoading"
+          name="crescent"
+          slot="start"
+        ></ion-spinner>
+        Submit Report
+      </ion-button>
     </form>
   </div>
 </ion-content>
