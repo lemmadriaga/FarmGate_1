@@ -6,34 +6,48 @@ import { UserDashboardPage } from './user-dashboard.page';
 const routes: Routes = [
   {
     path: 'educational-hub',
-    loadChildren: () => import('./educational-hub/educational-hub.module').then( m => m.EducationalHubPageModule)
+    loadChildren: () =>
+      import('./educational-hub/educational-hub.module').then(
+        (m) => m.EducationalHubPageModule
+      ),
   },
   {
     path: '',
-    component: UserDashboardPage, 
-    children:[
+    component: UserDashboardPage,
+    children: [
       {
         path: 'home',
-        loadChildren: () => import('../home.module').then( m => m.HomePageModule)
+        loadChildren: () =>
+          import('../home.module').then((m) => m.HomePageModule),
       },
       {
         path: 'marketplace',
-        loadChildren: () => import('../marketplace/marketplace.module').then( m => m.MarketplacePageModule)
+        loadChildren: () =>
+          import('../marketplace/marketplace.module').then(
+            (m) => m.MarketplacePageModule
+          ),
       },
       {
-        path: 'cart',
-        loadChildren: () => import('../cart/cart.module').then( m => m.CartPageModule)
+        path: 'orders',
+        loadChildren: () =>
+          import('../../orders/orders.module').then((m) => m.OrdersPageModule),
       },
       {
         path: 'BuyLokal',
-        loadChildren: () => import('../buylokal-options/buylokal-options.module').then( m => m.BuylokalOptionsModule)
+        loadChildren: () =>
+          import('../buylokal-options/buylokal-options.module').then(
+            (m) => m.BuylokalOptionsModule
+          ),
       },
       {
         path: 'profile',
-        loadChildren: () => import('../user-profile/user-profile.module').then( m => m.UserProfilePageModule)
-      }
-    ]
-  }
+        loadChildren: () =>
+          import('../user-profile/user-profile.module').then(
+            (m) => m.UserProfilePageModule
+          ),
+      },
+    ],
+  },
 ];
 
 @NgModule({

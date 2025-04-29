@@ -82,11 +82,54 @@ export class OrderService {
       .doc<Order>(orderId)
       .valueChanges()
       .pipe(
-        take(1),
-        catchError((error) => {
-          console.error('Error fetching order:', error);
-          return throwError(() => new Error('Order not found'));
+        map((order) => {
+          if (order) {
+            return { id: orderId, ...order };
+          }
+          return undefined;
+        }),
+        catchError((err) => {
+          console.error('Error fetching order', err);
+          return throwError(() => err);
+        }),
+        take(1)
+      );
+  }
+
+  getOrders(): Observable<Order[]> {
+    return this.ordersCollection.snapshotChanges().pipe(
+      map((actions) =>
+        actions.map((a) => {
+          const data = a.payload.doc.data() as Order;
+          const id = a.payload.doc.id;
+          return { id, ...data };
         })
+      ),
+      catchError((err) => {
+        console.error('Failed to fetch orders', err);
+        return throwError(() => err);
+      }),
+      take(1)
+    );
+  }
+
+  getOrdersByUser(userId: string): Observable<Order[]> {
+    return this.firestore
+      .collection<Order>('orders', (ref) => ref.where('userId', '==', userId))
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data = a.payload.doc.data() as Order;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        ),
+        catchError((err) => {
+          console.error('Failed to fetch user orders', err);
+          return throwError(() => err);
+        }),
+        take(1)
       );
   }
 

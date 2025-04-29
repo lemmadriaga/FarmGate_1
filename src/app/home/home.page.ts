@@ -34,18 +34,16 @@ export class HomePage implements OnInit {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
 
-      
       this.weatherService.getCurrentWeather(lat, lon).subscribe((data: any) => {
         this.weatherData.temperature = Math.round(data.main.temp);
         this.weatherData.condition = data.weather[0].main;
         this.weatherData.location = data.name;
       });
 
-      
       this.weatherService.getForecast(lat, lon).subscribe((data: any) => {
         const dailyData = data.list
-          .filter((_: unknown, i: number) => i % 8 === 0) 
-          .slice(0, 4); 
+          .filter((_: unknown, i: number) => i % 8 === 0)
+          .slice(0, 4);
 
         this.weatherData.forecast = dailyData.map(
           (item: any, index: number) => {
@@ -55,7 +53,6 @@ export class HomePage implements OnInit {
             const temp = Math.round(item.main.temp);
             const condition = item.weather[0].main.toLowerCase();
 
-            
             let icon = 'cloudy';
             if (condition.includes('sun')) icon = 'sunny';
             else if (condition.includes('rain')) icon = 'rainy';
@@ -133,8 +130,6 @@ export class HomePage implements OnInit {
     },
   ];
 
-
-
   selectedCategory = 'all';
 
   segmentChanged(event: CustomEvent): void {
@@ -154,8 +149,8 @@ export class HomePage implements OnInit {
   buyLokal() {
     this.navCtrl.navigateForward('user-dashboard/BuyLokal');
   }
-  marketplace(){
-    this.navCtrl.navigateForward('user-dashboard/marketplace')
+  marketplace() {
+    this.navCtrl.navigateForward('user-dashboard/marketplace');
   }
 
   openYoutubeVideo(url: string): void {
@@ -164,5 +159,12 @@ export class HomePage implements OnInit {
 
   goToEducationalHub() {
     this.navCtrl.navigateForward('user-dashboard/educational-hub');
+  }
+
+  underConstruction() {
+    this.navCtrl.navigateForward('under-construction');
+  }
+  profile() {
+    this.navCtrl.navigateForward('user-dashboard/profile');
   }
 }

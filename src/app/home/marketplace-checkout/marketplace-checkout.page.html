@@ -2,8 +2,8 @@
   <div class="checkout-header-bg">
     <ion-buttons slot="start" class="back-button-container">
       <ion-back-button
-        defaultHref="user-dashboard/marketplace"
-        text="Back"
+        defaultHref="/user-dashboard/marketplace"
+        text=""
         icon="chevron-back-outline"
       ></ion-back-button>
     </ion-buttons>
@@ -151,10 +151,10 @@
         </ion-item>
 
         <div class="form-buttons">
-          <ion-button fill="outline" color="success" type="button" (click)="toggleAddressEdit()"
+          <ion-button fill="outline" type="button" (click)="toggleAddressEdit()" class="cancel"
             >Cancel</ion-button
           >
-          <ion-button type="submit" color="success"[disabled]="addressForm.invalid"
+          <ion-button type="submit" [disabled]="addressForm.invalid" class="save-address"
             >Save Address</ion-button
           >
         </div>
@@ -230,7 +230,7 @@
         class="empty-cart-icon"
       />
       <p>Your cart is empty</p>
-      <ion-button routerLink="/user-dashboard/marketplace" color="success">Continue Shopping</ion-button>
+      <ion-button routerLink="/marketplace" class="continue">Continue Shopping</ion-button>
     </div>
 
     <div class="cart-items-container">

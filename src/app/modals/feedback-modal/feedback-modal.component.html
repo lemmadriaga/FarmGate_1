@@ -1,43 +1,109 @@
-<ion-header>
+<!-- HTML Template -->
+<ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="dismiss()" color="medium">Cancel</ion-button>
-    </ion-buttons>
-    <ion-title>Submit Feedback</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="submitFeedback()" [disabled]="!feedbackForm?.valid || isLoading" strong="true">
-        <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
-        Submit
+      <ion-button (click)="dismiss()" color="medium" fill="clear">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-title class="ion-text-center">Submit Feedback</ion-title>
+    <!-- <ion-buttons slot="end">
+      <ion-button
+        (click)="submitFeedback()"
+        [disabled]="!feedbackForm?.valid || isLoading"
+        strong="true"
+        color="primary"
+      >
+        <ion-spinner
+          *ngIf="isLoading"
+          name="crescent"
+          slot="start"
+        ></ion-spinner>
+        Submit
+      </ion-button>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Wrap form in *ngIf to ensure feedbackForm is initialized -->
-  <div *ngIf="feedbackForm">
+  <div *ngIf="feedbackForm" class="feedback-container">
     <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()">
-      <ion-label class="rating-label">Rating:</ion-label>
+      <!-- Satisfaction Icon -->
+      <div
+        class="satisfaction-icon"
+        [ngClass]="{ 'has-rating': rating !== null }"
+      >
+        <ion-icon *ngIf="rating === null" name="help-circle-outline"></ion-icon>
+        <ion-icon
+          *ngIf="rating !== null && rating <= 2"
+          name="sad-outline"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="rating !== null && rating === 3"
+          name="happy-outline"
+        ></ion-icon>
+        <ion-icon
+          *ngIf="rating !== null && rating >= 4"
+          name="heart-outline"
+        ></ion-icon>
+      </div>
+
+      <!-- Rating prompt -->
+      <div class="rating-prompt ion-text-center">
+        <h2>How was your experience?</h2>
+        <p *ngIf="rating === null">Tap a star to rate</p>
+        <p *ngIf="rating === 1">Poor</p>
+        <p *ngIf="rating === 2">Fair</p>
+        <p *ngIf="rating === 3">Good</p>
+        <p *ngIf="rating === 4">Great</p>
+        <p *ngIf="rating === 5">Excellent</p>
+      </div>
+
+      <!-- Stars -->
       <div class="star-rating-container">
         <ion-icon
           *ngFor="let i of [1, 2, 3, 4, 5]"
           [name]="(rating ?? 0) >= i ? 'star' : 'star-outline'"
           [color]="(rating ?? 0) >= i ? 'warning' : 'medium'"
           (click)="setRating(i)"
-          class="star-icon">
+          class="star-icon"
+          [class.selected]="(rating ?? 0) >= i"
+        >
         </ion-icon>
         <!-- Hidden input to store rating value in the form -->
-        <input type="hidden" formControlName="rating">
+        <input type="hidden" formControlName="rating" />
       </div>
 
-      <ion-item lines="full" class="comment-item">
-        <ion-label position="stacked">Comments (Optional)</ion-label>
-        <ion-textarea
-          formControlName="comments"
-          rows="5"
-          placeholder="Share your thoughts...">
-        </ion-textarea>
-      </ion-item>
+      <!-- Comments -->
+      <div class="comments-container">
+        <ion-item lines="none" class="comment-item">
+          <ion-label position="stacked"
+            >Comments <span class="optional-text">(Optional)</span></ion-label
+          >
+          <ion-textarea
+            formControlName="comments"
+            rows="4"
+            placeholder="Share your thoughts or suggestions..."
+            class="custom-textarea"
+          >
+          </ion-textarea>
+        </ion-item>
+      </div>
+
+      <!-- Submit button (mobile-friendly alternative) -->
+      <ion-button
+        expand="block"
+        type="submit"
+        [disabled]="!feedbackForm?.valid || isLoading"
+        class="submit-button"
+      >
+        <ion-spinner
+          *ngIf="isLoading"
+          name="crescent"
+          slot="start"
+        ></ion-spinner>
+        Submit Feedback
+      </ion-button>
     </form>
   </div>
 </ion-content>

@@ -1,68 +1,156 @@
-// orders.page.ts
-import { Component, OnInit } from '@angular/core';
-import { OrderService, Order } from '../services/order.service';
+import { RouterModule } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
+import { AuthenticationService } from '../services/authentication.service';
+import { Subscription, BehaviorSubject, of } from 'rxjs';
+import { switchMap, finalize } from 'rxjs/operators';
+import { AnimationController } from '@ionic/angular';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoadingController, AlertController } from '@ionic/angular';
-import { Observable, of } from 'rxjs';
-import { catchError, finalize, tap } from 'rxjs/operators';
-import { AuthService } from '../services/auth.service';
-
+import { CommonModule } from '@angular/common';
+import { OrderService, Order } from '../services/order.service';
+import { AngularFireAuth } from '@angular/fire/compat/auth'; // Import AngularFireAuth
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.page.html',
   styleUrls: ['./orders.page.scss'],
+  standalone: true,
+  imports: [CommonModule, IonicModule, RouterModule],
 })
-export class OrdersPage implements OnInit {
-  orders$: Observable<Order[]>;
-  loading = true;
-  error = false;
+export class OrdersPage implements OnInit, OnDestroy {
+  orders: Order[] = [];
+  isLoading = true;
+  errorMessage: string = '';
 
-  // For UI filtering
-  selectedStatus: string = 'all';
-  searchTerm: string = '';
+  private authSubscription: any = null;
+
+  // For refreshing orders
+  refreshing = false;
 
   constructor(
     private orderService: OrderService,
-    private loadingCtrl: LoadingController,
-    private alertCtrl: AlertController,
-    private authService: AuthService
+    private authService: AuthenticationService,
+    private router: Router,
+    private loadingController: LoadingController,
+    private alertController: AlertController,
+    private animationCtrl: AnimationController,
+    private auth: AngularFireAuth
   ) {}
 
-  async ngOnInit() {
-    const loader = await this.loadingCtrl.create({
-      message: 'Loading your orders...',
-    });
-    await loader.present();
-
-    this.authService.getCurrentUser().subscribe((user) => {
-      if (user) {
-        this.orders$ = this.orderService.getUserOrders(user.uid).pipe(
-          tap(() => (this.loading = false)),
-          catchError((err) => {
-            console.error('Error fetching orders:', err);
-            this.error = true;
-            this.loading = false;
-            return of([]);
-          }),
-          finalize(() => loader.dismiss())
-        );
-      } else {
-        this.loading = false;
-        loader.dismiss();
-        this.presentAlert(
-          'Authentication Error',
-          'Please log in to view your orders.'
-        );
-      }
-    });
+  ngOnInit() {
+    this.loadOrders();
   }
 
-  async presentAlert(header: string, message: string) {
-    const alert = await this.alertCtrl.create({
-      header,
-      message,
-      buttons: ['OK'],
+  ngOnDestroy() {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+  }
+
+  async loadOrders() {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    const loading = await this.loadingController.create({
+      message: 'Loading your orders...',
+      spinner: 'circular',
     });
-    await alert.present();
+    await loading.present();
+
+    // Get the current user directly from AngularFireAuth
+    const user = await this.auth.currentUser;
+
+    if (user && user.uid) {
+      // If user is authenticated, fetch their orders
+      this.orderService
+        .getUserOrders(user.uid)
+        .pipe(
+          catchError((error) => {
+            console.error('Error fetching orders:', error);
+            this.errorMessage = 'Unable to load your orders. Please try again.';
+            return of([]); // Return an empty array in case of error
+          })
+        )
+        .subscribe(
+          (orders) => {
+            this.orders = orders;
+            this.isLoading = false;
+            loading.dismiss();
+          },
+          (error) => {
+            console.error('Error loading orders:', error);
+            this.errorMessage = 'Unable to load your orders. Please try again.';
+            this.isLoading = false;
+            loading.dismiss();
+          }
+        );
+    } else {
+      this.errorMessage = 'You must be logged in to view orders.';
+      this.isLoading = false;
+      loading.dismiss();
+    }
+  }
+
+  async doRefresh(event: any) {
+    this.refreshing = true;
+    this.errorMessage = '';
+
+    this.authSubscription?.unsubscribe();
+    const user = await this.auth.currentUser;
+
+    if (user && user.uid) {
+      this.orderService
+        .getUserOrders(user.uid)
+        .pipe(
+          catchError((error) => {
+            console.error('Error fetching orders:', error);
+            this.errorMessage = 'Unable to load your orders. Please try again.';
+            return of([]); // Return an empty array in case of error
+          })
+        )
+        .subscribe(
+          (orders) => {
+            this.orders = orders;
+            this.refreshing = false;
+            event.target.complete(); // Complete the refresh
+          },
+          (error) => {
+            console.error('Error loading orders:', error);
+            this.errorMessage = 'Unable to load your orders. Please try again.';
+            this.refreshing = false;
+            event.target.complete(); // Complete the refresh
+          }
+        );
+    } else {
+      this.errorMessage = 'You must be logged in to view orders.';
+      this.refreshing = false;
+      event.target.complete(); // Complete the refresh
+    }
+  }
+
+  viewOrderDetails(order: Order) {
+    // Animate the clicked order item before navigation
+    const element = document.getElementById(`order-item-${order.id}`);
+    if (element) {
+      const animation = this.animationCtrl
+        .create()
+        .addElement(element)
+        .duration(300)
+        .fromTo(
+          'background',
+          'var(--ion-color-light)',
+          'var(--ion-color-light-shade)'
+        )
+        .fromTo('transform', 'scale(1)', 'scale(0.97)');
+
+      animation.play().then(() => {
+        this.router.navigate(['/orders', order.id]);
+      });
+    } else {
+      this.router.navigate(['/orders', order.id]);
+    }
   }
 
   getStatusColor(status: string): string {
@@ -82,99 +170,39 @@ export class OrdersPage implements OnInit {
     }
   }
 
-  trackOrder(order: Order) {
-    if (order.trackingInfo?.trackingNumber) {
-      // If you have a tracking details page, you can navigate to it
-      // this.router.navigate(['/track-order', order.id]);
-
-      // For now, we'll just show the tracking info in an alert
-      this.presentAlert(
-        'Tracking Information',
-        `Carrier: ${order.trackingInfo.carrier || 'N/A'}\nTracking Number: ${
-          order.trackingInfo.trackingNumber
-        }\nCurrent Location: ${
-          order.trackingInfo.currentLocation || 'In transit'
-        }\nLast Updated: ${
-          order.trackingInfo.lastUpdate
-            ? order.trackingInfo.lastUpdate.toLocaleString()
-            : 'N/A'
-        }`
-      );
-    } else {
-      this.presentAlert(
-        'No Tracking Available',
-        'This order does not have tracking information yet.'
-      );
-    }
-  }
-
-  formatDate(date: Date): string {
+  formatDate(date: Date | undefined): string {
     if (!date) return 'N/A';
-    return new Date(date).toLocaleDateString();
+
+    if (typeof date === 'string') {
+      date = new Date(date);
+    }
+
+    return new Intl.DateTimeFormat('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(date);
   }
 
-  async cancelOrder(order: Order) {
-    const alert = await this.alertCtrl.create({
-      header: 'Cancel Order',
-      message: 'Are you sure you want to cancel this order?',
-      inputs: [
-        {
-          name: 'reason',
-          type: 'text',
-          placeholder: 'Reason for cancellation (optional)',
-        },
-      ],
-      buttons: [
-        {
-          text: 'No',
-          role: 'cancel',
-        },
-        {
-          text: 'Yes',
-          handler: async (data) => {
-            const loader = await this.loadingCtrl.create({
-              message: 'Cancelling order...',
-            });
-            await loader.present();
-
-            try {
-              await this.orderService.cancelOrder(order.id, data.reason);
-              this.presentAlert('Success', 'Order was cancelled successfully.');
-            } catch (error) {
-              this.presentAlert(
-                'Error',
-                'Failed to cancel order. Please try again later.'
-              );
-            } finally {
-              loader.dismiss();
-            }
-          },
-        },
-      ],
-    });
-    await alert.present();
+  continueShoppingClick() {
+    this.router.navigate(['/home/marketplace']);
   }
 
-  // Filter functions for UI
-  filterByStatus(orders: Order[]): Order[] {
-    if (!orders) return [];
-    if (this.selectedStatus === 'all') return orders;
-    return orders.filter((order) => order.status === this.selectedStatus);
-  }
+  private animateOrderItems() {
+    setTimeout(() => {
+      document.querySelectorAll('.order-item').forEach((el, index) => {
+        const animation = this.animationCtrl
+          .create()
+          .addElement(el as HTMLElement)
+          .duration(300)
+          .delay(index * 100)
+          .fromTo('opacity', '0', '1')
+          .fromTo('transform', 'translateY(20px)', 'translateY(0)');
 
-  searchOrders(orders: Order[]): Order[] {
-    if (!orders || !this.searchTerm) return orders || [];
-    const term = this.searchTerm.toLowerCase();
-    return orders.filter(
-      (order) =>
-        order.id.toLowerCase().includes(term) ||
-        this.formatDate(order.orderDate).toLowerCase().includes(term)
-    );
-  }
-
-  applyFilters(orders: Order[]): Order[] {
-    if (!orders) return [];
-    let filteredOrders = this.filterByStatus(orders);
-    return this.searchOrders(filteredOrders);
+        animation.play();
+      });
+    }, 100);
   }
 }

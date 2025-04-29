@@ -1,13 +1,183 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>orders</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">orders</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<!-- <ion-header [translucent]="true">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/marketplace" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>My Orders</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-header class="ion-no-border">
+  <div class="checkout-header-bg">
+    <ion-buttons slot="start" class="back-button-container">
+      <ion-back-button
+        defaultHref="user-dashboard/marketplace"
+        text="Back"
+        icon="chevron-back-outline"
+      ></ion-back-button>
+    </ion-buttons>
+    <div class="header-content">
+      <img
+        src="assets/marketplace/marketplaceCheckout/farmgate_white_logo.svg"
+        alt="FarmGate Logo"
+        class="checkout-logo"
+      />
+      <h1 class="checkout-title">Check all the items</h1>
+      <p class="checkout-subtitle">FOR DELIVERY</p>
+    </div>
+  </div>
+</ion-header>
+<ion-content [fullscreen]="true" class="ion-padding-vertical orders-content">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Updating orders..."
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="orders-container">
+    <div class="page-header ion-padding-horizontal">
+      <h1>Order History</h1>
+      <p>Track and manage your recent purchases</p>
+    </div>
+
+    <!-- Loading State -->
+    <div
+      *ngIf="isLoading"
+      class="loading-container ion-text-center ion-padding"
+    >
+      <ion-spinner name="circles" color="success"></ion-spinner>
+      <p>Loading your orders...</p>
+    </div>
+
+    <!-- Error State -->
+    <ion-card *ngIf="errorMessage && !isLoading" class="error-card">
+      <ion-card-content class="ion-text-center">
+        <ion-icon
+          name="alert-circle-outline"
+          size="large"
+          color="danger"
+        ></ion-icon>
+        <h2>Oops!</h2>
+        <p>{{ errorMessage }}</p>
+        <ion-button
+          (click)="loadOrders()"
+          expand="block"
+          fill="solid"
+          color="success"
+          shape="round"
+          class="retry-button"
+        >
+          <ion-icon name="refresh-outline" slot="start"></ion-icon>
+          Retry
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Empty State -->
+    <ion-card
+      *ngIf="orders.length === 0 && !isLoading && !errorMessage"
+      class="empty-state"
+    >
+      <ion-card-content class="ion-text-center">
+        <div class="empty-illustration">
+          <ion-icon name="bag-handle-outline" color="medium"></ion-icon>
+        </div>
+        <h2>No Orders Yet</h2>
+        <p>
+          Looks like you haven't placed any orders with us yet. Start shopping
+          to see your orders here.
+        </p>
+        <ion-button
+          (click)="continueShoppingClick()"
+          expand="block"
+          fill="solid"
+          color="success"
+          shape="round"
+          class="shopping-button"
+        >
+          <ion-icon name="cart-outline" slot="start"></ion-icon>
+          Browse Products
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Orders List -->
+    <div *ngIf="orders.length > 0 && !isLoading" class="orders-list">
+      <ion-card
+        *ngFor="let order of orders; let i = index"
+        class="order-item animate-in"
+        [style.animation-delay]="i * 0.1 + 's'"
+        [id]="'order-item-' + order.id"
+        (click)="viewOrderDetails(order)"
+      >
+        <ion-ripple-effect></ion-ripple-effect>
+
+        <ion-card-header>
+          <div class="order-header">
+            <div class="order-id">
+              <ion-icon name="receipt-outline" color="medium"></ion-icon>
+              <ion-text>Order #{{ order.id }}</ion-text>
+            </div>
+            <ion-badge
+              [color]="getStatusColor(order.status)"
+              class="status-badge"
+            >
+              <!-- <ion-icon [name]="getStatusIcon(order.status)"></ion-icon> -->
+              {{ order.status | titlecase }}
+            </ion-badge>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="order-info">
+            <div class="info-item">
+              <ion-icon name="calendar-outline" color="medium"></ion-icon>
+              <ion-text color="medium"
+                >{{ formatDate(order.orderDate) }}</ion-text
+              >
+            </div>
+            <div class="info-item">
+              <ion-icon name="pricetags-outline" color="success"></ion-icon>
+              <ion-text color="dark" class="price"
+                >₱{{ order.total.toFixed(2) }}</ion-text
+              >
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="order-items">
+            <div class="items-header">
+              <ion-icon name="cube-outline" color="medium"></ion-icon>
+              <ion-text color="medium"
+                >{{ order.items.length }} Item{{ order.items.length > 1 ? 's' :
+                '' }}</ion-text
+              >
+            </div>
+            <p class="items-summary">
+              <span
+                *ngFor="let item of order.items.slice(0, 2); let last = last"
+              >
+                {{ item.name }}{{ last ? (order.items.length > 2 ? '...' : '') :
+                ', ' }}
+              </span>
+              <span *ngIf="order.items.length > 2" class="more-items">
+                +{{ order.items.length - 2 }} more
+              </span>
+            </p>
+          </div>
+
+          <div class="view-details">
+            <ion-text color="success">View Details</ion-text>
+            <ion-icon name="chevron-forward" color="success"></ion-icon>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>

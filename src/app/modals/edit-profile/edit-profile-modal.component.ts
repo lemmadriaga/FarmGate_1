@@ -1,9 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController, ToastController } from '@ionic/angular';
+import {
+  ModalController,
+  ToastController,
+  AlertController,
+} from '@ionic/angular';
 import { UserProfile, UserDataService } from '../../services/user-data.service';
 import { AuthService } from '../../services/auth.service';
-import { firstValueFrom } from 'rxjs'; // To get UID easily
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-edit-profile-modal',
@@ -12,14 +16,18 @@ import { firstValueFrom } from 'rxjs'; // To get UID easily
 })
 export class EditProfileModalComponent implements OnInit {
   @Input() userProfile: UserProfile | undefined;
-  editForm: FormGroup | undefined = undefined; // Initialize as undefined
+  editForm: FormGroup | undefined = undefined;
   isLoading = false;
   userId: string | null = null;
+
+  // For date formatting
+  dateValue: string = '';
 
   constructor(
     private modalCtrl: ModalController,
     private fb: FormBuilder,
     private toastCtrl: ToastController,
+    private alertCtrl: AlertController,
     private authService: AuthService,
     private userDataService: UserDataService
   ) {}
@@ -28,26 +36,79 @@ export class EditProfileModalComponent implements OnInit {
     // Get user ID once
     this.userId = await firstValueFrom(this.authService.getCurrentUserUid());
 
-    // Initialize form - add Validators.required or others as needed
+    // Initialize form with validators
     this.editForm = this.fb.group({
-      firstName: [this.userProfile?.firstName || '', Validators.required],
-      lastName: [this.userProfile?.lastName || '', Validators.required],
+      firstName: [
+        this.userProfile?.firstName || '',
+        [Validators.required, Validators.minLength(2)],
+      ],
+      lastName: [
+        this.userProfile?.lastName || '',
+        [Validators.required, Validators.minLength(2)],
+      ],
       gender: [this.userProfile?.gender || ''],
-      dateOfBirth: [this.userProfile?.dateOfBirth || ''], // Consider date pipe/input type later
+      dateOfBirth: [this.userProfile?.dateOfBirth || ''],
       address: [this.userProfile?.address || ''],
-      // Add phoneNumber form control
-      phoneNumber: [this.userProfile?.phoneNumber || ''] // Add phone number, make it optional for now
+      phoneNumber: [
+        this.userProfile?.phoneNumber || '',
+        [
+          Validators.pattern(
+            '^[+]?[(]?[0-9]{1,4}[)]?[-s.]?[0-9]{1,4}[-s.]?[0-9]{1,9}$'
+          ),
+        ],
+      ],
     });
+
+    // Format date for display if available
+    if (this.userProfile?.dateOfBirth) {
+      this.dateValue = this.userProfile.dateOfBirth;
+    }
   }
 
-  dismiss() {
-    this.modalCtrl.dismiss(null, 'cancel');
+  // Update hidden form field when date is changed
+  updateDateOfBirth(event: any) {
+    const selectedDate = event.detail.value;
+    this.editForm?.get('dateOfBirth')?.setValue(selectedDate);
+  }
+
+  async dismiss() {
+    // Show confirmation only if form has changes
+    if (this.editForm?.dirty) {
+      const alert = await this.alertCtrl.create({
+        header: 'Discard Changes?',
+        message:
+          'You have unsaved changes. Are you sure you want to discard them?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+          },
+          {
+            text: 'Discard',
+            handler: () => {
+              this.modalCtrl.dismiss(null, 'cancel');
+            },
+          },
+        ],
+      });
+      await alert.present();
+    } else {
+      this.modalCtrl.dismiss(null, 'cancel');
+    }
   }
 
   async saveChanges() {
     if (!this.editForm?.valid || !this.userId) {
-      // Optionally show a toast for invalid form
-      console.error('Form invalid or User ID missing');
+      // Show validation errors
+      this.markFormGroupTouched(this.editForm);
+
+      const toast = await this.toastCtrl.create({
+        message: 'Please fill in all required fields correctly.',
+        duration: 2000,
+        color: 'warning',
+        position: 'top',
+      });
+      await toast.present();
       return;
     }
 
@@ -60,6 +121,7 @@ export class EditProfileModalComponent implements OnInit {
         message: 'Profile updated successfully!',
         duration: 2000,
         color: 'success',
+        position: 'top',
       });
       await toast.present();
       this.modalCtrl.dismiss(updatedData, 'save');
@@ -69,10 +131,31 @@ export class EditProfileModalComponent implements OnInit {
         message: 'Failed to update profile. Please try again.',
         duration: 3000,
         color: 'danger',
+        position: 'top',
       });
       await toast.present();
     } finally {
       this.isLoading = false;
     }
+  }
+
+  // Helper function to mark all controls as touched for validation display
+  private markFormGroupTouched(formGroup: FormGroup | undefined) {
+    if (!formGroup) return;
+
+    Object.values(formGroup.controls).forEach((control) => {
+      control.markAsTouched();
+
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
+
+  // Handle profile image selection (placeholder function)
+  async selectProfileImage() {
+    // Implement image selection functionality here
+    // This could open a camera or file picker
+    console.log('Profile image selection clicked');
   }
 }

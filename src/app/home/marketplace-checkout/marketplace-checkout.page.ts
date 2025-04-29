@@ -54,10 +54,12 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
   discount: number = 0;
   finalTotal: number = 0;
 
+  // Track multiple order states
   orderState: 'shopping' | 'processing' | 'confirmed' | 'failed' = 'shopping';
   orderSummary: OrderSummary | null = null;
   orderId: string = '';
 
+  // Payment methods
   availablePaymentMethods = [
     { id: 'cash', name: 'Cash on Delivery', icon: 'cash-outline' },
     { id: 'gcash', name: 'GCash', icon: 'wallet-outline' },
@@ -73,7 +75,8 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
   private userAuthSubscription!: Subscription;
   private userProfileSubscription!: Subscription;
 
-  readonly MAX_BASKET_CAPACITY: number = 4;
+  // Basket capacity constraints
+  readonly MAX_BASKET_CAPACITY: number = 4; // kilos
   remainingCapacity: number = 4;
 
   constructor(
@@ -90,6 +93,7 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
   ) {
     this.cartItems$ = this.cartService.getCartItems();
 
+    // Initialize address form
     this.addressForm = this.formBuilder.group({
       address: ['', [Validators.required]],
       firstName: ['', [Validators.required]],
@@ -154,6 +158,7 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
         this.isLoadingProfile = false;
 
         if (profile) {
+          // Populate form with existing data
           this.addressForm.patchValue({
             address: profile.address || '',
             firstName: profile.firstName || '',
@@ -169,14 +174,17 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
       (sum, item) => sum + item.price * item.quantity,
       0
     );
+    // Apply dynamic delivery fee based on subtotal
     this.deliveryFee = this.orderSubtotal > 500 ? 0 : 50;
 
+    // Apply discount logic (can be extended)
     this.discount = this.applyDiscounts(items);
 
     this.finalTotal = this.orderSubtotal + this.deliveryFee - this.discount;
   }
 
   applyDiscounts(items: CartItem[]): number {
+    // Example discount: 10% off when order is above 1000
     return this.orderSubtotal > 1000 ? this.orderSubtotal * 0.1 : 0;
   }
 
@@ -186,6 +194,7 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
   }
 
   async removeItem(item: CartItem) {
+    // Create slide-out animation
     const element = document.getElementById(`cart-item-${item.id}`);
     if (element) {
       const animation = this.animationCtrl
@@ -200,6 +209,7 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
 
     this.cartService.removeFromCart(item.id);
 
+    // Show toast with undo option
     const toast = await this.toastController.create({
       message: `${item.name} removed from cart`,
       duration: 3000,
@@ -226,8 +236,10 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
   }
 
   async increaseQuantity(item: CartItem) {
+    // Get current cart items
     const currentItems = await firstValueFrom(this.cartItems$);
 
+    // Calculate total kilos in cart
     const totalKilos = currentItems.reduce(
       (sum: number, cartItem: CartItem) => {
         return (
@@ -238,6 +250,7 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
       0
     );
 
+    // Check if adding 1 more kilo exceeds the basket capacity
     if (totalKilos > this.MAX_BASKET_CAPACITY) {
       const toast = await this.toastController.create({
         message: `Cannot add more items. One basket can only hold ${this.MAX_BASKET_CAPACITY} kilos total.`,
@@ -249,10 +262,12 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
       return;
     }
 
+    // Update the item quantity
     const updatedItem = { ...item, quantity: item.quantity + 1 };
     this.cartService.updateCartItem(updatedItem);
     this.updateItemQuantityAnimation(item.id, 'increase');
 
+    // Show remaining capacity
     this.updateRemainingCapacityMessage(this.MAX_BASKET_CAPACITY - totalKilos);
   }
 
@@ -265,8 +280,10 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
       inputElement.value = newQuantity.toString();
     }
 
+    // Get current cart items
     const currentItems = await firstValueFrom(this.cartItems$);
 
+    // Calculate total kilos with the new quantity
     const totalKilos = currentItems.reduce(
       (sum: number, cartItem: CartItem) => {
         return (
@@ -288,10 +305,12 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
       return;
     }
 
+    // Update the item quantity
     if (item.quantity !== newQuantity) {
       const updatedItem = { ...item, quantity: newQuantity };
       this.cartService.updateCartItem(updatedItem);
 
+      // Show remaining capacity
       this.updateRemainingCapacityMessage(
         this.MAX_BASKET_CAPACITY - totalKilos
       );
@@ -354,6 +373,7 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
 
   async saveAddress() {
     if (this.addressForm.invalid) {
+      // Mark all fields as touched to show validation errors
       Object.keys(this.addressForm.controls).forEach((key) => {
         this.addressForm.get(key)?.markAsTouched();
       });
@@ -374,6 +394,7 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
       const addressData = this.addressForm.value;
       await this.userDataService.updateUserProfile(user.uid, addressData);
 
+      // Update local user profile
       this.userProfile = {
         ...this.userProfile,
         ...addressData,
@@ -418,6 +439,7 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
   }
 
   async placeOrder() {
+    // Validate if user profile is complete
     if (!this.userProfile?.address || !this.userProfile?.phoneNumber) {
       this.showToast(
         'Please complete your delivery address information',
@@ -427,11 +449,13 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
       return;
     }
 
+    // Validate if cart is empty
     if (this.currentCartItems.length === 0) {
       this.showToast('Your cart is empty', 'warning');
       return;
     }
 
+    // Show loading indicator
     const loading = await this.loadingController.create({
       message: 'Processing your order...',
     });
@@ -440,6 +464,7 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
     try {
       this.orderState = 'processing';
 
+      // Prepare order data
       const orderData = {
         items: this.currentCartItems,
         subtotal: this.orderSubtotal,
@@ -452,20 +477,26 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
         userId: (await firstValueFrom(this.authService.user$))?.uid,
       };
 
+      // Submit order to service
       const result = await this.orderService.createOrder(orderData);
 
+      // Process response
       this.orderId = result.orderId;
       const estimatedDelivery = new Date();
-      estimatedDelivery.setDate(estimatedDelivery.getDate() + 1);
+      estimatedDelivery.setDate(estimatedDelivery.getDate() + 1); // Next day delivery
+
+      // Set order summary
       this.orderSummary = {
         ...orderData,
         orderId: result.orderId,
         estimatedDelivery,
       };
 
+      // Update state and clear cart
       this.orderState = 'confirmed';
       this.cartService.clearCart();
 
+      // Show success message temporarily before transitioning to order confirmation screen
       setTimeout(() => {
         loading.dismiss();
         this.showOrderConfirmation();
@@ -479,6 +510,7 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
   }
 
   showOrderConfirmation() {
+    // Animate in the confirmation overlay
     const overlay = document.querySelector('.success-overlay') as HTMLElement;
     if (overlay) {
       const animation = this.animationCtrl
@@ -491,11 +523,12 @@ export class MarketplaceCheckoutPage implements OnInit, OnDestroy {
       animation.play();
     }
 
+    // After displaying confirmation, redirect to tracking or home
     setTimeout(() => {
       if (this.orderId) {
         this.router.navigate(['/orders', this.orderId]);
       } else {
-        this.router.navigate(['/home/marketplace']);
+        this.router.navigate(['/user-dashboard/marketplace']);
       }
     }, 3000);
   }

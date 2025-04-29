@@ -1,3 +1,4 @@
+// Base and header styles
 :host {
   --primary-color: #00da4b;
   --primary-dark: #00b24b;
@@ -113,6 +114,7 @@ ion-header {
   }
 }
 
+// Content styles
 ion-content {
   --background: #fff;
 
@@ -121,6 +123,7 @@ ion-content {
   }
 }
 
+// Progress steps
 .order-steps {
   display: flex;
   justify-content: space-between;
@@ -176,6 +179,7 @@ ion-content {
   }
 }
 
+// Basket capacity indicator
 .basket-capacity {
   background: var(--background-light);
   border-radius: var(--border-radius-sm);
@@ -214,6 +218,7 @@ ion-content {
   }
 }
 
+// Section headers
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -260,6 +265,7 @@ ion-content {
   font-weight: 600;
 }
 
+// Address form
 .address-form-container {
   margin-bottom: 20px;
 
@@ -298,6 +304,7 @@ ion-content {
   }
 }
 
+// Address card
 .address-info-card {
   width: 100%;
   max-width: 352px;
@@ -371,6 +378,7 @@ ion-content {
   line-height: 1.4;
 }
 
+// Empty cart
 .empty-cart-message {
   display: flex;
   flex-direction: column;
@@ -397,6 +405,7 @@ ion-content {
   }
 }
 
+// Cart items
 .cart-items-container {
   display: flex;
   flex-direction: column;
@@ -435,7 +444,7 @@ ion-content {
   flex-direction: column;
   justify-content: center;
   padding: 0 12px;
-  min-width: 0;
+  min-width: 0; // Allow text to truncate
 }
 
 .item-image {
@@ -539,6 +548,7 @@ ion-content {
   }
 }
 
+// Payment summary
 .payment-summary-section {
   width: 100%;
   max-width: 400px;
@@ -690,6 +700,7 @@ ion-content {
   }
 }
 
+// Processing state
 .processing-order-container {
   display: flex;
   flex-direction: column;
@@ -718,6 +729,7 @@ ion-content {
   }
 }
 
+// Failed state
 .failed-order-container {
   display: flex;
   flex-direction: column;
@@ -753,6 +765,7 @@ ion-content {
   }
 }
 
+// Confirmation state
 .order-confirmation-container {
   display: flex;
   flex-direction: column;
@@ -823,6 +836,7 @@ ion-content {
   }
 }
 
+// Success overlay
 .success-overlay {
   position: fixed;
   top: 0;
@@ -876,6 +890,7 @@ ion-content {
   }
 }
 
+// Animations
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -914,6 +929,7 @@ ion-content {
   }
 }
 
+// Ionic customizations
 ion-content {
   --offset-top: 130px;
 
@@ -922,7 +938,21 @@ ion-content {
   }
 }
 
+// Ripple effect parent
 .ripple-parent {
   position: relative;
   overflow: hidden;
+}
+
+.save-address{
+  --background: #00b24b;
+}
+.cancel{
+  --border-color: #00b24b;
+  color: #00b24b;
+}
+.continue{
+  --background: #00b24b;
+  color: white;
+  font-weight: 500;
 }

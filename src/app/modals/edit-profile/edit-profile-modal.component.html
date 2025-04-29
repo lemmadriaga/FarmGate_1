@@ -1,13 +1,26 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
     <ion-buttons slot="start">
-      <ion-button (click)="dismiss()" color="medium">Cancel</ion-button>
+      <ion-button (click)="dismiss()" color="medium">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
-    <!-- *ngIf ensures userProfile is defined here -->
-    <ion-title *ngIf="userProfile">Edit {{ userProfile.firstName }}'s Profile</ion-title>
+    <ion-title *ngIf="userProfile" class="ion-text-center">
+      Edit Profile
+    </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="saveChanges()" [disabled]="!editForm?.valid || isLoading" strong="true">
-        <ion-spinner *ngIf="isLoading" name="crescent" slot="start"></ion-spinner>
+      <ion-button
+        (click)="saveChanges()"
+        [disabled]="!editForm?.valid || isLoading"
+        color="primary"
+        strong="true"
+      >
+        <ion-spinner
+          *ngIf="isLoading"
+          name="crescent"
+          slot="start"
+          class="save-spinner"
+        ></ion-spinner>
         Save
       </ion-button>
     </ion-buttons>
@@ -15,47 +28,159 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Wrap form in *ngIf to ensure editForm is initialized -->
-  <div *ngIf="editForm">
+  <div *ngIf="editForm" class="form-container">
+    <!-- Profile picture section -->
+    <div class="profile-image-container">
+      <div class="profile-image">
+        <img
+          [src]="userProfile?.photoURL || 'assets/profile-placeholder.png'"
+          alt="Profile picture"
+        />
+        <div class="edit-overlay">
+          <ion-icon name="camera"></ion-icon>
+        </div>
+      </div>
+      <h2 class="user-name" *ngIf="userProfile">
+        {{ userProfile.firstName }} {{ userProfile.lastName }}
+      </h2>
+    </div>
+
     <form [formGroup]="editForm" (ngSubmit)="saveChanges()">
-      <ion-list>
-        <ion-item lines="full">
-          <ion-label position="stacked">First Name <ion-text color="danger">*</ion-text></ion-label>
-          <ion-input type="text" formControlName="firstName" required></ion-input>
-          <!-- Add validation message display if needed -->
-        </ion-item>
+      <div class="section-container">
+        <h3 class="section-title">Personal Information</h3>
 
-        <ion-item lines="full">
-          <ion-label position="stacked">Last Name <ion-text color="danger">*</ion-text></ion-label>
-          <ion-input type="text" formControlName="lastName" required></ion-input>
-          <!-- Add validation message display if needed -->
-        </ion-item>
+        <ion-list class="custom-list">
+          <ion-item class="custom-item">
+            <ion-label position="floating"
+              >First Name <ion-text color="danger">*</ion-text></ion-label
+            >
+            <ion-input
+              type="text"
+              formControlName="firstName"
+              required
+              class="custom-input"
+            ></ion-input>
+            <ion-note
+              slot="error"
+              *ngIf="
+                editForm.get('firstName')?.invalid &&
+                editForm.get('firstName')?.touched
+              "
+            >
+              First name is required
+            </ion-note>
+          </ion-item>
 
-        <!-- Add Phone Number Input -->
-        <ion-item lines="full">
-          <ion-label position="stacked">Phone Number</ion-label>
-          <ion-input type="tel" formControlName="phoneNumber" placeholder="e.g., +63 917 123 4567"></ion-input>
-          <!-- Consider adding validation for phone number format -->
-        </ion-item>
+          <ion-item class="custom-item">
+            <ion-label position="floating"
+              >Last Name <ion-text color="danger">*</ion-text></ion-label
+            >
+            <ion-input
+              type="text"
+              formControlName="lastName"
+              required
+              class="custom-input"
+            ></ion-input>
+            <ion-note
+              slot="error"
+              *ngIf="
+                editForm.get('lastName')?.invalid &&
+                editForm.get('lastName')?.touched
+              "
+            >
+              Last name is required
+            </ion-note>
+          </ion-item>
 
-        <ion-item lines="full">
-          <ion-label position="stacked">Gender</ion-label>
-          <!-- Consider ion-select for predefined options -->
-          <ion-input type="text" formControlName="gender"></ion-input>
-        </ion-item>
+          <ion-item class="custom-item">
+            <ion-label position="floating">Phone Number</ion-label>
+            <ion-input
+              type="tel"
+              formControlName="phoneNumber"
+              placeholder="+63 917 123 4567"
+              class="custom-input"
+            ></ion-input>
+            <ion-note
+              slot="error"
+              *ngIf="
+                editForm.get('phoneNumber')?.invalid &&
+                editForm.get('phoneNumber')?.touched
+              "
+            >
+              Please enter a valid phone number
+            </ion-note>
+          </ion-item>
+        </ion-list>
+      </div>
 
-        <ion-item lines="full">
-          <ion-label position="stacked">Date of Birth</ion-label>
-          <!-- Consider ion-datetime-button and ion-modal -->
-          <ion-input type="text" formControlName="dateOfBirth" placeholder="YYYY-MM-DD"></ion-input>
-        </ion-item>
+      <div class="section-container">
+        <h3 class="section-title">Additional Details</h3>
 
-        <ion-item lines="full">
-          <ion-label position="stacked">Full Address</ion-label>
-          <ion-textarea formControlName="address" autoGrow="true"></ion-textarea>
-        </ion-item>
+        <ion-list class="custom-list">
+          <ion-item class="custom-item">
+            <ion-label position="floating">Gender</ion-label>
+            <ion-select
+              formControlName="gender"
+              interface="action-sheet"
+              class="custom-select"
+            >
+              <ion-select-option value="male">Male</ion-select-option>
+              <ion-select-option value="female">Female</ion-select-option>
+              <ion-select-option value="non-binary"
+                >Non-binary</ion-select-option
+              >
+              <ion-select-option value="other">Other</ion-select-option>
+              <ion-select-option value="prefer-not-to-say"
+                >Prefer not to say</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
 
-      </ion-list>
+          <ion-item class="custom-item">
+            <ion-label position="floating">Date of Birth</ion-label>
+            <ion-datetime-button datetime="birthdate"></ion-datetime-button>
+            <ion-modal [keepContentsMounted]="true">
+              <ng-template>
+                <ion-datetime
+                  id="birthdate"
+                  presentation="date"
+                  [value]="editForm.get('dateOfBirth')?.value"
+                  (ionChange)="updateDateOfBirth($event)"
+                  [showDefaultButtons]="true"
+                  color="primary"
+                >
+                </ion-datetime>
+              </ng-template>
+            </ion-modal>
+            <ion-input type="hidden" formControlName="dateOfBirth"></ion-input>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <div class="section-container">
+        <h3 class="section-title">Address</h3>
+
+        <ion-list class="custom-list">
+          <ion-item class="custom-item">
+            <ion-label position="floating">Full Address</ion-label>
+            <ion-textarea
+              formControlName="address"
+              autoGrow="true"
+              rows="3"
+              class="custom-textarea"
+              placeholder="Enter your complete address"
+            >
+            </ion-textarea>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <div class="delete-account">
+        <ion-button fill="clear" color="danger" size="small">
+          <ion-icon name="trash-outline" slot="start"></ion-icon>
+          Delete Account
+        </ion-button>
+      </div>
     </form>
   </div>
 </ion-content>

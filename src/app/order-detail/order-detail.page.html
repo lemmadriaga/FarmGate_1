@@ -1,0 +1,253 @@
+<ion-header class="ion-no-border">
+  <div class="checkout-header-bg">
+    <ion-buttons slot="start" class="back-button-container">
+      <ion-back-button
+        defaultHref="user-dashboard/marketplace"
+        text="Back"
+        icon="chevron-back-outline"
+      ></ion-back-button>
+    </ion-buttons>
+    <div class="header-content">
+      <img
+        src="assets/marketplace/marketplaceCheckout/farmgate_white_logo.svg"
+        alt="FarmGate Logo"
+        class="checkout-logo"
+      />
+      <h1 class="checkout-title">Track your Orders</h1>
+      <p class="checkout-subtitle">FOR DELIVERY</p>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container ion-text-center ion-padding">
+    <ion-spinner name="circles"></ion-spinner>
+    <p>Loading order details...</p>
+  </div>
+
+  <!-- Error State -->
+  <ion-card *ngIf="errorMessage && !isLoading" class="error-card">
+    <ion-card-content class="ion-text-center">
+      <ion-icon
+        name="alert-circle-outline"
+        size="large"
+        color="danger"
+      ></ion-icon>
+      <h2>{{ errorMessage }}</h2>
+      <ion-button expand="block" (click)="backToOrders()">
+        <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+        Back to Orders
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Order Details -->
+  <div *ngIf="order && !isLoading" class="order-details-container">
+    <!-- Order ID and Status -->
+    <ion-card class="order-summary-card">
+      <ion-card-header>
+        <div class="order-header">
+          <div>
+            <ion-card-title>Order #{{ order.id }}</ion-card-title>
+            <ion-card-subtitle
+              >{{ formatDate(order.orderDate) }}</ion-card-subtitle
+            >
+          </div>
+          <ion-badge
+            [color]="getStatusColor(order.status)"
+            class="status-badge"
+          >
+            {{ order.status | titlecase }}
+          </ion-badge>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <!-- Order Status Tracker -->
+        <div *ngIf="order.status !== 'cancelled'" class="status-tracker">
+          <div
+            *ngFor="let step of statusSteps; let i = index"
+            class="status-step"
+            [class.completed]="isStatusCompleted(i)"
+            [class.current]="isStatusCurrent(i)"
+          >
+            <div class="status-icon">
+              <ion-icon
+                [name]="step.icon"
+                [color]="isStatusCompleted(i) || isStatusCurrent(i) ? 'success' : 'medium'"
+              ></ion-icon>
+              <div class="status-line" *ngIf="i < statusSteps.length - 1"></div>
+            </div>
+            <div class="status-content">
+              <h4>{{ step.label }}</h4>
+              <p>{{ step.description }}</p>
+              <small
+                *ngIf="isStatusCurrent(i) && order.estimatedDelivery && i === 2"
+                class="estimated-delivery"
+              >
+                Est. Delivery: {{ formatDate(order.estimatedDelivery) }}
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cancelled Order Message -->
+        <div
+          *ngIf="order.status === 'cancelled'"
+          class="cancelled-order ion-text-center"
+        >
+          <ion-icon name="close-circle" color="danger" size="large"></ion-icon>
+          <h3>Order Cancelled</h3>
+          <p *ngIf="order.cancellationReason">
+            Reason: {{ order.cancellationReason }}
+          </p>
+          <p *ngIf="order.cancelledAt">
+            Cancelled on: {{ formatDate(order.cancelledAt) }}
+          </p>
+        </div>
+
+        <!-- Delivery Details -->
+        <div class="delivery-details">
+          <h3>Delivery Information</h3>
+          <ion-item lines="none" class="delivery-item">
+            <ion-icon
+              name="location-outline"
+              slot="start"
+              color="success"
+            ></ion-icon>
+            <ion-label class="ion-text-wrap">
+              <h4 style="font-weight: 500">Delivery Address</h4>
+              <p>{{ order.address }}</p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item lines="none" class="delivery-item">
+            <ion-icon
+              name="wallet-outline"
+              slot="start"
+              color="success"
+            ></ion-icon>
+            <ion-label>
+              <h4 style="font-weight: 500">Payment Method</h4>
+              <p>{{ order.paymentMethod | titlecase }}</p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item
+            lines="none"
+            *ngIf="order.trackingInfo?.trackingNumber"
+            class="delivery-item"
+          >
+            <ion-icon
+              name="trail-sign-outline"
+              slot="start"
+              color="success"
+            ></ion-icon>
+            <ion-label>
+              <p>Tracking Number</p>
+              <h2>{{ order.trackingInfo?.trackingNumber }}</h2>
+              <p *ngIf="order.trackingInfo?.carrier" class="carrier-info">
+                Carrier: {{ order.trackingInfo?.carrier }}
+              </p>
+            </ion-label>
+            <ion-button slot="end" fill="clear" size="small">
+              <ion-icon name="copy-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Order Items -->
+    <ion-card class="items-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="list-outline" class="card-title-icon"></ion-icon>
+          Order Items
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="order-items-list">
+          <div class="order-item" *ngFor="let item of order.items">
+            <div class="item-info">
+              <h3>{{ item.name }}</h3>
+              <p>Quantity: {{ item.quantity }}</p>
+            </div>
+            <div class="item-price">
+              <p>₱{{ (item.price * item.quantity).toFixed(2) }}</p>
+              <small>₱{{ item.price.toFixed(2) }} each</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="order-pricing">
+          <div class="price-row">
+            <span>Subtotal</span>
+            <span>₱{{ calculateSubtotal().toFixed(2) }}</span>
+          </div>
+          <div class="price-row">
+            <span>Delivery Fee</span>
+            <span>₱{{ order.deliveryFee.toFixed(2) }}</span>
+          </div>
+          <div class="price-row" *ngIf="order.discount > 0">
+            <span>Discount</span>
+            <span>-₱{{ order.discount.toFixed(2) }}</span>
+          </div>
+          <div class="price-row total">
+            <span>Total</span>
+            <span>₱{{ order.total.toFixed(2) }}</span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Actions -->
+    <div
+      class="order-actions"
+      *ngIf="order.status === 'pending' || order.status === 'processing'"
+    >
+      <ion-button
+        expand="block"
+        color="danger"
+        (click)="cancelOrder()"
+        class="cancel-button"
+      >
+        <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+        Cancel Order
+      </ion-button>
+    </div>
+
+    <!-- Support Section -->
+    <ion-card
+      class="support-card"
+      *ngIf="order.status !== 'cancelled' && order.status !== 'delivered'"
+    >
+      <ion-card-content>
+        <div class="support-content">
+          <ion-icon
+            name="help-circle-outline"
+            color="success"
+            size="large"
+            style="margin-top: 10px"
+          ></ion-icon>
+          <div class="support-text">
+            <h4>Need help with your order?</h4>
+            <p>Our customer support team is ready to assist you</p>
+          </div>
+          <ion-button
+            fill="clear"
+            size="small"
+            color="success"
+            style="margin-left: -13px"
+          >
+            Contact Us
+            <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
