@@ -5,6 +5,7 @@ import {
   IonRefresher,
   NavController,
   ToastController,
+  ActionSheetController, // Import ActionSheetController
 } from '@ionic/angular';
 
 import { WeatherService } from '../services/weather.service';
@@ -38,7 +39,8 @@ export class HomePage implements OnInit {
     private weatherService: WeatherService,
     private productService: ProductService,
     private cartService: CartService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private actionSheetCtrl: ActionSheetController // Inject ActionSheetController
   ) {}
 
   ngOnInit() {
@@ -240,4 +242,71 @@ export class HomePage implements OnInit {
   profile() {
     this.navCtrl.navigateForward('user-dashboard/profile');
   }
+
+  // Method to open filter/sorting options
+  async openFilterOptions() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Sort Products By',
+      buttons: [
+        {
+          text: 'Price: Low to High',
+          icon: 'trending-up-outline',
+          handler: () => {
+            console.log('Sort by Price Asc selected');
+            this.sortResults('priceAsc');
+          }
+        },
+        {
+          text: 'Price: High to Low',
+          icon: 'trending-down-outline',
+          handler: () => {
+            console.log('Sort by Price Desc selected');
+            this.sortResults('priceDesc');
+          }
+        },
+        {
+          text: 'Rating: High to Low',
+          icon: 'star-outline',
+          handler: () => {
+            console.log('Sort by Rating selected');
+            this.sortResults('ratingDesc');
+          }
+        },
+        {
+          text: 'Cancel',
+          icon: 'close-outline',
+          role: 'cancel',
+          handler: () => {
+            console.log('Filter Cancelled');
+          }
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+  // Method to sort the search results
+  sortResults(criteria: string) {
+    if (!this.isSearching || this.searchResults.length === 0) {
+      console.log('Not searching or no results to sort.');
+      return; // Only sort when there are search results
+    }
+
+    switch (criteria) {
+      case 'priceAsc':
+        this.searchResults.sort((a, b) => a.price - b.price);
+        break;
+      case 'priceDesc':
+        this.searchResults.sort((a, b) => b.price - a.price);
+        break;
+      case 'ratingDesc':
+        // Handle potentially undefined ratings (treat undefined as lowest)
+        this.searchResults.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+        break;
+      default:
+        console.warn('Unknown sort criteria:', criteria);
+    }
+    console.log(`Sorted results by ${criteria}:`, this.searchResults);
+  }
+
 }

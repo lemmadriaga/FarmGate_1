@@ -77,7 +77,7 @@
       (ionInput)="handleSearch($event)"
       debounce="300"
     ></ion-searchbar>
-    <ion-button fill="clear" class="filter-button">
+    <ion-button fill="clear" class="filter-button" (click)="openFilterOptions()">
       <ion-icon name="options-outline"></ion-icon>
     </ion-button>
   </div>
