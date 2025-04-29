@@ -126,7 +126,7 @@ export class LoginPage implements OnInit {
   forgotpassword() {}
 
   goToSignUp() {
-    this.router.navigate(['/signup']);
+    this.router.navigate(['/registration']); 
   }
 
   async adminInfoClick() {
