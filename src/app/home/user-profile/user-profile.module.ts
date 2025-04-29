@@ -15,13 +15,13 @@ import { ReportModalComponent } from '../../modals/report-modal/report-modal.com
     FormsModule,
     IonicModule,
     UserProfilePageRoutingModule,
-    ReactiveFormsModule // Ensure ReactiveFormsModule is imported
+    ReactiveFormsModule 
   ],
   declarations: [
     UserProfilePage,
     EditProfileModalComponent,
-    FeedbackModalComponent, // Declare Feedback Modal
-    ReportModalComponent // Declare Report Modal
+    FeedbackModalComponent, 
+    ReportModalComponent 
   ]
 })
 export class UserProfilePageModule {}

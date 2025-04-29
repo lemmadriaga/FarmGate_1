@@ -1,7 +1,6 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="success">
     <ion-buttons slot="start">
-      <!-- Use the component's goBack method -->
       <ion-button (click)="goBack()">
         <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
       </ion-button>
@@ -10,13 +9,82 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding ion-text-center">
-  <div class="construction-content">
-    <ion-icon name="construct-outline" class="construction-icon"></ion-icon>
-    <h2>Page Under Construction</h2>
-    <p>This feature is currently being developed. Please check back later!</p>
-    <ion-button (click)="goBack()" expand="block" fill="clear">
-      Go Back
-    </ion-button>
+<ion-content class="ion-padding">
+  <div class="construction-container">
+    <div class="construction-card">
+      <div class="animation-container">
+        <ion-icon
+          name="construct"
+          class="construction-icon animated"
+        ></ion-icon>
+        <ion-icon name="hammer" class="hammer-icon animated"></ion-icon>
+        <ion-icon name="cog" class="gear-icon animated"></ion-icon>
+      </div>
+
+      <h1>We're Building Something Great!</h1>
+      <p class="message">
+        This feature is currently under active development. Our team is working
+        hard to deliver an exceptional experience.
+      </p>
+
+      <div class="progress-container">
+        <ion-progress-bar value="0.65" color="success"></ion-progress-bar>
+        <p class="progress-text">65% Complete</p>
+      </div>
+
+      <div class="estimated-time">
+        <ion-chip color="tertiary">
+          <ion-icon name="time-outline"></ion-icon>
+          <ion-label>Coming soon</ion-label>
+        </ion-chip>
+      </div>
+
+      <div class="actions">
+        <ion-button expand="block" color="success" (click)="notifyMe()">
+          <ion-icon name="notifications-outline" slot="start"></ion-icon>
+          Notify When Ready
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          color="medium"
+          fill="outline"
+          (click)="goBack()"
+        >
+          <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+          Return to Previous Page
+        </ion-button>
+      </div>
+
+      <div class="alternative-links">
+        <h3>In the meantime, check out:</h3>
+        <ion-list>
+          <ion-item button detail="true" (click)="navigateTo('home')">
+            <ion-icon
+              name="home-outline"
+              slot="start"
+              color="success"
+            ></ion-icon>
+            <ion-label>Homepage</ion-label>
+          </ion-item>
+          <ion-item button detail="true" (click)="navigateTo('buylokal')">
+            <ion-icon
+              name="basket-outline"
+              slot="start"
+              color="warning"
+            ></ion-icon>
+            <ion-label>BuyLokal</ion-label>
+          </ion-item>
+          <ion-item button detail="true" (click)="navigateTo('marketplace')">
+            <ion-icon
+              name="cart-outline"
+              slot="start"
+              color="success"
+            ></ion-icon>
+            <ion-label>MarketPlace</ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
   </div>
 </ion-content>

@@ -1,133 +1,464 @@
-<ion-header class="ion-no-border"> 
+<ion-header class="ion-no-border">
   <div class="checkout-header-bg">
     <ion-buttons slot="start" class="back-button-container">
-      <ion-back-button defaultHref="/marketplace" text="" icon="chevron-back-outline"></ion-back-button>
+      <ion-back-button
+        defaultHref="user-dashboard/marketplace"
+        text="Back"
+        icon="chevron-back-outline"
+      ></ion-back-button>
     </ion-buttons>
     <div class="header-content">
-      <img src="assets/marketplace/marketplaceCheckout/farmgate_white_logo.svg" alt="FarmGate Logo" class="checkout-logo" />
+      <img
+        src="assets/marketplace/marketplaceCheckout/farmgate_white_logo.svg"
+        alt="FarmGate Logo"
+        class="checkout-logo"
+      />
       <h1 class="checkout-title">Check all the items</h1>
       <p class="checkout-subtitle">FOR DELIVERY</p>
     </div>
   </div>
 </ion-header>
 
-<ion-content class="ion-padding"> 
-
-  <!-- Delivery Address Section -->
-  <h2 class="section-heading">Delivery address</h2>
-
-  <!-- Show skeleton text while loading -->
-  <div class="address-info-card ion-padding" *ngIf="isLoadingProfile">
-    <ion-skeleton-text animated style="width: 40%; height: 16px; margin-bottom: 10px;"></ion-skeleton-text>
-    <ion-skeleton-text animated style="width: 80%; height: 16px; margin-bottom: 10px;"></ion-skeleton-text>
-    <ion-skeleton-text animated style="width: 60%; height: 16px; margin-bottom: 10px;"></ion-skeleton-text>
-    <ion-skeleton-text animated style="width: 50%; height: 16px;"></ion-skeleton-text>
+<ion-content class="ion-padding">
+  <!-- Order steps indicator -->
+  <div class="order-steps" *ngIf="orderState === 'shopping'">
+    <div class="step active">
+      <div class="step-circle">1</div>
+      <div class="step-label">Review Cart</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-circle">2</div>
+      <div class="step-label">Payment</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step">
+      <div class="step-circle">3</div>
+      <div class="step-label">Confirmation</div>
+    </div>
   </div>
 
-  <!-- Show actual data when loaded -->
-  <div class="address-info-card" *ngIf="!isLoadingProfile && userProfile">
-    <div class="address-row address-category-row">
-      <!-- Assuming 'HOME' is static or comes from profile later -->
-      <span class="address-category">HOME</span> 
+  <!-- Basket capacity indicator -->
+  <div
+    class="basket-capacity"
+    *ngIf="orderState === 'shopping' && currentCartItems.length > 0"
+  >
+    <div class="capacity-label">Basket capacity:</div>
+    <div class="capacity-bar">
+      <div
+        class="capacity-fill"
+        [style.width.%]="(1 - remainingCapacity/MAX_BASKET_CAPACITY) * 100"
+      ></div>
     </div>
-    <div class="address-row">
-      <img src="assets/marketplace/marketplaceCheckout/maps_flag.svg" alt="Location" class="address-icon map-icon" />
-      <!-- Bind to userProfile.address -->
-      <span class="address-text">{{ userProfile.address || 'Address not set' }}</span> 
+    <div class="capacity-text">
+      {{ MAX_BASKET_CAPACITY - remainingCapacity }}/{{ MAX_BASKET_CAPACITY }}
+      kilos
     </div>
-    <div class="address-row">
-       <img src="assets/marketplace/marketplaceCheckout/user_icon.svg" alt="User" class="address-icon user-icon" />
-       <!-- Bind to userProfile.firstName and userProfile.lastName, use TitleCasePipe -->
-       <span class="user-name">{{ (userProfile.firstName || '') + ' ' + (userProfile.lastName || '') | titlecase }}</span> 
-    </div>
-    <div class="address-row">
-       <img src="assets/marketplace/marketplaceCheckout/phone_icon.svg" alt="Phone" class="address-icon phone-icon" />
-       <!-- Bind to userProfile.phoneNumber, show default if not set -->
-       <span class="phone-number">{{ userProfile.phoneNumber || 'Phone not set' }}</span> 
-    </div> 
   </div>
 
-  <!-- Show message if profile not found and not loading -->
-  <div class="ion-padding ion-text-center" *ngIf="!isLoadingProfile && !userProfile">
-    <p>Could not load user information.</p>
-  </div>
+  <!-- Shopping state content -->
+  <ng-container *ngIf="orderState === 'shopping'">
+    <!-- Delivery Address Section -->
+    <div class="section-header">
+      <h2 class="section-heading">Delivery address</h2>
+      <ion-button
+        *ngIf="!editingAddress"
+        fill="clear"
+        size="small"
+        (click)="toggleAddressEdit()"
+        class="edit-button"
+      >
+        <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
 
-  <!-- Market Cart Section -->
-  <h3 class="cart-section-heading">Market Cart</h3>
+    <!-- Show skeleton text while loading -->
+    <div class="address-info-card ion-padding" *ngIf="isLoadingProfile">
+      <ion-skeleton-text
+        animated
+        style="width: 40%; height: 16px; margin-bottom: 10px"
+      ></ion-skeleton-text>
+      <ion-skeleton-text
+        animated
+        style="width: 80%; height: 16px; margin-bottom: 10px"
+      ></ion-skeleton-text>
+      <ion-skeleton-text
+        animated
+        style="width: 60%; height: 16px; margin-bottom: 10px"
+      ></ion-skeleton-text>
+      <ion-skeleton-text
+        animated
+        style="width: 50%; height: 16px"
+      ></ion-skeleton-text>
+    </div>
 
-  <div class="cart-items-container">
-    <!-- Loop through cart items from the service -->
-    <div class="cart-item" *ngFor="let item of cartItems$ | async">
-      <div class="item-details">
-        <img [src]="item.image" [alt]="item.name" class="item-image" />
-        <div class="item-info">
-          <span class="item-name">{{ item.name }}</span>
-          <div class="item-amount-selector">
-            <ion-button fill="clear" size="small" (click)="decreaseQuantity(item)" [disabled]="item.quantity <= 1">
-              <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
-            </ion-button>
-            <ion-input type="number" [value]="item.quantity" min="1" (ionChange)="quantityChanged(item, $event)" class="quantity-input"></ion-input>
-            <span class="unit-label">kilo</span>
-            <ion-button fill="clear" size="small" (click)="increaseQuantity(item)">
-              <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
-            </ion-button>
-          </div>
+    <!-- Address Edit Form -->
+    <div
+      class="address-form-container"
+      *ngIf="editingAddress && !isLoadingProfile"
+    >
+      <form [formGroup]="addressForm" (ngSubmit)="saveAddress()">
+        <ion-item>
+          <ion-label position="floating">Full Address</ion-label>
+          <ion-input formControlName="address" type="text"></ion-input>
+          <ion-note
+            slot="error"
+            *ngIf="addressForm.get('address')?.touched && addressForm.get('address')?.hasError('required')"
+          >
+            Address is required
+          </ion-note>
+        </ion-item>
+
+        <div class="name-inputs">
+          <ion-item class="first-name">
+            <ion-label position="floating">First Name</ion-label>
+            <ion-input formControlName="firstName" type="text"></ion-input>
+            <ion-note
+              slot="error"
+              *ngIf="addressForm.get('firstName')?.touched && addressForm.get('firstName')?.hasError('required')"
+            >
+              First name is required
+            </ion-note>
+          </ion-item>
+
+          <ion-item class="last-name">
+            <ion-label position="floating">Last Name</ion-label>
+            <ion-input formControlName="lastName" type="text"></ion-input>
+            <ion-note
+              slot="error"
+              *ngIf="addressForm.get('lastName')?.touched && addressForm.get('lastName')?.hasError('required')"
+            >
+              Last name is required
+            </ion-note>
+          </ion-item>
         </div>
-         <span class="item-price">₱{{ (item.price * item.quantity) | number:'1.2-2' }}</span>
-      </div>
-      <button class="delete-item-button ion-activatable" (click)="removeItem(item.id)">
-        <ion-ripple-effect></ion-ripple-effect>
-        <img src="assets/marketplace/marketplaceCheckout/delete_icon.svg" alt="Delete" class="delete-icon" />
-      </button>
+
+        <ion-item>
+          <ion-label position="floating">Phone Number</ion-label>
+          <ion-input formControlName="phoneNumber" type="tel"></ion-input>
+          <ion-note
+            slot="error"
+            *ngIf="addressForm.get('phoneNumber')?.touched && addressForm.get('phoneNumber')?.hasError('required')"
+          >
+            Phone number is required
+          </ion-note>
+          <ion-note
+            slot="error"
+            *ngIf="addressForm.get('phoneNumber')?.touched && addressForm.get('phoneNumber')?.hasError('pattern')"
+          >
+            Enter a valid phone number (10-11 digits)
+          </ion-note>
+        </ion-item>
+
+        <div class="form-buttons">
+          <ion-button fill="outline" color="success" type="button" (click)="toggleAddressEdit()"
+            >Cancel</ion-button
+          >
+          <ion-button type="submit" color="success"[disabled]="addressForm.invalid"
+            >Save Address</ion-button
+          >
+        </div>
+      </form>
     </div>
+
+    <!-- Show actual data when loaded -->
+    <div
+      class="address-info-card"
+      *ngIf="!isLoadingProfile && userProfile && !editingAddress"
+    >
+      <div class="address-row address-category-row">
+        <span class="address-category">HOME</span>
+      </div>
+      <div class="address-row">
+        <img
+          src="assets/marketplace/marketplaceCheckout/maps_flag.svg"
+          alt="Location"
+          class="address-icon map-icon"
+        />
+        <span class="address-text"
+          >{{ userProfile.address || 'Address not set' }}</span
+        >
+      </div>
+      <div class="address-row">
+        <img
+          src="assets/marketplace/marketplaceCheckout/user_icon.svg"
+          alt="User"
+          class="address-icon user-icon"
+        />
+        <span class="user-name"
+          >{{ (userProfile.firstName || '') + ' ' + (userProfile.lastName || '')
+          | titlecase }}</span
+        >
+      </div>
+      <div class="address-row">
+        <img
+          src="assets/marketplace/marketplaceCheckout/phone_icon.svg"
+          alt="Phone"
+          class="address-icon phone-icon"
+        />
+        <span class="phone-number"
+          >{{ userProfile.phoneNumber || 'Phone not set' }}</span
+        >
+      </div>
+    </div>
+
+    <!-- Show message if profile not found and not loading -->
+    <div
+      class="ion-padding ion-text-center"
+      *ngIf="!isLoadingProfile && !userProfile"
+    >
+      <p>Could not load user information.</p>
+      <ion-button (click)="fetchUserProfile()">Retry</ion-button>
+    </div>
+
+    <!-- Market Cart Section -->
+    <div class="section-header">
+      <h3 class="cart-section-heading">Market Cart</h3>
+      <ion-badge
+        *ngIf="currentCartItems.length > 0"
+        color="success"
+        class="cart-count"
+        >{{ currentCartItems.length }}</ion-badge
+      >
+    </div>
+
+    <!-- Empty cart message -->
+    <div class="empty-cart-message" *ngIf="currentCartItems.length === 0">
+      <img
+        src="assets/marketplace/marketplaceCheckout/empty_cart.png"
+        alt="Empty Cart"
+        class="empty-cart-icon"
+      />
+      <p>Your cart is empty</p>
+      <ion-button routerLink="/user-dashboard/marketplace" color="success">Continue Shopping</ion-button>
+    </div>
+
+    <div class="cart-items-container">
+      <!-- Loop through cart items from the service -->
+      <div
+        class="cart-item"
+        *ngFor="let item of currentCartItems"
+        [id]="'cart-item-' + item.id"
+      >
+        <div class="item-details">
+          <img [src]="item.image" [alt]="item.name" class="item-image" />
+          <div class="item-info">
+            <span class="item-name">{{ item.name }}</span>
+            <div class="item-amount-selector">
+              <ion-button
+                fill="clear"
+                size="small"
+                (click)="decreaseQuantity(item)"
+                [disabled]="item.quantity <= 1"
+                class="quantity-button decrease"
+              >
+                <ion-icon
+                  slot="icon-only"
+                  name="remove-circle-outline"
+                ></ion-icon>
+              </ion-button>
+              <div class="quantity-container" [id]="'quantity-' + item.id">
+                <ion-input
+                  type="number"
+                  [value]="item.quantity"
+                  min="1"
+                  (ionChange)="quantityChanged(item, $event)"
+                  class="quantity-input"
+                ></ion-input>
+              </div>
+              <span class="unit-label">kilo</span>
+              <ion-button
+                fill="clear"
+                size="small"
+                (click)="increaseQuantity(item)"
+                class="quantity-button increase"
+                [disabled]="remainingCapacity <= 0"
+              >
+                <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </div>
+          <span class="item-price"
+            >₱{{ (item.price * item.quantity) | number:'1.2-2' }}</span
+          >
+        </div>
+        <button
+          class="delete-item-button ion-activatable ripple-parent"
+          (click)="removeItem(item)"
+        >
+          <ion-ripple-effect></ion-ripple-effect>
+          <img
+            src="assets/marketplace/marketplaceCheckout/delete_icon.svg"
+            alt="Delete"
+            class="delete-icon"
+          />
+        </button>
+      </div>
+    </div>
+
+    <!-- Payment Summary Section (Moved into content) -->
+    <div class="payment-summary-section">
+      <h3 class="payment-title">Payment</h3>
+
+      <div class="payment-row">
+        <span class="payment-label">Payment method</span>
+        <button
+          class="choose-method-button ion-activatable ripple-parent"
+          (click)="selectPaymentMethod()"
+        >
+          <ion-ripple-effect></ion-ripple-effect>
+          <ion-icon
+            [name]="getPaymentMethodIcon(selectedPaymentMethod)"
+            class="payment-method-icon"
+          ></ion-icon>
+          <span class="choose-method-text"
+            >{{ getPaymentMethodName(selectedPaymentMethod) }}</span
+          >
+        </button>
+      </div>
+
+      <div class="payment-row">
+        <span class="payment-label">Order total</span>
+        <span class="payment-amount"
+          >₱{{ orderSubtotal | number:'1.2-2' }}</span
+        >
+      </div>
+
+      <div class="payment-row">
+        <span class="payment-label">Delivery fee</span>
+        <span class="payment-amount">
+          <span *ngIf="deliveryFee === 0" class="free-delivery">FREE</span>
+          <span *ngIf="deliveryFee > 0"
+            >₱{{ deliveryFee | number:'1.2-2' }}</span
+          >
+        </span>
+      </div>
+
+      <div class="payment-row" *ngIf="discount > 0">
+        <span class="payment-label">Discount</span>
+        <span class="payment-amount discount-amount"
+          >- ₱{{ discount | number:'1.2-2' }}</span
+        >
+      </div>
+
+      <div class="payment-row total-row">
+        <span class="payment-label total-label">Total</span>
+        <span class="payment-amount total-amount"
+          >₱{{ finalTotal | number:'1.2-2' }}</span
+        >
+      </div>
+      <!-- Place Order Button -->
+      <button
+        class="place-order-button ion-activatable ripple-parent"
+        (click)="placeOrder()"
+        [disabled]="currentCartItems.length === 0"
+      >
+        <ion-ripple-effect></ion-ripple-effect>
+        <ion-icon name="bag-check-outline" class="order-icon"></ion-icon>
+        Place order
+      </button>
+
+      <!-- Terms and conditions -->
+      <p class="terms-text">
+        By placing your order, you agree to our
+        <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+      </p>
+    </div>
+  </ng-container>
+
+  <!-- Processing Order State -->
+  <div class="processing-order-container" *ngIf="orderState === 'processing'">
+    <ion-spinner name="circles" class="processing-spinner"></ion-spinner>
+    <h2 class="processing-title">Processing Your Order</h2>
+    <p class="processing-message">
+      Please wait while we confirm your order details...
+    </p>
   </div>
 
-  <!-- Payment Summary Section (Moved into content) -->
-  <div class="payment-summary-section"> 
-    <h3 class="payment-title">Payment</h3>
+  <!-- Failed Order State -->
+  <div class="failed-order-container" *ngIf="orderState === 'failed'">
+    <ion-icon name="close-circle-outline" class="failed-icon"></ion-icon>
+    <h2 class="failed-title">Order Failed</h2>
+    <p class="failed-message">We couldn't process your order at this time</p>
+    <ion-button expand="block" (click)="retryOrder()">Try Again</ion-button>
+    <ion-button fill="outline" expand="block" routerLink="/home/marketplace"
+      >Continue Shopping</ion-button
+    >
+  </div>
 
-    <div class="payment-row">
-      <span class="payment-label">Payment method</span>
-      <button class="choose-method-button ion-activatable">
-        <ion-ripple-effect></ion-ripple-effect>
-        <span class="choose-method-text">Choose method</span>
-      </button>
+  <!-- Order Confirmation State -->
+  <div
+    class="order-confirmation-container"
+    *ngIf="orderState === 'confirmed' && orderSummary"
+  >
+    <div class="confirmation-header">
+      <ion-icon name="checkmark-circle" class="confirmation-icon"></ion-icon>
+      <h2 class="confirmation-title">Order Confirmed!</h2>
+      <p class="confirmation-message">
+        Your order has been successfully placed
+      </p>
     </div>
 
-    <div class="payment-row">
-      <span class="payment-label">Order total</span>
-      <span class="payment-amount">₱{{ orderSubtotal.toLocaleString() }}</span>
+    <div class="order-details-card">
+      <div class="order-number">
+        <span class="order-label">Order Number:</span>
+        <span class="order-value">{{ orderSummary.orderId }}</span>
+      </div>
+
+      <div class="order-date">
+        <span class="order-label">Order Date:</span>
+        <span class="order-value"
+          >{{ orderSummary.orderDate | date:'medium' }}</span
+        >
+      </div>
+
+      <div class="delivery-estimate">
+        <span class="order-label">Estimated Delivery:</span>
+        <span class="order-value"
+          >{{ orderSummary.estimatedDelivery | date:'medium' }}</span
+        >
+      </div>
+
+      <div class="order-total">
+        <span class="order-label">Total Amount:</span>
+        <span class="order-value"
+          >₱{{ orderSummary.total | number:'1.2-2' }}</span
+        >
+      </div>
+
+      <div class="payment-method">
+        <span class="order-label">Payment Method:</span>
+        <span class="order-value"
+          >{{ getPaymentMethodName(orderSummary.paymentMethod) }}</span
+        >
+      </div>
+
+      <div class="delivery-address">
+        <span class="order-label">Delivery Address:</span>
+        <span class="order-value">{{ orderSummary.address }}</span>
+      </div>
     </div>
 
-    <div class="payment-row">
-      <span class="payment-label">Delivery fee</span>
-      <span class="payment-amount">₱{{ deliveryFee.toLocaleString() }}</span>
-    </div>
-
-    <div class="payment-row">
-      <span class="payment-label">Discount</span>
-      <span class="payment-amount">- ₱{{ discount.toLocaleString() }}</span>
-    </div>
-
-    <div class="payment-row total-row">
-      <span class="payment-label total-label">Total</span>
-      <span class="payment-amount total-amount">₱{{ finalTotal.toLocaleString() }}</span>
-    </div>
-
-     <button 
-       class="place-order-button ion-activatable" 
-       (click)="placeOrder()"
-       [disabled]="currentCartItems.length === 0">
-       <ion-ripple-effect></ion-ripple-effect>
-       Place order
-     </button>
-  </div> 
-
-  <!-- Rest of the checkout content will go here -->
-
+    <ion-button expand="block" routerLink="/orders/{{ orderSummary.orderId }}"
+      >Track Your Order</ion-button
+    >
+    <ion-button fill="outline" expand="block" routerLink="/home/marketplace"
+      >Continue Shopping</ion-button
+    >
+  </div>
 </ion-content>
 
 <!-- Success Overlay -->
-<div class="success-overlay" *ngIf="orderPlacedSuccessfully">
-  <img src="assets/marketplace/marketplaceCategories/ordersuccess.png" alt="Order Successful" />
+<div class="success-overlay" *ngIf="orderState === 'confirmed'">
+  <div class="success-content">
+    <img
+      src="assets/marketplace/marketplaceCategories/ordersuccess.png"
+      alt="Order Successful"
+      class="success-image"
+    />
+    <h2 class="success-title">Order Successful!</h2>
+    <p class="success-message">Your order #{{ orderId }} has been placed</p>
+    <ion-spinner name="dots" class="redirect-spinner"></ion-spinner>
+    <p class="redirect-message">Redirecting to order details...</p>
+  </div>
 </div>

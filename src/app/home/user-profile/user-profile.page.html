@@ -1,103 +1,236 @@
 <ion-header>
   <ion-toolbar class="profile-header-toolbar">
+    <!-- <ion-buttons slot="start">
+      <ion-back-button defaultHref="/user-dashboard/home"></ion-back-button>
+    </ion-buttons> -->
     <ion-img
       src="assets/marketplace/marketplaceHomepage/marketplacelogo.svg"
       alt="FarmGate Logo"
-      style="height: 40px; margin: auto;"
+      style="height: 40px; margin: auto; margin-top: 10px; margin-left: 30px;"
     ></ion-img>
+    <ion-buttons slot="end">
+      <ion-button (click)="refreshProfile()">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- User Info Section -->
-  <div *ngIf="userProfile$ | async as userProfile" class="user-info-container">
-    <div class="user-icon">
-      <!-- Inline SVG for the user icon -->
-      <svg width="59" height="59" viewBox="0 0 59 59" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="29.5" cy="29.5" r="29" fill="white" stroke="black"/>
-      </svg>
-    </div>
-    <div class="user-details">
-      <div class="user-name">{{ userProfile.firstName }} {{ userProfile.lastName }}</div>
-      <div class="user-type">{{ userProfile.role === 'regular' ? 'Customer' : userProfile.role }}</div>
-    </div>
-    <ion-button fill="clear" size="small" class="logout-button" (click)="logout()">
-      <ion-icon slot="icon-only" name="log-out-outline" color="danger"></ion-icon>
-    </ion-button>
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner name="circular"></ion-spinner>
+    <p>Loading your profile...</p>
   </div>
-  <!-- End User Info Section -->
 
-  <!-- BuyLokal Promo Section -->
-  <div class="buylokal-promo-container">
-    <div class="promo-text">
-      <div class="promo-title">Out of fruits & veggies?</div>
-      <div class="promo-subtitle">Try our BuyLokal and get fresh fruits and veggies right on your doorstep!</div>
+  <!-- Error State -->
+  <ion-card *ngIf="error && !loading" class="error-card">
+    <ion-card-header>
+      <ion-card-title>Oops! Something went wrong</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>We couldn't load your profile information</p>
+      <ion-button expand="block" (click)="refreshProfile()">
+        <ion-icon name="refresh-outline" slot="start"></ion-icon>
+        Try Again
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Main Content - Only shown when not loading and no error -->
+  <div *ngIf="!loading && !error">
+    <!-- User Info Section with Animation -->
+    <div
+      *ngIf="userProfile$ | async as userProfile"
+      class="user-info-container animate__animated animate__fadeIn"
+    >
+      <div class="user-icon">
+        <!-- If user has a profile image, show it; otherwise show default SVG -->
+        <div *ngIf="userProfile.photoURL; else defaultIcon">
+          <ion-avatar>
+            <ion-img [src]="userProfile.photoURL"></ion-img>
+          </ion-avatar>
+        </div>
+        <ng-template #defaultIcon>
+          <svg
+            width="59"
+            height="59"
+            viewBox="0 0 59 59"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="29.5" cy="29.5" r="29" fill="white" stroke="black" />
+            <!-- Added face to make icon more personable -->
+            <circle cx="29.5" cy="25" r="3" fill="black" />
+            <path
+              d="M23,35 Q29.5,42 36,35"
+              stroke="black"
+              stroke-width="2"
+              fill="none"
+            />
+          </svg>
+        </ng-template>
+      </div>
+      <div class="user-details">
+        <div class="user-name">
+          {{ userProfile.firstName || 'User' }} {{ userProfile.lastName || '' }}
+        </div>
+        <div class="user-type">
+          {{ userProfile.role === 'regular' ? 'Customer' : (userProfile.role ||
+          'User') | titlecase }}
+        </div>
+      </div>
+      <ion-button
+        fill="clear"
+        size="small"
+        class="logout-button"
+        (click)="logout()"
+        title="Logout"
+      >
+        <ion-icon
+          slot="icon-only"
+          name="log-out-outline"
+          color="danger"
+        ></ion-icon>
+      </ion-button>
     </div>
-    <ion-button class="try-now-button" routerLink="../BuyLokal" routerDirection="forward">
-      <span class="try-now-text">Try Now</span>
-    </ion-button>
+    <!-- End User Info Section -->
+
+    <!-- BuyLokal Promo Section with Animation -->
+    <div
+      class="buylokal-promo-container animate__animated animate__fadeIn animate__delay-1s"
+    >
+      <div class="promo-text">
+        <div class="promo-title">Out of fruits & veggies?</div>
+        <div class="promo-subtitle">
+          Try our BuyLokal and get fresh fruits and veggies right on your
+          doorstep!
+        </div>
+      </div>
+      <ion-button
+        class="try-now-button"
+        routerLink="../BuyLokal"
+        routerDirection="forward"
+      >
+        <span class="try-now-text">Try Now</span>
+      </ion-button>
+    </div>
+    <!-- End BuyLokal Promo Section -->
+
+    <!-- Profile Info Section with Animation -->
+    <div
+      class="profile-info-section animate__animated animate__fadeIn animate__delay-2s"
+      *ngIf="userProfile$ | async as userProfile"
+    >
+      <h2 class="profile-info-header">Profile Info</h2>
+
+      <div class="user-details-block ion-activatable ripple-parent">
+        <ion-ripple-effect></ion-ripple-effect>
+        <div class="user-details-subheader">
+          <span>User Details</span>
+          <ion-button
+            fill="clear"
+            size="small"
+            class="edit-profile-button"
+            (click)="openEditModal()"
+          >
+            <ion-icon name="create-outline" slot="start"></ion-icon>
+            Edit Profile
+          </ion-button>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Full Name</span>
+          <span class="info-value"
+            >{{ (userProfile.firstName || userProfile.lastName) ?
+            ((userProfile.firstName || '') + ' ' + (userProfile.lastName || '')
+            | titlecase) : 'No Information Set Yet!' }}</span
+          >
+        </div>
+        <div class="info-row">
+          <span class="info-label">Phone Number</span>
+          <span class="info-value"
+            >{{ userProfile.phoneNumber ? userProfile.phoneNumber : 'No
+            Information Set Yet!' }}</span
+          >
+        </div>
+        <div class="info-row">
+          <span class="info-label">Gender</span>
+          <span class="info-value"
+            >{{ userProfile.gender ? userProfile.gender : 'No Information Set
+            Yet!' }}</span
+          >
+        </div>
+        <div class="info-row">
+          <span class="info-label">Date of Birth</span>
+          <span class="info-value"
+            >{{ userProfile.dateOfBirth ? userProfile.dateOfBirth : 'No
+            Information Set Yet!' }}</span
+          >
+        </div>
+        <div class="info-row">
+          <span class="info-label">Full Address</span>
+          <span class="info-value"
+            >{{ userProfile.address ? userProfile.address : 'No Information Set
+            Yet!' }}</span
+          >
+        </div>
+
+        <!-- Added email field -->
+        <div class="info-row">
+          <span class="info-label">Email</span>
+          <span class="info-value"
+            >{{ userProfile.email ? userProfile.email : 'No Email Set Yet!'
+            }}</span
+          >
+        </div>
+      </div>
+    </div>
+    <!-- End Profile Info Section -->
+
+    <!-- Feedback and Report Section with Animation -->
+    <div
+      class="feedback-report-container animate__animated animate__fadeIn animate__delay-3s"
+    >
+      <!-- Feedback Box with ripple effect -->
+      <div
+        class="feedback-box ion-activatable ripple-parent"
+        (click)="openFeedbackModal()"
+      >
+        <ion-ripple-effect></ion-ripple-effect>
+        <div class="box-content">
+          <ion-icon name="chatbubbles-outline" class="box-icon"></ion-icon>
+          <h3 class="box-header">Feedback</h3>
+          <p class="box-subheader">
+            Share us your thoughts about the new update!
+          </p>
+        </div>
+      </div>
+
+      <!-- Report Box with ripple effect -->
+      <div
+        class="report-box ion-activatable ripple-parent"
+        (click)="openReportModal()"
+      >
+        <ion-ripple-effect></ion-ripple-effect>
+        <div class="box-content">
+          <ion-icon
+            name="warning-outline"
+            class="box-icon box-icon-right"
+          ></ion-icon>
+          <h3 class="box-header">Report</h3>
+          <p class="box-subheader">
+            Are you okay? Please tell us what happened
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- End Feedback and Report Section -->
   </div>
-  <!-- End BuyLokal Promo Section -->
-
-  <!-- Profile Info Section -->
-  <div class="profile-info-section" *ngIf="userProfile$ | async as userProfile">
-    <h2 class="profile-info-header">Profile Info</h2>
-
-    <div class="user-details-block">
-      <div class="user-details-subheader">
-        <span>User Details</span>
-        <ion-button fill="clear" size="small" class="edit-profile-button" (click)="openEditModal()">
-          Edit Profile
-        </ion-button>
-      </div>
-
-      <div class="info-row">
-        <span class="info-label">Full Name</span>
-        <span class="info-value">{{ (userProfile.firstName || userProfile.lastName) ? ((userProfile.firstName || '') + ' ' + (userProfile.lastName || '') | titlecase) : 'No Information Set Yet!' }}</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Phone Number</span>
-        <span class="info-value">{{ userProfile.phoneNumber ? userProfile.phoneNumber : 'No Information Set Yet!' }}</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Gender</span>
-        <span class="info-value">{{ userProfile.gender ? userProfile.gender : 'No Information Set Yet!' }}</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Date of Birth</span>
-        <span class="info-value">{{ userProfile.dateOfBirth ? userProfile.dateOfBirth : 'No Information Set Yet!' }}</span>
-      </div>
-      <div class="info-row">
-        <span class="info-label">Full Address</span>
-        <span class="info-value">{{ userProfile.address ? userProfile.address : 'No Information Set Yet!' }}</span>
-      </div>
-    </div>
-  </div>
-  <!-- End Profile Info Section -->
-
-  <!-- Feedback and Report Section -->
-  <div class="feedback-report-container">
-    <!-- Feedback Box -->
-    <div class="feedback-box" (click)="openFeedbackModal()">
-      <div class="box-content">
-        <h3 class="box-header">Feedback</h3>
-        <p class="box-subheader">Share us your thoughts about the new update!</p>
-      </div>
-    </div>
-    <!-- Report Box -->
-    <div class="report-box" (click)="openReportModal()">
-      <div class="box-content">
-        <h3 class="box-header">Report</h3>
-        <p class="box-subheader">Are you okay? Please tell us what happened</p>
-      </div>
-    </div>
-  </div>
-  <!-- End Feedback and Report Section -->
 
   <!-- Watermark Section -->
   <div class="watermark-container">
     <span class="watermark-part1">FarmGate by </span>
     <span class="watermark-part2">CyberNex Innovate</span>
   </div>
-
 </ion-content>

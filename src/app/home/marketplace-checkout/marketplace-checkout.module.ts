@@ -1,18 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-
-import { MarketplaceCheckoutPageRoutingModule } from './marketplace-checkout-routing.module';
+import { RouterModule, Routes } from '@angular/router';
 import { MarketplaceCheckoutPage } from './marketplace-checkout.page';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: MarketplaceCheckoutPage
+  }
+];
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MarketplaceCheckoutPageRoutingModule
+    ReactiveFormsModule,
+    RouterModule.forChild(routes),
+    // No need to import MarketplaceCheckoutPage here since it's standalone
   ],
-  declarations: [MarketplaceCheckoutPage]
+  // No declarations needed for standalone components
 })
 export class MarketplaceCheckoutPageModule {}

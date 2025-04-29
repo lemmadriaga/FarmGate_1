@@ -67,20 +67,20 @@ export class LoginPage implements OnInit {
       const user = userCredential.user;
 
       if (user) {
-        // Get user profile to check role
+        
         try {
-          // Use firstValueFrom to get the profile data once
+          
           const userProfile = await firstValueFrom(
             this.userDataService.getUserProfile(user.uid)
           ) as UserProfile | undefined;
 
           if (userProfile && userProfile.role === 'admin') {
-            // Admin user, navigate to admin dashboard
+            
             this.router.navigateByUrl('/admin-dashboard', { replaceUrl: true });
           } else {
-            // Regular user or profile not found/no role, navigate to user dashboard
-            // Ensure the path matches your routing setup
-            this.router.navigateByUrl('/home/user-dashboard', { replaceUrl: true });
+            
+            
+            this.router.navigateByUrl('/user-dashboard/home', { replaceUrl: true });
           }
         } catch (profileError) {
           console.error('Error fetching user profile:', profileError);
@@ -88,11 +88,11 @@ export class LoginPage implements OnInit {
             'Login successful, but failed to retrieve user role. Proceeding to default dashboard.',
             'warning'
           );
-          // Fallback navigation if profile fetch fails
-          this.router.navigateByUrl('/home/user-dashboard', { replaceUrl: true });
+          
+          this.router.navigateByUrl('/user-dashboard/home', { replaceUrl: true });
         }
       } else {
-        // Should not happen if signInWithEmailAndPassword succeeded, but handle defensively
+        
         throw new Error('User authentication failed unexpectedly.');
       }
     } catch (error: any) {
@@ -131,8 +131,8 @@ export class LoginPage implements OnInit {
 
   async adminInfoClick() {
     console.log('Admin info link clicked');
-    // Optionally navigate to a dedicated admin login if preferred:
-    // this.router.navigate(['/admin-login']);
+    
+    
     await this.presentToast('Please use your Admin credentials in the fields above.', 'primary');
   }
 }

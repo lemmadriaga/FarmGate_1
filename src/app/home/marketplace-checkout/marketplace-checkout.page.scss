@@ -1,469 +1,928 @@
-// Ensure no extra padding from ion-header
+:host {
+  --primary-color: #00da4b;
+  --primary-dark: #00b24b;
+  --primary-light: #7fe3a7;
+  --secondary-color: #66a74c;
+  --text-color: #333333;
+  --text-light: #666666;
+  --background-light: #f7f7f7;
+  --error-color: #ff3b30;
+  --success-color: #34c759;
+  --warning-color: #ff9500;
+  --border-radius-sm: 5px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 36px;
+  --box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  --font-family: "Poppins", sans-serif;
+}
+
 ion-header {
   &::after {
-    display: none; // Remove default bottom border shadow if ion-no-border didn't catch it
+    display: none;
   }
 }
 
 .checkout-header-bg {
-  width: 100%; // Span full width
-  height: 130px;
-  flex-shrink: 0;
+  width: 100%;
+  min-height: 130px;
   border-radius: 0px 0px 54px 54px;
-  background: linear-gradient(108deg, #00DA4B 7.95%, #00B24B 95.28%);
-  position: relative; // For positioning children if needed
+  background: linear-gradient(
+    108deg,
+    var(--primary-color) 7.95%,
+    var(--primary-dark) 95.28%
+  );
+  position: relative;
   display: flex;
-  flex-direction: column; // Stack button container and content vertically (adjust if needed)
-  padding: 10px 16px; // Add some padding
+  flex-direction: column;
+  padding: 10px 16px;
   box-sizing: border-box;
-  color: #FFF; // Default text color for children
-  font-family: Poppins, sans-serif; // Default font
+  color: #fff;
+  font-family: var(--font-family);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 360px) {
+    min-height: 110px;
+    border-radius: 0px 0px 40px 40px;
+  }
 }
 
 .back-button-container {
-  position: absolute; // Position relative to header bg
-  top: 10px; // Adjust as needed
-  left: 5px; // Adjust as needed
-  z-index: 10; // Ensure it's above other content
+  position: absolute;
+  top: 10px;
+  left: 5px;
+  z-index: 10;
 
   ion-back-button {
-    --color: #FFF; // White icon
-    --icon-font-size: 24px; // Attempt to control size
-    // Ionic back button size is hard to control directly with width/height
-    // Use padding/margin on container or button variables if possible
+    --color: #fff;
+    --icon-font-size: 24px;
     --padding-start: 5px;
     --padding-end: 5px;
+
+    &::part(native) {
+      padding: 0;
+    }
   }
 }
 
 .header-content {
   display: flex;
   flex-direction: column;
-  align-items: center; // Center logo and text horizontally
-  justify-content: center; // Center vertically within remaining space
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  flex-grow: 1; // Take remaining space after positioning back button
-  padding-top: 10px; // Add space below absolute positioned back button
+  flex-grow: 1;
+  padding-top: 10px;
 }
 
 .checkout-logo {
-  width: 215px;
-  height: 49px;
+  width: 200px;
+  height: auto;
+  max-height: 49px;
   flex-shrink: 0;
-  margin-bottom: 5px; // Space below logo
-  // Ignoring background property from user request as it's an img tag
+  margin-bottom: 5px;
+
+  @media (max-width: 360px) {
+    width: 180px;
+  }
 }
 
 .checkout-title {
-  width: 251px; // Apply width
-  max-width: 100%; // Ensure it doesn't overflow container
-  color: #FFF;
-  font-family: Poppins, sans-serif;
+  max-width: 100%;
+  color: #fff;
+  font-family: var(--font-family);
   font-size: 25px;
-  font-style: normal;
   font-weight: 700;
-  line-height: 122.206%; /* 30.551px */
-  margin: 0 0 2px 0; // Adjust margin
+  line-height: 1.2;
+  margin: 0 0 2px 0;
+
+  @media (max-width: 360px) {
+    font-size: 22px;
+  }
 }
 
 .checkout-subtitle {
-  color: #FFF;
-  font-family: Poppins, sans-serif;
-  font-size: 20px;
-  font-style: normal;
+  color: #fff;
+  font-family: var(--font-family);
+  font-size: 18px;
   font-weight: 700;
-  line-height: 122.206%; /* 24.441px */
+  line-height: 1.2;
   margin: 0;
+
+  @media (max-width: 360px) {
+    font-size: 16px;
+  }
 }
 
 ion-content {
-  // Add padding top to prevent content from hiding under the custom header
-  // Use --offset-top instead for scroll padding
-  --offset-top: 130px !important; // Match header height
-  --background: #FFF; // Set background to white
+  --background: #fff;
+
+  &::part(scroll) {
+    padding-bottom: 30px;
+  }
 }
 
-// Delivery Address Section Styles
+.order-steps {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  padding: 0 10px;
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+
+    &.active {
+      .step-circle {
+        background: var(--primary-color);
+        color: white;
+      }
+
+      .step-label {
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+    }
+  }
+
+  .step-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #eeeeee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 5px;
+  }
+
+  .step-label {
+    font-size: 12px;
+    color: var(--text-light);
+    text-align: center;
+  }
+
+  .step-line {
+    height: 2px;
+    background: #eeeeee;
+    flex: 1;
+    margin: 0 5px;
+    position: relative;
+    top: -15px;
+  }
+}
+
+.basket-capacity {
+  background: var(--background-light);
+  border-radius: var(--border-radius-sm);
+  padding: 12px;
+  margin-bottom: 20px;
+
+  .capacity-label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .capacity-bar {
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 5px;
+
+    .capacity-fill {
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        var(--primary-light) 0%,
+        var(--primary-color) 100%
+      );
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+  }
+
+  .capacity-text {
+    font-size: 12px;
+    color: var(--text-light);
+    text-align: right;
+  }
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+
+  .edit-button {
+    --color: var(--primary-color);
+    --padding-start: 5px;
+    --padding-end: 5px;
+    height: 30px;
+    margin: 0;
+  }
+}
+
 .section-heading {
-  color: #000;
-  font-family: Poppins, sans-serif;
+  color: var(--text-color);
+  font-family: var(--font-family);
   font-size: 20px;
-  font-style: normal;
   font-weight: 700;
-  line-height: 122.206%; /* 24.441px */
-  margin-top: 20px; // Add space above the heading
-  margin-bottom: 15px; // Space below heading
+  line-height: 1.2;
+  margin: 20px 0 0 0;
+}
+
+.cart-section-heading {
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 25px 0 0 0;
+}
+
+.cart-count {
+  --background: var(--primary-color);
+  --color: white;
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.address-form-container {
+  margin-bottom: 20px;
+
+  ion-item {
+    --padding-start: 0;
+    --inner-padding-end: 0;
+    --background: transparent;
+    --border-color: #dddddd;
+    margin-bottom: 10px;
+
+    &.ion-invalid.ion-touched {
+      --border-color: var(--error-color);
+    }
+  }
+
+  .name-inputs {
+    display: flex;
+    gap: 10px;
+
+    .first-name,
+    .last-name {
+      flex: 1;
+    }
+  }
+
+  .form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+
+    ion-button {
+      --border-radius: var(--border-radius-md);
+      font-weight: 600;
+    }
+  }
 }
 
 .address-info-card {
-  width: 100%; // Use 100% for responsiveness, max-width can be set if needed
-  max-width: 352px; // Max width as specified
-  // Height will be determined by content, avoid fixed height for flexibility
-  flex-shrink: 0;
-  border-radius: 5px;
-  background: #FFF;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  padding: 10px 15px; // Add internal padding
-  margin-bottom: 20px; // Space below card
+  width: 100%;
+  max-width: 352px;
+  border-radius: var(--border-radius-sm);
+  background: #fff;
+  box-shadow: var(--box-shadow);
+  padding: 15px;
+  margin-bottom: 20px;
   box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+  }
 }
 
 .address-row {
   display: flex;
-  align-items: center; // Vertically align icon and text
-  margin-bottom: 8px; // Space between rows
+  align-items: center;
+  margin-bottom: 10px;
 
   &:last-child {
-    margin-bottom: 0; // No margin for the last row
+    margin-bottom: 0;
   }
 }
 
 .address-category-row {
-  margin-bottom: 12px; // More space after category
+  margin-bottom: 12px;
 }
 
 .address-category {
-  color: #000;
-  font-family: Poppins, sans-serif;
-  font-size: 10px;
-  font-style: normal;
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-size: 11px;
   font-weight: 700;
-  line-height: 122.206%; /* 12.221px */
-  text-transform: uppercase; // Typically categories are uppercase
+  line-height: 1.2;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  background: #f0f0f0;
+  border-radius: 10px;
 }
 
 .address-icon {
   flex-shrink: 0;
-  margin-right: 8px; // Space between icon and text
-  // Specific dimensions for each icon
+  margin-right: 10px;
 }
 
 .map-icon {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
 }
 
 .user-icon {
-  width: 9px;
-  height: 10px;
+  width: 11px;
+  height: 12px;
 }
 
 .phone-icon {
-  width: 9px;
-  height: 9px;
+  width: 11px;
+  height: 11px;
 }
 
-// Common style for address text, username, phone
 .address-text,
 .user-name,
 .phone-number {
-  color: #000;
-  font-family: Poppins, sans-serif;
-  font-size: 10px;
-  font-style: normal;
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-size: 12px;
   font-weight: 400;
-  line-height: 122.206%; /* 12.221px */
+  line-height: 1.4;
 }
 
-// Specific width for address text if needed, but generally let it wrap
-// .address-text {
-//   width: /* some value if needed */ ;
-// }
+.empty-cart-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 0;
+  text-align: center;
 
-// Market Cart Section Styles
-.cart-section-heading {
-  color: #000;
-  font-family: Poppins, sans-serif;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 122.206%; /* 19.553px */
-  margin-top: 20px; // Space above heading
-  margin-bottom: 15px; // Space below heading
+  .empty-cart-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 15px;
+    opacity: 0.7;
+  }
+
+  p {
+    color: var(--text-light);
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  ion-button {
+    --border-radius: var(--border-radius-md);
+  }
 }
 
 .cart-items-container {
   display: flex;
   flex-direction: column;
-  gap: 15px; // Space between cart items
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
 .cart-item {
-  width: 100%; // Use full width available
-  max-width: 363px; // Max width as specified
-  height: 79px; // Fixed height as specified
-  flex-shrink: 0;
+  width: 100%;
+  max-width: 375px;
+  height: 85px;
   display: flex;
-  align-items: center; // Align details and delete button vertically
-  background: #FFF; // White background for the item area before delete button
-  border-radius: 12px; // Rounded corners for the whole item including delete button
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15); // Subtle shadow
-  overflow: hidden; // Ensure delete button radius works
-  position: relative; // For potential absolute positioning inside later
+  align-items: center;
+  background: #fff;
+  border-radius: var(--border-radius-md);
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
 }
 
 .item-details {
   display: flex;
   align-items: center;
   width: 100%;
+  padding: 0 5px;
 }
 
 .item-info {
   flex-grow: 1;
   display: flex;
-  flex-direction: column; // Stack name and selector vertically
+  flex-direction: column;
   justify-content: center;
-  margin: 0 10px; // Add margin around item info
+  padding: 0 12px;
+  min-width: 0;
 }
 
 .item-image {
-  width: 60px;
-  height: 60px;
+  width: 65px;
+  height: 65px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: var(--border-radius-sm);
+  margin-left: 5px;
 }
 
 .item-name {
-  color: #000;
-  font-family: Poppins, sans-serif;
-  font-size: 11px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 122.206%; /* 13.443px */
-  white-space: nowrap; // Prevent wrapping if too long
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 120px; // Limit width to prevent pushing price
+  margin-bottom: 5px;
 }
 
 .item-amount-selector {
   display: flex;
-  align-items: center; // Vertically align items in the middle
-  justify-content: center; // Center items horizontally (optional)
-  // Add some spacing if needed
-  // gap: 5px;
+  align-items: center;
 
-  ion-button {
-    --padding-start: 2px; // Reduce button padding
+  .quantity-button {
+    --padding-start: 2px;
     --padding-end: 2px;
-    height: 28px; // Adjust height as needed
+    height: 32px;
     margin: 0;
+
+    &.decrease {
+      --color: var(--text-light);
+    }
+
+    &.increase {
+      --color: var(--primary-color);
+    }
+
+    ion-icon {
+      font-size: 20px;
+    }
+  }
+
+  .quantity-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
   }
 
   .quantity-input {
-    width: 50px;
+    width: 40px;
     text-align: center;
     --padding-start: 0;
     --padding-end: 0;
+    font-weight: 600;
+    color: var(--text-color);
   }
 
   .unit-label {
-    font-size: 14px;
-    color: var(--ion-color-medium);
+    font-size: 13px;
+    color: var(--text-light);
     margin: 0 4px;
-  }
-
-  .quantity-input {
-    width: 40px; // Give the input a specific width
-    height: 28px; // Match button height (optional)
-    border: 1px solid var(--ion-color-medium-shade); // Add a border to see it
-    border-radius: 4px;
-    text-align: center;
-    --padding-start: 2px; // Adjust internal padding
-    --padding-end: 2px;
-    margin: 0 5px; // Add horizontal margin
   }
 }
 
 .item-price {
-  font-weight: bold;
-  margin-left: auto; // Push price to the right
-  padding-left: 10px; // Add space before price
-  display: flex; // Use flex for alignment if needed, though text-align might suffice
-  // width: 89px; // Avoid fixed width, let it adapt
-  // height: 18px; // Avoid fixed height
-  // flex-direction: column; // Not needed for single line text
-  justify-content: center;
-  align-items: center; // Center price text vertically
-  flex-shrink: 0;
-  color: #000;
-  font-family: Poppins, sans-serif;
-  font-size: 16px; // Slightly smaller than spec for better fit? Adjust if needed
-  font-style: normal;
   font-weight: 700;
-  line-height: 122.206%; /* 19.553px */
-  margin-left: auto; // Push price to the right if needed, but flex-grow on .item-info should handle space
-  text-align: right; // Align text to right
+  padding-left: 10px;
+  color: var(--text-color);
+  font-family: var(--font-family);
+  font-size: 16px;
+  margin-left: auto;
+  text-align: right;
+  min-width: 70px;
 }
 
 .delete-item-button {
   width: 50px;
-  height: 79px; // Match item height
-  flex-shrink: 0;
-  // border-radius: 0px 12px 12px 0px; // Incorporated into .cart-item radius
-  background: #66A74C;
-  // box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); // Incorporated into .cart-item shadow
+  height: 100%;
+  background: var(--secondary-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: none; // Remove default button border
-  padding: 0; // Remove default padding
-  margin: 0; // Remove default margin
+  border: none;
+  padding: 0;
   cursor: pointer;
-  position: relative; // Needed for ion-ripple-effect
-  overflow: hidden; // Needed for ion-ripple-effect
-  margin-left: 10px; // Add space before the delete button
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.2s ease;
+
+  &:active {
+    background-color: darken(#66a74c, 10%);
+  }
+
+  .delete-icon {
+    width: 22px;
+    height: 22px;
+  }
 }
 
-.delete-icon {
-  width: 25px;
-  height: 25px;
-  flex-shrink: 0;
-  // Background property ignored for img tag
-}
-
-// Payment Summary Section Styles (within ion-content)
 .payment-summary-section {
-  // width: 390px; // Use 100% width for responsiveness
   width: 100%;
-  max-width: 390px; // Consider if this max-width is still desired within content
-  margin: 30px auto 0; // Add top margin for space, auto for horizontal centering if max-width is used
-  flex-shrink: 0;
-  border-radius: 16px 16px 0px 0px; // Keep top radius
-  background: rgba(219, 219, 219, 0.44);
-  padding: 20px 15px 30px; // Add internal padding, more at bottom before button
+  max-width: 400px;
+  margin: 30px auto 0;
+  border-radius: 20px 20px 0 0;
+  background: rgba(243, 243, 243, 0.6);
+  padding: 25px 20px 30px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 10px; // Space between payment rows/elements
+  gap: 12px;
 }
 
 .payment-title {
-  // width: 101.833px; // Avoid fixed width
-  // height: 32.031px; // Avoid fixed height
-  flex-shrink: 0;
-  color: #000;
-  font-family: Poppins, sans-serif;
+  color: var(--text-color);
+  font-family: var(--font-family);
   font-size: 20px;
-  font-style: normal;
   font-weight: 700;
-  line-height: 126%; /* 25.2px */
-  margin-bottom: 10px; // Space after title
+  line-height: 1.3;
+  margin-bottom: 5px;
 }
 
 .payment-row {
   display: flex;
-  justify-content: space-between; // Space out label and value/button
+  justify-content: space-between;
   align-items: center;
-  // height: 19.219px; // Let height be determined by content
   width: 100%;
+  padding: 5px 0;
 }
 
 .payment-label {
-  // width: varies; // Let width adapt
-  // height: 19.219px; // Let height adapt
-  flex-shrink: 0;
-  color: #000;
-  font-family: Poppins, sans-serif;
-  font-size: 12px;
-  font-style: normal;
+  color: var(--text-light);
+  font-family: var(--font-family);
+  font-size: 14px;
   font-weight: 400;
-  line-height: 126%; /* 15.12px */
+  line-height: 1.3;
 }
 
 .payment-amount {
-  // width: varies; // Let width adapt
-  // height: 19.219px; // Let height adapt
-  flex-shrink: 0;
-  color: #000;
+  color: var(--text-color);
   text-align: right;
-  font-family: Poppins, sans-serif;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 126%; /* 15.12px */
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+
+  .free-delivery {
+    color: var(--success-color);
+    font-weight: 600;
+  }
+}
+
+.discount-amount {
+  color: var(--success-color);
 }
 
 .choose-method-button {
-  width: 94.25px;
-  height: 19.219px;
-  flex-shrink: 0;
-  // background: #00DA4B; // Use fill in SVG or CSS background-image
-  border-radius: 9.6px; // Approximate from SVG path
-  background-color: #00DA4B; // Fallback color
-  // For SVG background:
-  // background-image: url('data:image/svg+xml,...'); // Embed SVG or use path
-  // background-size: cover;
-  // background-repeat: no-repeat;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 14px;
+  background-color: var(--primary-color);
   border: none;
-  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative; // For ripple
-  overflow: hidden; // For ripple
+  gap: 5px;
+  position: relative;
+  overflow: hidden;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:active {
+    background-color: darken(#00da4b, 5%);
+  }
+
+  .payment-method-icon {
+    font-size: 14px;
+    color: #fff;
+  }
 }
 
 .choose-method-text {
-  color: #FFF;
-  text-align: center; // Center text within button
-  font-family: Poppins, sans-serif;
-  font-size: 10px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 126%; /* 12.6px */
+  color: #fff;
+  text-align: center;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
 }
 
 .total-row {
-  margin-top: 10px; // Add space before total
-  padding-top: 10px; // Add space above total
-  border-top: 1px solid rgba(0, 0, 0, 0.1); // Separator line
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .total-label,
 .total-amount {
-  font-weight: 700; // Make total bold
-  font-size: 14px; // Make total slightly larger
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--text-color);
 }
 
 .place-order-button {
-  // width: 369.417px; // Use 100% width for responsiveness
   width: 100%;
-  height: 60.219px;
-  flex-shrink: 0;
-  border-radius: 36px;
-  background: #00DA4B;
-  margin-top: 15px; // Space above button
-
-  // Text styles (applied directly to button which acts as container)
-  color: #FFF;
-  font-family: Poppins, sans-serif;
+  height: 56px;
+  border-radius: var(--border-radius-lg);
+  background: var(--primary-color);
+  margin-top: 20px;
+  color: #fff;
+  font-family: var(--font-family);
   font-size: 16px;
-  font-style: normal;
   font-weight: 700;
-  line-height: 60.219px; // Center text vertically by matching height
-  text-align: center;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   border: none;
   cursor: pointer;
-  position: relative; // For ripple
-  overflow: hidden; // For ripple
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
+  &:disabled {
+    opacity: 0.7;
+    background: #cccccc;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):active {
+    transform: scale(0.98);
+    background-color: darken(#00da4b, 5%);
+  }
+
+  .order-icon {
+    font-size: 20px;
+  }
 }
 
-// Styles for the success overlay
+.terms-text {
+  font-size: 11px;
+  color: var(--text-light);
+  text-align: center;
+  margin: 12px 0 0;
+
+  a {
+    color: var(--primary-dark);
+    text-decoration: none;
+  }
+}
+
+.processing-order-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+
+  .processing-spinner {
+    color: var(--primary-color);
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+  }
+
+  .processing-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text-color);
+  }
+
+  .processing-message {
+    font-size: 16px;
+    color: var(--text-light);
+  }
+}
+
+.failed-order-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+
+  .failed-icon {
+    font-size: 70px;
+    color: var(--error-color);
+    margin-bottom: 20px;
+  }
+
+  .failed-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--text-color);
+  }
+
+  .failed-message {
+    font-size: 16px;
+    color: var(--text-light);
+    margin-bottom: 20px;
+  }
+
+  ion-button {
+    --border-radius: var(--border-radius-md);
+    margin-bottom: 10px;
+    max-width: 300px;
+    width: 100%;
+  }
+}
+
+.order-confirmation-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+
+  .confirmation-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .confirmation-icon {
+    font-size: 60px;
+    color: var(--success-color);
+    margin-bottom: 15px;
+    animation: pulse 2s infinite;
+  }
+
+  .confirmation-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--text-color);
+  }
+
+  .confirmation-message {
+    font-size: 16px;
+    color: var(--text-light);
+  }
+
+  .order-details-card {
+    width: 100%;
+    max-width: 350px;
+    background: #fff;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--box-shadow);
+    padding: 20px;
+    margin-bottom: 25px;
+
+    > div {
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .order-label {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-bottom: 3px;
+    }
+
+    .order-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-color);
+    }
+  }
+
+  ion-button {
+    --border-radius: var(--border-radius-md);
+    margin-bottom: 10px;
+    max-width: 300px;
+    width: 100%;
+  }
+}
+
 .success-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  padding: 0; // Ensure no padding
-  z-index: 1000; // Ensure it's above other content
+  background-color: rgba(255, 255, 255, 0.98);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; // Keep aspect ratio, fit within bounds
+  .success-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    max-width: 300px;
   }
+
+  .success-image {
+    width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+    animation: bounceIn 1s;
+  }
+
+  .success-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+  }
+
+  .success-message {
+    font-size: 16px;
+    color: var(--text-color);
+    margin-bottom: 20px;
+  }
+
+  .redirect-spinner {
+    margin-bottom: 10px;
+  }
+
+  .redirect-message {
+    font-size: 14px;
+    color: var(--text-light);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+ion-content {
+  --offset-top: 130px;
+
+  @media (max-width: 360px) {
+    --offset-top: 110px;
+  }
+}
+
+.ripple-parent {
+  position: relative;
+  overflow: hidden;
 }
