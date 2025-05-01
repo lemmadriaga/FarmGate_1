@@ -16,21 +16,26 @@
   ></ion-searchbar>
 
   <!-- Level filter -->
-  <div class="level-filter">
-    <ion-segment [(ngModel)]="selectedLevel" mode="md">
-      <ion-segment-button value="all">
-        <ion-label>All</ion-label>
+  <div class="level-filter px-4 my-4">
+    <ion-segment [(ngModel)]="selectedLevel" mode="ios" class="custom-segment">
+      <ion-segment-button value="all" class="segment-button-layout">
+        <ion-label class="font-medium">All</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="Beginner">
-        <ion-label>Beginner</ion-label>
+      <ion-segment-button value="Beginner" class="segment-button-layout">
+        <ion-label class="font-medium">Beginner</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="Intermediate">
-        <ion-label>Intermediate</ion-label>
+      <ion-segment-button value="Intermediate" class="segment-button-layout">
+        <ion-label class="font-medium">Intermediate</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="Advanced">
-        <ion-label>Advanced</ion-label>
+      <ion-segment-button value="Advanced" class="segment-button-layout">
+        <ion-label class="font-medium">Advanced</ion-label>
       </ion-segment-button>
     </ion-segment>
+        [class.active]="selectedLevel === 'Advanced'"
+        (click)="selectedLevel = 'Advanced'">
+        Advanced
+      </button>
+    </div>
   </div>
 
   <!-- Dynamic segment label -->

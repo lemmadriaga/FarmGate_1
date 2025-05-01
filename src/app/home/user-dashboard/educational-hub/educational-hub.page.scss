@@ -49,19 +49,40 @@
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
     padding: 4px;
+
+    &::part(indicator) {
+      display: none;
+    }
   }
 
   ion-segment-button {
+    --background: transparent;
+    --background-checked: rgba(76, 175, 80, 0.1);
     --color: #757575;
     --color-checked: #4caf50;
-    --indicator-color: #4caf50;
+    --indicator-color: transparent;
     font-weight: 500;
     min-height: 40px;
     --border-radius: 8px;
     font-family: 'Poppins', sans-serif;
+    position: relative;
+    overflow: visible;
     
     &::part(indicator) {
-      border-radius: 8px;
+      display: none;
+    }
+
+    &.segment-button-checked {
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 25%;
+        width: 50%;
+        height: 2px;
+        background: #4caf50;
+        border-radius: 2px;
+      }
     }
   }
 }

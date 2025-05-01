@@ -1,50 +1,42 @@
-:host {
-  .level-filter {
-    margin: 16px 0;
-    padding: 0 16px;
+.custom-segment {
+  --background: transparent;
+  border-radius: theme('borderRadius.lg');
+  padding: theme('spacing.1');
 
-    ion-segment {
-      background: #f4f5f8;
-      border-radius: 8px;
-      padding: 4px;
-      
-      &::part(indicator) {
-        display: none;
-      }
+  ion-segment-button {
+    --background: transparent;
+    --background-checked: theme('colors.green.100');
+    --background-hover: theme('colors.green.50');
+    --border-radius: theme('borderRadius.md');
+    --border-color: transparent;
+    --border-style: none;
+    --border-width: 0;
+    --color: theme('colors.gray.600');
+    --color-checked: theme('colors.green.600');
+    --indicator-color: transparent;
+    --padding-bottom: theme('spacing.2');
+    --padding-end: theme('spacing.4');
+    --padding-start: theme('spacing.4');
+    --padding-top: theme('spacing.2');
+    --ripple-color: theme('colors.green.200');
+    
+    &::part(indicator) {
+      background: transparent;
+    }
 
-      ion-segment-button {
-        min-height: 40px;
-        --background: transparent;
-        --background-checked: #4caf50;
-        --color: #666666;
-        --color-checked: #ffffff;
-        --border-radius: 6px;
-        font-size: 14px;
-        font-weight: 500;
-        letter-spacing: 0;
-        line-height: 20px;
-        text-transform: none;
-        
-        &::part(native) {
-          padding: 8px 12px;
-          border-radius: 6px;
-        }
+    &.segment-button-checked {
+      font-weight: 600;
+      position: relative;
 
-        &.segment-button-checked {
-          --background: #4caf50;
-          --color: #ffffff;
-          box-shadow: 0 2px 6px rgba(76, 175, 80, 0.2);
-          
-          ion-label {
-            color: #ffffff;
-            font-weight: 600;
-          }
-        }
-
-        ion-label {
-          margin: 0;
-          font-size: 14px;
-        }
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 4px;
+        left: 25%;
+        width: 50%;
+        height: 2px;
+        background: theme('colors.green.500');
+        border-radius: theme('borderRadius.full');
       }
     }
   }
