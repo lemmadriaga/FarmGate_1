@@ -24,20 +24,23 @@ export class BuylokalDairyComponent implements OnInit {
     {
       id: 'milk',
       name: 'Fresh Milk',
-      localName: 'Sariwang Gatas',
-      image: 'assets/milk.png'
+      localName: 'Gatas',
+      image: 'assets/milk.png',
+      price: 140 // Price per basket (4 liters)
     },
     {
       id: 'cheese',
       name: 'Cheese',
       localName: 'Keso',
-      image: 'assets/cheese.png'
+      image: 'assets/cheese.png',
+      price: 180
     },
     {
       id: 'butter',
       name: 'Butter',
       localName: 'Mantikilya',
-      image: 'assets/butter.png'
+      image: 'assets/butter.png',
+      price: 160
     }
   ];
 

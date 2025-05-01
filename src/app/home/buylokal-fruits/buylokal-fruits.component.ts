@@ -26,21 +26,21 @@ export class BuylokalFruitsComponent implements OnInit {
       name: 'Mango',
       localName: 'Mangga',
       image: 'assets/mango.png',
-      price: 50
+      price: 180
     },
     {
       id: 'banana',
       name: 'Banana',
       localName: 'Saging',
       image: 'assets/banana.png',
-      price: 20
+      price: 120
     },
     {
-      id: 'papaya',
-      name: 'Papaya',
-      localName: 'Papaya',
-      image: 'assets/papaya.png',
-      price: 30
+      id: 'pineapple',
+      name: 'Pineapple',
+      localName: 'Pinya',
+      image: 'assets/pineapple.png',
+      price: 160
     }
   ];
 

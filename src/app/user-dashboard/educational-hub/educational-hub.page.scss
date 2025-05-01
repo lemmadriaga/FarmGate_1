@@ -1,111 +1,157 @@
-.level-filter {
-  margin: 16px 0;
-  ion-segment {
-    --background: var(--ion-color-light);
+:host {
+  .level-filter {
+    margin: 16px 0;
+    padding: 0 16px;
+
+    ion-segment {
+      background: #f4f5f8;
+      border-radius: 8px;
+      padding: 4px;
+      
+      &::part(indicator) {
+        display: none;
+      }
+
+      ion-segment-button {
+        min-height: 40px;
+        --background: transparent;
+        --background-checked: #4caf50;
+        --color: #666666;
+        --color-checked: #ffffff;
+        --border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 20px;
+        text-transform: none;
+        
+        &::part(native) {
+          padding: 8px 12px;
+          border-radius: 6px;
+        }
+
+        &.segment-button-checked {
+          --background: #4caf50;
+          --color: #ffffff;
+          box-shadow: 0 2px 6px rgba(76, 175, 80, 0.2);
+          
+          ion-label {
+            color: #ffffff;
+            font-weight: 600;
+          }
+        }
+
+        ion-label {
+          margin: 0;
+          font-size: 14px;
+        }
+      }
+    }
   }
 }
 
-.video-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
-  padding: 16px 0;
-}
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    padding: 16px 0;
+  }
 
-.video-card {
-  margin: 0;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
-  .video-thumbnail {
-    position: relative;
-    aspect-ratio: 16/9;
-    cursor: pointer;
+  .video-card {
+    margin: 0;
+    border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
+    .video-thumbnail {
+      position: relative;
+      aspect-ratio: 16/9;
+      cursor: pointer;
+      overflow: hidden;
 
-    &:hover {
       img {
-        transform: scale(1.05);
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
       }
-      .play-overlay {
-        opacity: 1;
+
+      &:hover {
+        img {
+          transform: scale(1.05);
+        }
+        .play-overlay {
+          opacity: 1;
+        }
       }
     }
-  }
 
-  .play-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+    .play-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
 
-    ion-icon {
-      font-size: 48px;
+      ion-icon {
+        font-size: 48px;
+        color: white;
+      }
+    }
+
+    .duration-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.7);
       color: white;
-    }
-  }
-
-  .duration-badge {
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-
-    ion-icon {
-      font-size: 14px;
-    }
-  }
-
-  ion-card-header {
-    padding: 12px;
-  }
-
-  ion-card-title {
-    font-size: 16px;
-    font-weight: 600;
-  }
-
-  ion-card-content {
-    padding: 0 12px 12px;
-
-    p {
-      color: var(--ion-color-medium);
-      font-size: 14px;
-      margin: 8px 0;
-    }
-  }
-
-  .video-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-
-    ion-chip {
-      margin: 0;
+      padding: 4px 8px;
+      border-radius: 4px;
       font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      ion-icon {
+        font-size: 14px;
+      }
+    }
+
+    ion-card-header {
+      padding: 12px;
+    }
+
+    ion-card-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    ion-card-content {
+      padding: 0 12px 12px;
+
+      p {
+        color: var(--ion-color-medium);
+        font-size: 14px;
+        margin: 8px 0;
+      }
+    }
+
+    .video-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+
+      ion-chip {
+        margin: 0;
+        font-size: 12px;
+      }
     }
   }
-}
+

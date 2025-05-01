@@ -67,10 +67,36 @@ export class CartService {
       console.warn('Cannot save cart, no user logged in.');
       return; 
     }
-    const cartData = this.cartItems.value;
-    console.log(`Saving cart for user ${this.currentUserId}:`, cartData);
+
+    // Filter out any potentially invalid items before saving
+    const validCartData = this.cartItems.value.filter(item => this.validateCartItem(item));
+    
+    if (validCartData.length !== this.cartItems.value.length) {
+      console.warn('Some cart items were invalid and will not be saved');
+      // Update the cart items to only include valid items
+      this.cartItems.next(validCartData);
+    }
+
+    // Only proceed if we have valid data
+    if (validCartData.length === 0) {
+      console.log('No valid cart items to save');
+      return;
+    }
+
+    console.log(`Saving cart for user ${this.currentUserId}:`, validCartData);
     const userDocRef = this.afs.doc(`users/${this.currentUserId}`);
-    userDocRef.set({ cart: cartData }, { merge: true })
+    
+    // Ensure we're not saving any undefined values
+    const cleanCartData = validCartData.map(item => ({
+      id: item.id || '',
+      name: item.name || '',
+      localName: item.localName || '',
+      price: typeof item.price === 'number' ? item.price : 0,
+      quantity: typeof item.quantity === 'number' ? item.quantity : 0,
+      image: item.image || ''
+    }));
+
+    userDocRef.set({ cart: cleanCartData }, { merge: true })
       .then(() => console.log('Cart successfully saved to Firestore'))
       .catch(error => console.error('Error saving cart to Firestore:', error));
   }
@@ -83,17 +109,43 @@ export class CartService {
     return this.cartItemCount.asObservable();
   }
 
+  private validateCartItem(item: CartItem): boolean {
+    return !!(item &&
+      item.id &&
+      item.name &&
+      item.localName &&
+      typeof item.price === 'number' &&
+      typeof item.quantity === 'number' &&
+      item.image);
+  }
+
   addToCart(item: CartItem) {
+    // Validate all required fields are present and not undefined
+    if (!this.validateCartItem(item)) {
+      console.error('Invalid cart item:', item);
+      return;
+    }
+
+    // Clean the item before adding to cart
+    const cleanItem: CartItem = {
+      id: item.id,
+      name: item.name,
+      localName: item.localName,
+      price: Number(item.price),
+      quantity: Number(item.quantity),
+      image: item.image
+    };
+
     const currentItems = this.cartItems.value;
-    const existingItem = currentItems.find(i => i.id === item.id);
+    const existingItem = currentItems.find(i => i.id === cleanItem.id);
 
     if (existingItem) {
-      existingItem.quantity += item.quantity;
+      existingItem.quantity += cleanItem.quantity;
       this.cartItems.next([...currentItems]);
     } else {
-      this.cartItems.next([...currentItems, item]);
+      this.cartItems.next([...currentItems, cleanItem]);
     }
-    this.saveCartToFirestore(); 
+    this.saveCartToFirestore();
   }
 
   removeFromCart(itemId: string) {
@@ -113,10 +165,27 @@ export class CartService {
   }
 
   updateCartItem(updatedItem: CartItem) {
+    // Validate the updated item
+    if (!this.validateCartItem(updatedItem)) {
+      console.error('Invalid cart item update:', updatedItem);
+      return;
+    }
+
+    // Clean the updated item
+    const cleanItem: CartItem = {
+      id: updatedItem.id,
+      name: updatedItem.name,
+      localName: updatedItem.localName,
+      price: Number(updatedItem.price),
+      quantity: Number(updatedItem.quantity),
+      image: updatedItem.image
+    };
+
     const currentItems = this.cartItems.getValue();
-    const index = currentItems.findIndex(item => item.id === updatedItem.id);
+    const index = currentItems.findIndex(item => item.id === cleanItem.id);
+    
     if (index !== -1) {
-      currentItems[index] = updatedItem;
+      currentItems[index] = cleanItem;
       this.cartItems.next([...currentItems]); 
       this.saveCartToFirestore(); 
     }
@@ -124,10 +193,20 @@ export class CartService {
 
   clearCart() {
     this.cartItems.next([]);
-    this.saveCartToFirestore(); 
+    // When clearing cart, we can safely set an empty array in Firestore
+    if (this.currentUserId) {
+      const userDocRef = this.afs.doc(`users/${this.currentUserId}`);
+      userDocRef.set({ cart: [] }, { merge: true })
+        .then(() => console.log('Cart successfully cleared in Firestore'))
+        .catch(error => console.error('Error clearing cart in Firestore:', error));
+    }
   }
 
   getCartTotal() {
-    return this.cartItems.value.reduce((total, item) => total + item.quantity, 0);
+    return this.cartItems.value.reduce((total, item) => {
+      const quantity = Number(item.quantity) || 0;
+      const price = Number(item.price) || 0;
+      return total + (quantity * price);
+    }, 0);
   }
 }

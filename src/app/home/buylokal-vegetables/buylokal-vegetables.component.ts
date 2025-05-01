@@ -25,19 +25,29 @@ export class BuylokalVegetablesComponent implements OnInit {
       id: 'tomato',
       name: 'Tomatoes',
       localName: 'Kamatis',
-      image: 'assets/tomato.png'
+      image: 'assets/tomato.png',
+      price: 80 // Price per basket (4 kilos)
     },
     {
       id: 'onion',
-      name: 'Onion',
+      name: 'Onions',
       localName: 'Sibuyas',
-      image: 'assets/onion.png'
+      image: 'assets/onion.png',
+      price: 120
     },
     {
-      id: 'eggplant',
-      name: 'Eggplant',
-      localName: 'Talong',
-      image: 'assets/eggplant.png'
+      id: 'garlic',
+      name: 'Garlic',
+      localName: 'Bawang',
+      image: 'assets/garlic.png',
+      price: 160
+    },
+    {
+      id: 'potato',
+      name: 'Potato',
+      localName: 'Patatas',
+      image: 'assets/potato.png',
+      price: 100
     }
   ];
 

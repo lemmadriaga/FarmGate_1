@@ -25,19 +25,22 @@ export class BuylokalLivestockComponent implements OnInit {
       id: 'pork',
       name: 'Pork Belly',
       localName: 'Liempo',
-      image: 'assets/porkbelly.png'
+      image: 'assets/porkbelly.png',
+      price: 320 // Price per basket (4 kilos)
     },
     {
       id: 'beef',
       name: 'Beef Cubes',
       localName: 'Hiwang Baka',
-      image: 'assets/beefcubes.png'
+      image: 'assets/beefcubes.png',
+      price: 380
     },
     {
       id: 'chicken',
       name: 'Chicken Legs',
       localName: 'Hita ng Manok',
-      image: 'assets/chickenlegs.png'
+      image: 'assets/chickenlegs.png',
+      price: 280
     }
   ];
 

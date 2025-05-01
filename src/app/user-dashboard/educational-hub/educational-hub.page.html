@@ -17,7 +17,7 @@
 
   <!-- Level filter -->
   <div class="level-filter">
-    <ion-segment [(ngModel)]="selectedLevel" mode="ios">
+    <ion-segment [(ngModel)]="selectedLevel" mode="md">
       <ion-segment-button value="all">
         <ion-label>All</ion-label>
       </ion-segment-button>
@@ -33,27 +33,41 @@
     </ion-segment>
   </div>
 
+  <!-- Dynamic segment label -->
+  <h2 class="segment-label">
+    Educational Hub -
+    {{ selectedLevel === 'all' ? 'All Levels' : selectedLevel }}
+  </h2>
+
   <!-- Video grid -->
   <div class="video-grid">
     <ion-card *ngFor="let video of filteredVideos" class="video-card">
       <div class="video-thumbnail" (click)="openYoutubeVideo(video.youtubeUrl)">
-        <img [src]="video.image" [alt]="video.title"/>
+        <img [src]="video.image" [alt]="video.title" />
         <div class="play-overlay">
           <ion-icon name="play-circle"></ion-icon>
         </div>
         <div class="duration-badge">
           <ion-icon name="time-outline"></ion-icon>
-          {{video.duration}}
+          {{ video.duration }}
         </div>
       </div>
       <ion-card-header>
-        <ion-card-title>{{video.title}}</ion-card-title>
+        <ion-card-title>{{ video.title }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <p>{{video.description}}</p>
+        <p>{{ video.description }}</p>
         <div class="video-meta">
-          <ion-chip [color]="video.level === 'Beginner' ? 'success' : video.level === 'Intermediate' ? 'warning' : 'danger'">
-            <ion-label>{{video.level}}</ion-label>
+          <ion-chip
+            [color]="
+              video.level === 'Beginner'
+                ? 'success'
+                : video.level === 'Intermediate'
+                ? 'warning'
+                : 'danger'
+            "
+          >
+            <ion-label>{{ video.level }}</ion-label>
           </ion-chip>
         </div>
       </ion-card-content>
